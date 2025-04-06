@@ -1,0 +1,39 @@
+<Project>
+  <PropertyGroup>
+    <SignAssembly>False</SignAssembly>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+
+    <!-- Configure static code analysis -->
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest-Default</AnalysisLevel>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <!-- Disable source link support for test projects as they are not publishable. -->
+    <SourceLinkCreate>false</SourceLinkCreate>
+
+    <!--Prevents failing cross target NuGet package restores-->
+    <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="17.14.2" />
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="1.6.3" />
+
+    <PackageReference Include="coverlet.collector" Version="6.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <GlobalAnalyzerConfigFiles Include="$(MSBuildThisFileDirectory)/AutoFixture.Tests.globalconfig" />
+  </ItemGroup>
+</Project>

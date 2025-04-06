@@ -1,0 +1,91 @@
+<Project>
+  <PropertyGroup>
+    <Product>AutoFixture</Product>
+    <Company>AutoFixture</Company>
+    <Copyright>Copyright © AutoFixture</Copyright>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    <CodeAnalysisCulture>en-US</CodeAnalysisCulture>
+
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)AutoFixture.snk</AssemblyOriginatorKeyFile>
+
+    <Configurations>Debug;Release;Verify</Configurations>
+    <LangVersion>12</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <Deterministic>true</Deterministic>
+
+    <!-- NETSDK1138: Ignore .NET SDK deprecation notice -->
+    <NoWarn>$(NoWarn);NETSDK1138;NU1902;NU1903</NoWarn>
+
+    <!-- Setup static code analysis mode. -->
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest-Recommended</AnalysisLevel>
+
+    <!-- NuGet options -->
+    <Authors>AutoFixture Contributors</Authors>
+    <PackageProjectUrl>https://github.com/AutoFixture/AutoFixture</PackageProjectUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture/79c882c3f4af3cf52ad43e5c95851f25d217ac17/AutoFixtureLogo200x200.png</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <GlobalAnalyzerConfigFiles Include="$(MSBuildThisFileDirectory)/AutoFixture.globalconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)\AutoFixtureLogo200x200.png" Pack="true" PackagePath="icon.png"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition=" '$(CommitHash)' != '' ">
+      <_Parameter1>CommitHash</_Parameter1>
+      <_Parameter2>$(CommitHash)</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <Choose>
+    <When Condition="$(TargetFramework.StartsWith('net4')) == 'false'">
+      <PropertyGroup>
+        <DefineConstants>$(DefineConstants);SYSTEM_GLOBALIZATION_CULTUREINFO_CULTURESETTERS</DefineConstants>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <_IsFullFramework>true</_IsFullFramework>
+        <DefineConstants>$(DefineConstants);SYSTEM_NET_MAIL;SYSTEM_RUNTIME_SERIALIZATION;SERIALIZABLE_MEMBERINFO;SYSTEM_THREADING_THREAD_CULTURESETTERS;SYSTEM_TYPE_FULL</DefineConstants>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+  <PropertyGroup>
+    <DefineConstants Condition=" $(TargetFramework.StartsWith('net4')) == 'false' ">$(DefineConstants);SYSTEM_NET_MAIL</DefineConstants>
+  </PropertyGroup>
+
+  <Choose>
+    <When Condition=" '$(Configuration)'=='Release' ">
+      <PropertyGroup>
+        <DebugType>portable</DebugType>
+      </PropertyGroup>
+    </When>
+    <When Condition=" '$(Configuration)'=='Verify' ">
+      <PropertyGroup>
+        <DefineConstants>$(DefineConstants);CODE_ANALYSIS</DefineConstants>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+      </PropertyGroup>
+    </When>
+  </Choose>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
+  </ItemGroup>
+</Project>
