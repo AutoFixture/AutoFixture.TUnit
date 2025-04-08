@@ -18,7 +18,7 @@ public class ClassAutoDataAttribute : AutoFixtureDataSourceAttribute
     /// </summary>
     /// <param name="sourceType">The type of the class that provides the data.</param>
     /// <param name="parameters">The parameters passed to the data provider class constructor.</param>
-    public ClassAutoDataAttribute(Type sourceType, params object[] parameters)
+    public ClassAutoDataAttribute(Type sourceType, params object?[] parameters)
         : this(() => new Fixture(), sourceType, parameters)
     {
     }
@@ -56,24 +56,24 @@ public class ClassAutoDataAttribute : AutoFixtureDataSourceAttribute
     ///     }
     /// }
     ///
-    /// private class MyTestData : IEnumerable&lt;object[]&gt;
+    /// private class MyTestData : IEnumerable&lt;object?[]&gt;
     /// {
-    ///     public IEnumerator&lt;object[]&gt; GetEnumerator()
+    ///     public IEnumerator&lt;object?[]&gt; GetEnumerator()
     ///     {
-    ///         yield return new object[] { 0, new int[0] };
-    ///         yield return new object[] { 4, new int[] { 1, 2, 1} };
-    ///         yield return new object[] { 23, new int [] { 0, 13, 15, -5 } };
+    ///         yield return new object?[] { 0, new int[0] };
+    ///         yield return new object?[] { 4, new int[] { 1, 2, 1} };
+    ///         yield return new object?[] { 23, new int [] { 0, 13, 15, -5 } };
     ///     }
     ///
     ///     IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
     /// }
     /// </code>
     /// </example>
-    protected ClassAutoDataAttribute(Func<IFixture> fixtureFactory, Type sourceType, params object[] parameters)
+    protected ClassAutoDataAttribute(Func<IFixture> fixtureFactory, Type sourceType, params object?[] parameters)
     {
-        this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
-        this.SourceType = sourceType ?? throw new ArgumentNullException(nameof(sourceType));
-        this.Parameters = parameters ?? new object[] { null };
+        FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
+        SourceType = sourceType ?? throw new ArgumentNullException(nameof(sourceType));
+        Parameters = parameters ?? [null];
     }
 
     /// <summary>
@@ -89,14 +89,14 @@ public class ClassAutoDataAttribute : AutoFixtureDataSourceAttribute
     /// <summary>
     /// Gets the constructor parameters for <see cref="SourceType"/>.
     /// </summary>
-    public object[] Parameters { get; }
+    public object?[] Parameters { get; }
 
     /// <inheritdoc />
-    public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
         var source = new AutoDataSource(
-            this.FixtureFactory,
-            new ClassDataSource(this.SourceType, this.Parameters));
+            FixtureFactory,
+            new ClassDataSource(SourceType, Parameters));
 
         return source.GenerateDataSources(dataGeneratorMetadata).Select(x => x());
     }

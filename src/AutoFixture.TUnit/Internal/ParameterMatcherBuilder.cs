@@ -183,7 +183,7 @@ public class ParameterMatcherBuilder
 
     private class DerivesFromTypeComparer : IEqualityComparer<Type>
     {
-        public bool Equals(Type x, Type y)
+        public bool Equals(Type? x, Type? y)
         {
             return y switch
             {

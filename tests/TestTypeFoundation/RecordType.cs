@@ -16,16 +16,16 @@ public class RecordType<T>(T value) : IEquatable<RecordType<T>>
             return true;
         }
 
-        return EqualityComparer<T>.Default.Equals(this.Value, other.Value);
+        return EqualityComparer<T>.Default.Equals(Value, other.Value);
     }
 
     public override bool Equals(object? obj)
     {
-        return this.Equals(obj as RecordType<T>);
+        return Equals(obj as RecordType<T>);
     }
 
     public override int GetHashCode()
     {
-        return EqualityComparer<T>.Default.GetHashCode(this.Value);
+        return EqualityComparer<T>.Default.GetHashCode(Value);
     }
 }

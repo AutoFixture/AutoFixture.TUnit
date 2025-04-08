@@ -105,11 +105,11 @@
   "allOf": [
     {
       "properties": {
-        "CI": {
+        "_ci": {
           "type": "boolean",
           "description": "Forces the continuous integration build flag"
         },
-        "Configuration": {
+        "_configuration": {
           "type": "string",
           "description": "Configuration to build - Default is 'Debug' (local) or 'Release' (server)",
           "enum": [
@@ -117,6 +117,10 @@
             "Release",
             "Verify"
           ]
+        },
+        "_solution": {
+          "type": "string",
+          "description": "Path to a solution file that is automatically loaded. Default is AutoFixture.TUnit.sln"
         },
         "github-token": {
           "type": "string",
@@ -127,10 +131,6 @@
           "type": "string",
           "description": "NuGet API Key (secret)",
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
-        },
-        "Solution": {
-          "type": "string",
-          "description": "Path to a solution file that is automatically loaded"
         }
       }
     },

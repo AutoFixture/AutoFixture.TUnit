@@ -16,7 +16,7 @@ public class ArgumentsAutoDataAttribute : AutoFixtureDataSourceAttribute
     /// Initializes a new instance of the <see cref="ArgumentsAutoDataAttribute" /> class.
     /// </summary>
     /// <param name="values">The data values to pass to the theory.</param>
-    public ArgumentsAutoDataAttribute(params object[] values)
+    public ArgumentsAutoDataAttribute(params object?[] values)
         : this(() => new Fixture(), values)
     {
     }
@@ -27,10 +27,10 @@ public class ArgumentsAutoDataAttribute : AutoFixtureDataSourceAttribute
     /// <param name="fixtureFactory">The fixture factory.</param>
     /// <param name="values">The data values to pass to the theory.</param>
     /// <exception cref="ArgumentNullException"></exception>
-    protected ArgumentsAutoDataAttribute(Func<IFixture> fixtureFactory, params object[] values)
+    protected ArgumentsAutoDataAttribute(Func<IFixture> fixtureFactory, params object?[]? values)
     {
-        this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
-        this.Values = values ?? new object[] { null };
+        FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
+        Values = values ?? [null];
     }
 
     /// <summary>
@@ -41,12 +41,12 @@ public class ArgumentsAutoDataAttribute : AutoFixtureDataSourceAttribute
     /// <summary>
     /// Gets the data values to pass to the theory.
     /// </summary>
-    public object[] Values { get; }
+    public object?[] Values { get; }
 
     /// <inheritdoc />
-    public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
-        return new AutoDataSource(this.FixtureFactory, new InlineDataSource(this.Values))
+        return new AutoDataSource(FixtureFactory, new InlineDataSource(Values))
             .GenerateDataSources(dataGeneratorMetadata)
             .Select(x => x());
     }

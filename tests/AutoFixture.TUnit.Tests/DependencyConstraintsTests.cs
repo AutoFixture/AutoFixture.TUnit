@@ -39,7 +39,7 @@ public class DependencyConstraintsTests
     {
         // Arrange
         // Act
-        var references = this.GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
+        var references = GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
         // Assert
         await Assert.That(references).DoesNotContain(an => an.Name == assemblyName);
     }

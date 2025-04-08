@@ -6,7 +6,7 @@ internal class DelegatingCustomizeAttribute : CustomizeAttribute
 {
     public override ICustomization GetCustomization(ParameterInfo parameter)
     {
-        return this.OnGetCustomization(parameter);
+        return OnGetCustomization(parameter);
     }
 
     public Func<ParameterInfo, ICustomization> OnGetCustomization { get; set; } = p => new DelegatingCustomization();

@@ -3,9 +3,9 @@ using TestTypeFoundation;
 
 namespace AutoFixture.TUnit.Tests.TestTypes;
 
-public class MixedTypeClassData : IEnumerable<object[]>
+public class MixedTypeClassData : IEnumerable<object?[]>
 {
-    public IEnumerator<object[]> GetEnumerator()
+    public IEnumerator<object?[]> GetEnumerator()
     {
         yield return [];
         yield return [9];
@@ -14,5 +14,5 @@ public class MixedTypeClassData : IEnumerable<object[]>
         yield return [-95, "test-92", EnumType.Second, new Tuple<string, int>("myValue", 5)];
     }
 
-    IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

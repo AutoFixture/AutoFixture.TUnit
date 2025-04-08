@@ -116,7 +116,7 @@ public class ArgumentsAutoDataAttributeTests
     [MethodDataSource(typeof(InlinePrimitiveValuesTestData), nameof(InlinePrimitiveValuesTestData.GetData))]
     [MethodDataSource(typeof(InlineFrozenValuesTestData), nameof(InlineFrozenValuesTestData.GetData))]
     public async Task ReturnsSingleTestDataWithExpectedValues(AutoFixtureDataSourceAttribute attribute, MethodInfo testMethod,
-        object[] expected)
+        object?[] expected)
     {
         // Act
         var actual = attribute.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod.DeclaringType, testMethod.Name)).ToArray();

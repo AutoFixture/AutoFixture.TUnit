@@ -40,18 +40,4 @@ internal static class EnumerableExtensions
             }
         }
     }
-
-    /// <summary>
-    /// Casts the source sequence to an <see cref="IReadOnlyCollection{T}"/>.
-    /// Enumerates the source sequence to an array if it is not an enumerated collection.
-    /// </summary>
-    /// <param name="source">The source sequence.</param>
-    /// <typeparam name="T">The sequence item type.</typeparam>
-    /// <returns> An <see cref="IReadOnlyCollection{T}"/> that contains elements of the source sequence.</returns>
-    public static IReadOnlyCollection<T> AsReadOnlyCollection<T>(this IEnumerable<T> source)
-    {
-        return source is not null
-            ? source as IReadOnlyCollection<T> ?? source.ToArray()
-            : null;
-    }
 }

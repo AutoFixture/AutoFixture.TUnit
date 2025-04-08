@@ -34,7 +34,7 @@ public class AutoDataAttribute : AutoFixtureDataSourceAttribute
     /// <param name="fixtureFactory">The fixture factory used to construct the fixture.</param>
     protected AutoDataAttribute(Func<IFixture> fixtureFactory)
     {
-        this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
+        FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
     }
 
     /// <summary>
@@ -43,9 +43,9 @@ public class AutoDataAttribute : AutoFixtureDataSourceAttribute
     public Func<IFixture> FixtureFactory { get; }
 
     /// <inheritdoc />
-    public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
-        var source = new AutoDataSource(this.FixtureFactory);
+        var source = new AutoDataSource(FixtureFactory);
 
         return source.GenerateDataSources(dataGeneratorMetadata).Select(x => x());
     }

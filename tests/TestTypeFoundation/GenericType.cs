@@ -10,7 +10,7 @@ public class GenericType<T>
             throw new ArgumentNullException(nameof(t));
         }
 
-        this.Value = t;
+        Value = t;
     }
 
     private T Value { get; }

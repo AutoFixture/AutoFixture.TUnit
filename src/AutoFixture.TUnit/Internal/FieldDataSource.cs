@@ -19,7 +19,7 @@ public class FieldDataSource : DataSource
     /// </exception>
     public FieldDataSource(FieldInfo fieldInfo)
     {
-        this.FieldInfo = fieldInfo ?? throw new ArgumentNullException(nameof(fieldInfo));
+        FieldInfo = fieldInfo ?? throw new ArgumentNullException(nameof(fieldInfo));
     }
 
     /// <summary>
@@ -34,10 +34,10 @@ public class FieldDataSource : DataSource
     /// <exception cref="InvalidCastException">
     /// Thrown when the field does not return an enumerable value.
     /// </exception>
-    public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
-        var value = this.FieldInfo.GetValue(null);
-        if (value is not IEnumerable<object[]> enumerable)
+        var value = FieldInfo.GetValue(null);
+        if (value is not IEnumerable<object?[]> enumerable)
         {
             throw new InvalidCastException("Member does not return an enumerable value.");
         }

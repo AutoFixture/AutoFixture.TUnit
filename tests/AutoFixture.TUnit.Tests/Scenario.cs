@@ -82,7 +82,7 @@ public class Scenario
         await Assert.That(z).IsEqualTo(42);
     }
 
-    public class MyCustomArgumentsAutoDataAttribute(params object[] values)
+    public class MyCustomArgumentsAutoDataAttribute(params object?[] values)
         : ArgumentsAutoDataAttribute(() => new Fixture().Customize(new TheAnswer()), values);
 
     [Test, MemberAutoData(nameof(StringData))]
@@ -133,7 +133,7 @@ public class Scenario
         await Assert.That(z).IsEqualTo(43);
     }
 
-    public static IEnumerable<object[]> StringData
+    public static IEnumerable<object?[]> StringData
     {
         get
         {
@@ -142,7 +142,7 @@ public class Scenario
         }
     }
 
-    public static IEnumerable<object[]> IntData
+    public static IEnumerable<object?[]> IntData
     {
         get
         {
@@ -152,12 +152,12 @@ public class Scenario
         }
     }
 
-    public static IEnumerable<object[]> GetParametrizedData(int x, int y, int z)
+    public static IEnumerable<object?[]> GetParametrizedData(int x, int y, int z)
     {
         yield return [x, y, z];
     }
 
-    public class MyCustomMemberAutoDataAttribute(string memberName, params object[] parameters)
+    public class MyCustomMemberAutoDataAttribute(string memberName, params object?[] parameters)
         : MemberAutoDataAttribute(() => new Fixture().Customize(new TheAnswer()), memberName, parameters);
 
     private class TheAnswer : ICustomization
@@ -497,43 +497,43 @@ public class Scenario
     [Test, ClassAutoData(typeof(ParameterizedDataClass), 28, "bar", 93.102)]
     public async Task ClassAutoDataCanBeParameterized(int p1, string p2, double p3, RecordType<double> p4)
     {
-        var actual = new object[] { p1, p2, p3 };
-        var expected = new object[] { 28, "bar", 93.102 };
+        var actual = new object?[] { p1, p2, p3 };
+        var expected = new object?[] { 28, "bar", 93.102 };
 
         await Assert.That(actual).IsEquivalentTo(expected);
         await Assert.That(p4).IsNotNull();
     }
 
-    public class StringDataClass : IEnumerable<object[]>
+    public class StringDataClass : IEnumerable<object?[]>
     {
-        public IEnumerator<object[]> GetEnumerator()
+        public IEnumerator<object?[]> GetEnumerator()
         {
             yield return ["foo", "bar", "foobar"];
             yield return ["dim", "sum", "dimsum"];
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
-    public class MixedDataClass : IEnumerable<object[]>
+    public class MixedDataClass : IEnumerable<object?[]>
     {
-        public IEnumerator<object[]> GetEnumerator()
+        public IEnumerator<object?[]> GetEnumerator()
         {
             yield return [1];
             yield return [4, "testValue"];
             yield return [20, "otherValue", new PropertyHolder<string> { Property = "testValue1" }];
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
-    public class ParameterizedDataClass(int p1, string p2, double p3) : IEnumerable<object[]>
+    public class ParameterizedDataClass(int p1, string p2, double p3) : IEnumerable<object?[]>
     {
-        public IEnumerator<object[]> GetEnumerator()
+        public IEnumerator<object?[]> GetEnumerator()
         {
             yield return [p1, p2, p3];
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

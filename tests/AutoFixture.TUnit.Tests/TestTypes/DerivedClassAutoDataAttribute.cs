@@ -7,7 +7,7 @@ public class DerivedClassAutoDataAttribute : ClassAutoDataAttribute
     {
     }
 
-    public DerivedClassAutoDataAttribute(Func<IFixture> fixtureFactory, Type sourceType, params object[] parameters)
+    public DerivedClassAutoDataAttribute(Func<IFixture> fixtureFactory, Type sourceType, params object?[] parameters)
         : base(fixtureFactory, sourceType, parameters)
     {
     }

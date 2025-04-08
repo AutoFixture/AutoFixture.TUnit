@@ -7,19 +7,21 @@ public class ItemHolder<T1, T2>
     }
 
     public ItemHolder(T1 item)
-        : this(new[] { item }, new T2[0])
+        : this([item], [
+        ])
     {
     }
 
     public ItemHolder(T2 item)
-        : this(new T1[0], new[] { item })
+        : this([
+        ], [item])
     {
     }
 
     private ItemHolder(T1[] t1S, T2[] t2S)
     {
-        this.Item1S = t1S;
-        this.Item2S = t2S;
+        Item1S = t1S;
+        Item2S = t2S;
     }
 
     public IEnumerable<T1> Item1S { get; }
@@ -33,12 +35,12 @@ public class ItemHolder<T1, T2>
 public class ItemHolder<T>
 {
     public ItemHolder(T x, T y, T z)
-        : this(new[] { x, y, z })
+        : this([x, y, z])
     {
     }
 
     public ItemHolder(T item)
-        : this(new[] { item })
+        : this([item])
     {
     }
 
@@ -47,13 +49,13 @@ public class ItemHolder<T>
     }
 
     public ItemHolder(T x, T y)
-        : this(new[] { x, y })
+        : this([x, y])
     {
     }
 
     private ItemHolder(T[] items)
     {
-        this.Items = items;
+        Items = items;
     }
 
     public IEnumerable<T> Items { get; }

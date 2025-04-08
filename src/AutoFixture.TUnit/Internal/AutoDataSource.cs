@@ -17,8 +17,8 @@ public class AutoDataSource : DataSource
     /// </exception>
     public AutoDataSource(Func<IFixture> createFixture, IDataSource? source = default)
     {
-        this.CreateFixture = createFixture ?? throw new ArgumentNullException(nameof(createFixture));
-        this.Source = source;
+        CreateFixture = createFixture ?? throw new ArgumentNullException(nameof(createFixture));
+        Source = source;
     }
 
     /// <summary>
@@ -36,21 +36,21 @@ public class AutoDataSource : DataSource
     /// </summary>
     /// <param name="method">The target method for which to provide the arguments.</param>
     /// <returns>Returns a sequence of argument collections.</returns>
-    public override IEnumerable<object[]> GetData(DataGeneratorMetadata metadata)
+    public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
-        return this.Source is null
-            ? this.GenerateValues(metadata)
-            : this.CombineValues(metadata, this.Source);
+        return Source is null
+            ? GenerateValues(dataGeneratorMetadata)
+            : CombineValues(dataGeneratorMetadata, Source);
     }
 
-    private IEnumerable<object[]> GenerateValues(DataGeneratorMetadata metadata)
+    private IEnumerable<object?[]> GenerateValues(DataGeneratorMetadata metadata)
     {
         var parameters = Array.ConvertAll(metadata.GetMethod().GetParameters(), TestParameter.From);
-        var fixture = this.CreateFixture();
+        var fixture = CreateFixture();
         yield return Array.ConvertAll(parameters, parameter => GenerateAutoValue(parameter, fixture));
     }
 
-    private IEnumerable<object[]> CombineValues(DataGeneratorMetadata metadata, IDataSource source)
+    private IEnumerable<object?[]> CombineValues(DataGeneratorMetadata metadata, IDataSource source)
     {
         var method = metadata.GetMethod();
 
@@ -58,12 +58,12 @@ public class AutoDataSource : DataSource
 
         foreach (var testData in source.GetData(metadata))
         {
-            var customizations = parameters.Take(testData.Length)
+            var customizations = parameters.Take(testData!.Length)
                 .Zip(testData, (parameter, value) => new Argument(parameter, value))
                 .Select(argument => argument.GetCustomization())
                 .Where(x => x is not NullCustomization);
 
-            var fixture = this.CreateFixture();
+            var fixture = CreateFixture();
 
             foreach (var customization in customizations)
             {

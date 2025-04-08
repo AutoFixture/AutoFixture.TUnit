@@ -233,7 +233,7 @@ public class ClassAutoDataAttributeTests
             () => new DelegatingFixture { OnCreate = (r, c) => builder.Create(r, c) },
             typeof(MixedTypeClassData));
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
-        object[][] expected =
+        object?[][] expected =
         [
             [1, "value", EnumType.First, new Tuple<string, int>("value", 1)],
             [9, "value", EnumType.First, new Tuple<string, int>("value", 1)],
@@ -261,7 +261,7 @@ public class ClassAutoDataAttributeTests
             typeof(ParameterizedClassData),
             29, "myValue", EnumType.Third);
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
-        object[][] expected =
+        object?[][] expected =
         [
             [29, "myValue", EnumType.Third, new Tuple<string, int>("value", 1)],
             [29, "myValue", EnumType.Third, new Tuple<string, int>("value", 1)]
@@ -283,9 +283,9 @@ public class ClassAutoDataAttributeTests
             .GetMethod(nameof(ExampleTestClass<string, string, string[], RecordType<string>>.TestMethod));
         var expected = new[]
         {
-            new object[] { null!, null!, null!, null! },
-            new object[] { string.Empty, null!, null!, null! },
-            new object[] { null!, "  ", null!, null! },
+            new object?[] { null!, null!, null!, null! },
+            new object?[] { string.Empty, null!, null!, null! },
+            new object?[] { null!, "  ", null!, null! },
         };
 
         // Act
@@ -297,9 +297,9 @@ public class ClassAutoDataAttributeTests
         await Assert.That(actual).IsEquivalentTo(expected);
     }
 
-    public class TestDataWithNullValues : IEnumerable<object[]>
+    public class TestDataWithNullValues : IEnumerable<object?[]>
     {
-        public IEnumerator<object[]> GetEnumerator()
+        public IEnumerator<object?[]> GetEnumerator()
         {
             yield return [null!, null!, null!, null!];
             yield return [string.Empty, null!, null!, null!];
@@ -308,7 +308,7 @@ public class ClassAutoDataAttributeTests
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
     }
 }

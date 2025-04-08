@@ -6,7 +6,7 @@ namespace AutoFixture.TUnit.Tests.TestTypes;
 internal abstract class InlineAttributeTestData<T>
 {
     protected static DerivedArgumentsAutoDataAttribute CreateAttributeWithFakeFixture(
-        object[] inlineValues,
+        object?[] inlineValues,
         params (string ParameterName, object Value)[] parameters)
     {
         return new DerivedArgumentsAutoDataAttribute(
@@ -27,7 +27,7 @@ internal abstract class InlineAttributeTestData<T>
     }
 
     protected static DerivedArgumentsAutoDataAttribute CreateAttribute(
-        object[] inlineValues,
+        object?[] inlineValues,
         params (string ParameterName, object Value)[] parameters)
     {
         return new DerivedArgumentsAutoDataAttribute(

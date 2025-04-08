@@ -78,9 +78,9 @@ public class ClassDataSourceTests
         // Arrange
         var expected = new[]
         {
-            new object[] { "hello", 1, new RecordType<string>("world") },
-            new object[] { "foo", 2, new RecordType<string>("bar") },
-            new object[] { "Han", 3, new RecordType<string>("Solo") }
+            new object?[] { "hello", 1, new RecordType<string>("world") },
+            new object?[] { "foo", 2, new RecordType<string>("bar") },
+            new object?[] { "Han", 3, new RecordType<string>("Solo") }
         };
         var sut = new ClassDataSource(typeof(TestSourceWithMixedValues));
         var method = typeof(SampleTestType)
@@ -95,23 +95,23 @@ public class ClassDataSourceTests
         await Assert.That(actual).IsEquivalentTo(expected);
     }
 
-    private class TestSourceWithMixedValues : IEnumerable<object[]>
+    private class TestSourceWithMixedValues : IEnumerable<object?[]>
     {
-        public IEnumerator<object[]> GetEnumerator()
+        public IEnumerator<object?[]> GetEnumerator()
         {
             yield return ["hello", 1, new RecordType<string>("world")];
             yield return ["foo", 2, new RecordType<string>("bar")];
             yield return ["Han", 3, new RecordType<string>("Solo")];
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
     [Test]
     public async Task ThrowsWhenConstructorParametersDontMatch()
     {
         // Arrange
-        var parameters = new object[] { "a", 1 };
+        var parameters = new object?[] { "a", 1 };
         var sut = new ClassDataSource(typeof(TestSourceWithMixedValues), parameters);
         var method = typeof(SampleTestType)
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
@@ -124,7 +124,7 @@ public class ClassDataSourceTests
     public async Task AppliesExpectedConstructorParameters()
     {
         // Arrange
-        object[] parameters = [new object[] { "y", 25 }];
+        object?[] parameters = [new object?[] { "y", 25 }];
         var sut = new ClassDataSource(typeof(DelegatingTestData), parameters);
         var method = typeof(SampleTestType)
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
@@ -133,6 +133,6 @@ public class ClassDataSourceTests
         var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray();
 
         // Assert
-        await Assert.That(result.Single()).IsEquivalentTo(new object[] { "y", 25 });
+        await Assert.That(result.Single()).IsEquivalentTo(new object?[] { "y", 25 });
     }
 }

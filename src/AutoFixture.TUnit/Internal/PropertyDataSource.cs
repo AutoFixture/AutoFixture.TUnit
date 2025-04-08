@@ -17,7 +17,7 @@ public class PropertyDataSource : DataSource
     /// <exception cref="ArgumentNullException"></exception>
     public PropertyDataSource(PropertyInfo propertyInfo)
     {
-        this.PropertyInfo = propertyInfo ?? throw new ArgumentNullException(nameof(propertyInfo));
+        PropertyInfo = propertyInfo ?? throw new ArgumentNullException(nameof(propertyInfo));
     }
 
     /// <summary>
@@ -26,11 +26,11 @@ public class PropertyDataSource : DataSource
     public PropertyInfo PropertyInfo { get; }
 
     /// <inheritdoc/>
-    public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
-        var value = this.PropertyInfo.GetValue(null);
+        var value = PropertyInfo.GetValue(null);
 
-        if (value is not IEnumerable<object[]> enumerable)
+        if (value is not IEnumerable<object?[]> enumerable)
         {
             throw new InvalidCastException("Member does not return an enumerable value.");
         }

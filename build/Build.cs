@@ -20,19 +20,19 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
     "continuous",
     GitHubActionsImage.WindowsLatest,
     AutoGenerate = false,
-    OnPullRequestBranches = new[] { MasterBranch, ReleaseBranch },
+    OnPullRequestBranches = [MasterBranch, ReleaseBranch],
     PublishArtifacts = false,
-    InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Pack) },
+    InvokedTargets = [nameof(Verify), nameof(Cover), nameof(Pack)],
     EnableGitHubToken = true)]
 [GitHubActions(
     "release",
     GitHubActionsImage.WindowsLatest,
     AutoGenerate = false,
-    OnPushTags = new[] { "v*" },
+    OnPushTags = ["v*"],
     PublishArtifacts = true,
-    InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Publish) },
+    InvokedTargets = [nameof(Verify), nameof(Cover), nameof(Publish)],
     EnableGitHubToken = true,
-    ImportSecrets = new[] { Secrets.NuGetApiKey })]
+    ImportSecrets = [Secrets.NuGetApiKey])]
 class Build : NukeBuild
 {
     public static int Main() => Execute<Build>(x => x.Compile);
@@ -43,7 +43,7 @@ class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration _configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Solution] readonly Solution _solution;
+    [Solution("AutoFixture.TUnit.sln")] readonly Solution _solution;
     [GitRepository] readonly GitRepository _gitRepository;
     [GitVersion] readonly GitVersion _gitVersion;
     [CI] readonly GitHubActions _gitHubActions;
@@ -54,11 +54,11 @@ class Build : NukeBuild
     [Secret][Parameter("NuGet API Key (secret)", Name = Secrets.NuGetApiKey)] readonly string _nuGetApiKey;
     readonly string _nuGetSource = "https://api.nuget.org/v3/index.json";
 
-    IEnumerable<Project> Excluded => new[]
-    {
+    IEnumerable<Project> Excluded =>
+    [
         _solution.GetProject("_build"),
         _solution.GetProject("TestTypeFoundation")
-    };
+    ];
 
     IEnumerable<Project> TestProjects => _solution.GetAllProjects("*Tests");
     IEnumerable<Project> Libraries => _solution.Projects.Except(TestProjects).Except(Excluded);

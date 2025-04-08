@@ -7,7 +7,7 @@ namespace AutoFixture.TUnit.Tests.Internal;
 
 public class FieldDataSourceTests
 {
-    public static IEnumerable<object[]> TestDataFieldWithMixedValues =
+    public static IEnumerable<object?[]> TestDataFieldWithMixedValues =
     [
         ["hello", 1, new FieldHolder<string> { Field = "world" }],
         ["foo", 2, new FieldHolder<string> { Field = "bar" }],
@@ -82,9 +82,9 @@ public class FieldDataSourceTests
         // Arrange
         var expected = new[]
         {
-            new object[] { "hello", 1, new RecordType<string>("world") },
-            new object[] { "foo", 2, new RecordType<string>("bar") },
-            new object[] { "Han", 3, new RecordType<string>("Solo") }
+            new object?[] { "hello", 1, new RecordType<string>("world") },
+            new object?[] { "foo", 2, new RecordType<string>("bar") },
+            new object?[] { "Han", 3, new RecordType<string>("Solo") }
         };
         var sourceField = typeof(FieldDataSourceTests)
             .GetField(nameof(TestDataFieldWithRecordValues));
@@ -101,7 +101,7 @@ public class FieldDataSourceTests
         await Assert.That(result).IsEquivalentTo(expected);
     }
 
-    public static IEnumerable<object[]> TestDataFieldWithRecordValues =
+    public static IEnumerable<object?[]> TestDataFieldWithRecordValues =
     [
         ["hello", 1, new RecordType<string>("world")],
         ["foo", 2, new RecordType<string>("bar")],

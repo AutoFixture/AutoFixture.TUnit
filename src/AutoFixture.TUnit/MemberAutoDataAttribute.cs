@@ -10,7 +10,7 @@ namespace AutoFixture.TUnit;
 /// 1. A static property
 /// 2. A static field
 /// 3. A static method (with parameters)
-/// The member must return something compatible with IEnumerable&lt;object[]&gt; with the test data.
+/// The member must return something compatible with IEnumerable&lt;object?[]&gt; with the test data.
 /// </summary>
 [CLSCompliant(false)]
 [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
@@ -22,7 +22,7 @@ public class MemberAutoDataAttribute : AutoFixtureDataSourceAttribute
     /// </summary>
     /// <param name="memberName">The name of the public static member on the test class that will provide the test data.</param>
     /// <param name="parameters">The parameters for the member (only supported for methods; ignored for everything else).</param>
-    public MemberAutoDataAttribute(string memberName, params object[] parameters)
+    public MemberAutoDataAttribute(string memberName, params object?[] parameters)
         : this(() => new Fixture(), memberType: null, memberName, parameters)
     {
     }
@@ -33,7 +33,7 @@ public class MemberAutoDataAttribute : AutoFixtureDataSourceAttribute
     /// <param name="memberType">The type declaring the source member.</param>
     /// <param name="memberName">The name of the public static member on the test class that will provide the test data.</param>
     /// <param name="parameters">The parameters for the member (only supported for methods; ignored for everything else).</param>
-    public MemberAutoDataAttribute(Type? memberType, string memberName, params object[] parameters)
+    public MemberAutoDataAttribute(Type? memberType, string memberName, params object?[] parameters)
         : this(() => new Fixture(), memberType, memberName, parameters)
     {
     }
@@ -44,7 +44,7 @@ public class MemberAutoDataAttribute : AutoFixtureDataSourceAttribute
     /// <param name="fixtureFactory">The fixture factory delegate.</param>
     /// <param name="memberName">The name of the public static member on the test class that will provide the test data.</param>
     /// <param name="parameters">The parameters for the member (only supported for methods; ignored for everything else).</param>
-    protected MemberAutoDataAttribute(Func<IFixture> fixtureFactory, string memberName, params object[] parameters)
+    protected MemberAutoDataAttribute(Func<IFixture> fixtureFactory, string memberName, params object?[] parameters)
         : this(fixtureFactory, memberType: null, memberName, parameters)
     {
     }
@@ -57,12 +57,12 @@ public class MemberAutoDataAttribute : AutoFixtureDataSourceAttribute
     /// <param name="memberName">The name of the public static member on the test class that will provide the test data.</param>
     /// <param name="parameters">The parameters for the member (only supported for methods; ignored for everything else).</param>
     /// <exception cref="ArgumentNullException">Thrown when arguments are null.</exception>
-    protected MemberAutoDataAttribute(Func<IFixture> fixtureFactory, Type? memberType, string memberName, params object[]? parameters)
+    protected MemberAutoDataAttribute(Func<IFixture> fixtureFactory, Type? memberType, string memberName, params object?[]? parameters)
     {
-        this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
-        this.MemberName = memberName ?? throw new ArgumentNullException(nameof(memberName));
-        this.Parameters = parameters ?? new object[] { null! };
-        this.MemberType = memberType;
+        FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
+        MemberName = memberName ?? throw new ArgumentNullException(nameof(memberName));
+        Parameters = parameters ?? [null!];
+        MemberType = memberType;
     }
 
     /// <summary>
@@ -83,7 +83,7 @@ public class MemberAutoDataAttribute : AutoFixtureDataSourceAttribute
     /// <summary>
     /// Gets the parameters passed to the member. Only supported for static methods.
     /// </summary>
-    public object[] Parameters { get; }
+    public object?[] Parameters { get; }
 
     /// <inheritdoc />
     public override IEnumerable<object?[]?> GetData(DataGeneratorMetadata dataGeneratorMetadata)
@@ -92,15 +92,15 @@ public class MemberAutoDataAttribute : AutoFixtureDataSourceAttribute
 
         if (testMethod is null)
         {
-            throw new ArgumentNullException(nameof(testMethod));
+            throw new ArgumentNullException(nameof(dataGeneratorMetadata), "The test method cannot be null.");
         }
 
-        var sourceType = this.MemberType ?? testMethod.DeclaringType
+        var sourceType = MemberType ?? testMethod.DeclaringType
             ?? throw new InvalidOperationException("Source type cannot be null.");
 
         var source = new AutoDataSource(
-            createFixture: this.FixtureFactory,
-            source: new MemberDataSource(sourceType, this.MemberName, this.Parameters));
+            createFixture: FixtureFactory,
+            source: new MemberDataSource(sourceType, MemberName, Parameters));
 
         return source.GenerateDataSources(dataGeneratorMetadata).Select(x => x());
     }

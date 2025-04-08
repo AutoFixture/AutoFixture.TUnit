@@ -3,10 +3,10 @@ using System.Reflection;
 namespace AutoFixture.TUnit.Tests.TestTypes;
 
 internal class InlineFrozenValuesTestData : InlineAttributeTestData<(AutoFixtureDataSourceAttribute attribute, MethodInfo testMethod,
-    object[] expected)>
+    object?[] expected)>
 {
     public override IEnumerable<(AutoFixtureDataSourceAttribute attribute, MethodInfo testMethod,
-        object[] expected)> GetData()
+        object?[] expected)> GetData()
     {
         // All values provided by fixture
         yield return
