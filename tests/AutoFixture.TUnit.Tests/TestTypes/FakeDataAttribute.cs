@@ -2,19 +2,12 @@
 
 namespace AutoFixture.TUnit.Tests.TestTypes;
 
-public class FakeDataAttribute : AutoFixtureDataSourceAttribute
+public class FakeDataAttribute(MethodInfo expectedMethod, IEnumerable<object[]> output) : AutoFixtureDataSourceAttribute
 {
-    private readonly MethodInfo expectedMethod;
-    private readonly IEnumerable<object[]> output;
-
-    public FakeDataAttribute(MethodInfo expectedMethod, IEnumerable<object[]> output)
-    {
-        this.expectedMethod = expectedMethod;
-        this.output = output;
-    }
+    private readonly MethodInfo _expectedMethod = expectedMethod;
 
     public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
-        return this.output;
+        return output;
     }
 }

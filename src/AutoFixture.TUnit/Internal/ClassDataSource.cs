@@ -9,7 +9,7 @@ namespace AutoFixture.TUnit.Internal
         Justification = "Type is not a collection.")]
     public class ClassDataSource : DataSource
     {
-        private readonly object[] parameters;
+        private readonly object[] _parameters;
 
         /// <summary>
         /// Creates an instance of type <see cref="ClassDataSource" />.
@@ -20,7 +20,7 @@ namespace AutoFixture.TUnit.Internal
         public ClassDataSource(Type type, params object[] parameters)
         {
             this.Type = type ?? throw new ArgumentNullException(nameof(type));
-            this.parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
+            this._parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
         }
 
         /// <summary>
@@ -31,12 +31,12 @@ namespace AutoFixture.TUnit.Internal
         /// <summary>
         /// Gets the constructor parameters for test data source type.
         /// </summary>
-        public IReadOnlyList<object> Parameters => Array.AsReadOnly(this.parameters);
+        public IReadOnlyList<object> Parameters => Array.AsReadOnly(this._parameters);
 
         /// <inheritdoc/>
         public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
         {
-            var instance = Activator.CreateInstance(type: this.Type, args: this.parameters);
+            var instance = Activator.CreateInstance(type: this.Type, args: this._parameters);
 
             if (instance is not IEnumerable<object[]> enumerable)
             {

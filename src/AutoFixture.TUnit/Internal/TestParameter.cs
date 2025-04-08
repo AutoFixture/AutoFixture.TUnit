@@ -2,29 +2,21 @@ using System.Reflection;
 
 namespace AutoFixture.TUnit.Internal
 {
-    internal class TestParameter
+    internal class TestParameter(ParameterInfo parameterInfo)
     {
-        private readonly Lazy<ICustomization> lazyCustomization;
-        private readonly Lazy<FrozenAttribute> lazyFrozenAttribute;
+        private readonly Lazy<ICustomization> _lazyCustomization = new(
+            () => GetCustomization(parameterInfo));
+        private readonly Lazy<FrozenAttribute> _lazyFrozenAttribute = new(
+            () => parameterInfo.GetCustomAttributes()
+                .OfType<FrozenAttribute>().FirstOrDefault());
 
-        public TestParameter(ParameterInfo parameterInfo)
-        {
-            this.ParameterInfo = parameterInfo ?? throw new ArgumentNullException(nameof(parameterInfo));
+        public ParameterInfo ParameterInfo { get; } = parameterInfo ?? throw new ArgumentNullException(nameof(parameterInfo));
 
-            this.lazyCustomization = new Lazy<ICustomization>(
-                () => GetCustomization(parameterInfo));
-            this.lazyFrozenAttribute = new Lazy<FrozenAttribute>(
-                () => parameterInfo.GetCustomAttributes()
-                    .OfType<FrozenAttribute>().FirstOrDefault());
-        }
-
-        public ParameterInfo ParameterInfo { get; }
-
-        public ICustomization GetCustomization() => this.lazyCustomization.Value;
+        public ICustomization GetCustomization() => this._lazyCustomization.Value;
 
         public ICustomization GetCustomization(object value)
         {
-            var frozenAttribute = this.lazyFrozenAttribute.Value;
+            var frozenAttribute = this._lazyFrozenAttribute.Value;
 
             if (frozenAttribute is null)
             {

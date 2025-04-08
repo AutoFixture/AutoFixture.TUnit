@@ -82,13 +82,8 @@ public class Scenario
         await Assert.That(z).IsEqualTo(42);
     }
 
-    public class MyCustomArgumentsAutoDataAttribute : ArgumentsAutoDataAttribute
-    {
-        public MyCustomArgumentsAutoDataAttribute(params object[] values)
-            : base(() => new Fixture().Customize(new TheAnswer()), values)
-        {
-        }
-    }
+    public class MyCustomArgumentsAutoDataAttribute(params object[] values)
+        : ArgumentsAutoDataAttribute(() => new Fixture().Customize(new TheAnswer()), values);
 
     [Test, MemberAutoData(nameof(StringData))]
     public async Task MemberAutoDataUsesSuppliedDataValues(string s1, string s2)
@@ -162,13 +157,8 @@ public class Scenario
         yield return [x, y, z];
     }
 
-    public class MyCustomMemberAutoDataAttribute : MemberAutoDataAttribute
-    {
-        public MyCustomMemberAutoDataAttribute(string memberName, params object[] parameters)
-            : base(() => new Fixture().Customize(new TheAnswer()), memberName, parameters)
-        {
-        }
-    }
+    public class MyCustomMemberAutoDataAttribute(string memberName, params object[] parameters)
+        : MemberAutoDataAttribute(() => new Fixture().Customize(new TheAnswer()), memberName, parameters);
 
     private class TheAnswer : ICustomization
     {
@@ -537,22 +527,11 @@ public class Scenario
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
     }
 
-    public class ParameterizedDataClass : IEnumerable<object[]>
+    public class ParameterizedDataClass(int p1, string p2, double p3) : IEnumerable<object[]>
     {
-        private readonly int p1;
-        private readonly string p2;
-        private readonly double p3;
-
-        public ParameterizedDataClass(int p1, string p2, double p3)
-        {
-            this.p1 = p1;
-            this.p2 = p2;
-            this.p3 = p3;
-        }
-
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return [this.p1, this.p2, this.p3];
+            yield return [p1, p2, p3];
         }
 
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

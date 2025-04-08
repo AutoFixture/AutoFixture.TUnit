@@ -41,31 +41,31 @@ partial class Build : NukeBuild
     const string ReleaseBranch = "release/*";
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
-    readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
+    readonly Configuration _configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Solution] readonly Solution Solution;
-    [GitRepository] readonly GitRepository GitRepository;
-    [GitVersion] readonly GitVersion GitVersion;
-    [CI] readonly GitHubActions GitHubActions;
+    [Solution] readonly Solution _solution;
+    [GitRepository] readonly GitRepository _gitRepository;
+    [GitVersion] readonly GitVersion _gitVersion;
+    [CI] readonly GitHubActions _gitHubActions;
 
-    [Parameter("GitHub auth token", Name = "github-token"), Secret] readonly string GitHubToken;
-    [Parameter("Forces the continuous integration build flag")] readonly bool CI;
+    [Parameter("GitHub auth token", Name = "github-token"), Secret] readonly string _gitHubToken;
+    [Parameter("Forces the continuous integration build flag")] readonly bool _ci;
 
-    [Secret][Parameter("NuGet API Key (secret)", Name = Secrets.NuGetApiKey)] readonly string NuGetApiKey;
-    readonly string NuGetSource = "https://api.nuget.org/v3/index.json";
+    [Secret][Parameter("NuGet API Key (secret)", Name = Secrets.NuGetApiKey)] readonly string _nuGetApiKey;
+    readonly string _nuGetSource = "https://api.nuget.org/v3/index.json";
 
     IEnumerable<Project> Excluded => new[]
     {
-        Solution.GetProject("_build"),
-        Solution.GetProject("TestTypeFoundation")
+        _solution.GetProject("_build"),
+        _solution.GetProject("TestTypeFoundation")
     };
 
-    IEnumerable<Project> TestProjects => Solution.GetAllProjects("*Tests");
-    IEnumerable<Project> Libraries => Solution.Projects.Except(TestProjects).Except(Excluded);
+    IEnumerable<Project> TestProjects => _solution.GetAllProjects("*Tests");
+    IEnumerable<Project> Libraries => _solution.Projects.Except(TestProjects).Except(Excluded);
     IEnumerable<Project> CSharpLibraries => Libraries.Where(x => x.Is(ProjectType.CSharpProject));
     IEnumerable<AbsolutePath> Packages => PackagesDirectory.GlobFiles("*.nupkg");
 
-    bool IsContinuousIntegration => IsServerBuild || CI;
+    bool IsContinuousIntegration => IsServerBuild || _ci;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
@@ -87,7 +87,7 @@ partial class Build : NukeBuild
     Target Restore => _ => _
         .Executes(() =>
         {
-            DotNetRestore(s => s.SetProjectFile(Solution));
+            DotNetRestore(s => s.SetProjectFile(_solution));
         });
 
     Target Verify => _ => _
@@ -96,7 +96,7 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
             DotNetBuild(s => s
-                .SetProjectFile(Solution)
+                .SetProjectFile(_solution)
                 .SetConfiguration(Configuration.Verify)
                 .SetNoRestore(FinishedTargets.Contains(Restore))
                 .SetContinuousIntegrationBuild(IsContinuousIntegration));
@@ -107,14 +107,14 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
             DotNetBuild(s => s
-                .SetProjectFile(Solution)
-                .SetConfiguration(Configuration)
+                .SetProjectFile(_solution)
+                .SetConfiguration(_configuration)
                 .SetDeterministic(IsContinuousIntegration)
                 .SetContinuousIntegrationBuild(IsContinuousIntegration)
-                .SetVersion(GitVersion.NuGetVersionV2)
-                .SetAssemblyVersion(GitVersion.AssemblySemVer)
-                .SetFileVersion(GitVersion.AssemblySemFileVer)
-                .SetInformationalVersion(GitVersion.InformationalVersion)
+                .SetVersion(_gitVersion.NuGetVersionV2)
+                .SetAssemblyVersion(_gitVersion.AssemblySemVer)
+                .SetFileVersion(_gitVersion.AssemblySemFileVer)
+                .SetInformationalVersion(_gitVersion.InformationalVersion)
                 .SetNoRestore(FinishedTargets.Contains(Restore)));
         });
 
@@ -124,8 +124,8 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
             DotNetTest(s => s
-                .SetProjectFile(Solution)
-                .SetConfiguration(Configuration)
+                .SetProjectFile(_solution)
+                .SetConfiguration(_configuration)
                 .SetResultsDirectory(TestResultsDirectory)
                 .SetNoBuild(FinishedTargets.Contains(Compile))
                 .When(_ => InvokedTargets.Contains(Cover), _ => _
@@ -166,17 +166,17 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
             DotNetPack(s => s
-                .SetConfiguration(Configuration)
+                .SetConfiguration(_configuration)
                 .SetNoBuild(FinishedTargets.Contains(Compile))
                 .SetOutputDirectory(PackagesDirectory)
                 .SetSymbolPackageFormat(DotNetSymbolPackageFormat.snupkg)
                 .EnableIncludeSymbols()
                 .SetDeterministic(IsContinuousIntegration)
                 .SetContinuousIntegrationBuild(IsContinuousIntegration)
-                .SetVersion(GitVersion.NuGetVersionV2)
-                .SetAssemblyVersion(GitVersion.AssemblySemVer)
-                .SetFileVersion(GitVersion.AssemblySemFileVer)
-                .SetInformationalVersion(GitVersion.InformationalVersion)
+                .SetVersion(_gitVersion.NuGetVersionV2)
+                .SetAssemblyVersion(_gitVersion.AssemblySemVer)
+                .SetFileVersion(_gitVersion.AssemblySemFileVer)
+                .SetInformationalVersion(_gitVersion.InformationalVersion)
                 .CombineWith(CSharpLibraries, (s, p) => s.SetProject(p)));
         });
 
@@ -188,10 +188,10 @@ partial class Build : NukeBuild
             DotNetNuGetPush(s => s
                 .EnableSkipDuplicate()
                 .When(
-                    _ => GitHubActions.IsOnSemVerTag(),
+                    _ => _gitHubActions.IsOnSemVerTag(),
                     v => v
-                        .SetApiKey(NuGetApiKey)
-                        .SetSource(NuGetSource))
+                        .SetApiKey(_nuGetApiKey)
+                        .SetSource(_nuGetSource))
                 .CombineWith(Packages, (_, p) => _.SetTargetPath(p)));
         });
 

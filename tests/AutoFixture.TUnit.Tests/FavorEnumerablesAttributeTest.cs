@@ -23,7 +23,7 @@ public class FavorEnumerablesAttributeTest
         var sut = new FavorEnumerablesAttribute();
         // Act & assert
         await Assert.That(() =>
-            sut.GetCustomization(null)).ThrowsExactly<ArgumentNullException>();
+            sut.GetCustomization(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]

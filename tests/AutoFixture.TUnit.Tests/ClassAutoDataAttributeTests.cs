@@ -28,14 +28,14 @@ public class ClassAutoDataAttributeTests
     public async Task ThrowsWhenSourceTypeIsNull()
     {
         // Act & Assert
-        await Assert.That(() => new ClassAutoDataAttribute(null)).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => new ClassAutoDataAttribute(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
     public async Task TreatsNullParameterValueAsArrayWithNull()
     {
         // Arrange & Act
-        var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData), null);
+        var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData), null!);
 
         // Assert
         await Assert.That(sut.Parameters).HasSingleItem()
@@ -48,7 +48,7 @@ public class ClassAutoDataAttributeTests
     {
         // Act & Assert
         await Assert.That(() => new DerivedClassAutoDataAttribute(
-            fixtureFactory: null, typeof(MixedTypeClassData))).ThrowsExactly<ArgumentNullException>();
+            fixtureFactory: null!, typeof(MixedTypeClassData))).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -68,7 +68,7 @@ public class ClassAutoDataAttributeTests
     public async Task GetDataThrowsWhenParametersDoNotMatchConstructor()
     {
         // Arrange
-        var sut = new ClassAutoDataAttribute(typeof(MyClass), "myString", 33, null);
+        var sut = new ClassAutoDataAttribute(typeof(MyClass), "myString", 33, null!);
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act & Assert
@@ -172,7 +172,7 @@ public class ClassAutoDataAttributeTests
     public async Task GetDataThrowsForNonMatchingConstructorTypes()
     {
         // Arrange
-        var sut = new ClassAutoDataAttribute(typeof(DelegatingTestData), "myString", 33, null);
+        var sut = new ClassAutoDataAttribute(typeof(DelegatingTestData), "myString", 33, null!);
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act & Assert

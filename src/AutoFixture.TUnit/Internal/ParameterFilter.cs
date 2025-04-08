@@ -8,7 +8,7 @@ namespace AutoFixture.TUnit.Internal
     /// </summary>
     internal class ParameterFilter : IRequestSpecification
     {
-        private readonly IRequestSpecification matcherSpecification;
+        private readonly IRequestSpecification _matcherSpecification;
 
         /// <summary>
         /// Creates an instance of type <see cref="ParameterFilter"/>.
@@ -20,7 +20,7 @@ namespace AutoFixture.TUnit.Internal
         {
             this.ParameterInfo = parameterInfo ?? throw new ArgumentNullException(nameof(parameterInfo));
             this.Flags = flags;
-            this.matcherSpecification = new ParameterMatcherBuilder(this.ParameterInfo)
+            this._matcherSpecification = new ParameterMatcherBuilder(this.ParameterInfo)
                     .SetFlags(this.Flags).Build();
         }
 
@@ -37,7 +37,7 @@ namespace AutoFixture.TUnit.Internal
         /// <inheritdoc />
         public bool IsSatisfiedBy(object request)
         {
-            return this.matcherSpecification.IsSatisfiedBy(request);
+            return this._matcherSpecification.IsSatisfiedBy(request);
         }
     }
 }

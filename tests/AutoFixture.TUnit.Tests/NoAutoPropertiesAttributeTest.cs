@@ -22,7 +22,7 @@ public class NoAutoPropertiesAttributeTest
         var sut = new NoAutoPropertiesAttribute();
         // Act & assert
         await Assert.That(() =>
-            sut.GetCustomization(null)).ThrowsExactly<ArgumentNullException>();
+            sut.GetCustomization(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]

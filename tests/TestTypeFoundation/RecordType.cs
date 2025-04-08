@@ -1,13 +1,8 @@
 namespace TestTypeFoundation
 {
-    public class RecordType<T> : IEquatable<RecordType<T>>
+    public class RecordType<T>(T value) : IEquatable<RecordType<T>>
     {
-        public RecordType(T value)
-        {
-            this.Value = value;
-        }
-
-        public T Value { get; }
+        public T Value { get; } = value;
 
         public bool Equals(RecordType<T> other)
         {

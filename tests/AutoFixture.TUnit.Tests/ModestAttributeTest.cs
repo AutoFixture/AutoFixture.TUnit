@@ -22,7 +22,7 @@ public class ModestAttributeTest
         var sut = new ModestAttribute();
         // Act & assert
         await Assert.That(() =>
-            sut.GetCustomization(null)).ThrowsExactly<ArgumentNullException>();
+            sut.GetCustomization(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]

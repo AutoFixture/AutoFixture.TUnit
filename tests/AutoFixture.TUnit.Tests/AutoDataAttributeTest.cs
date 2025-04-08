@@ -49,7 +49,7 @@ public class AutoDataAttributeTest
         // Arrange
         // Act & Assert
         await Assert.That(() =>
-            new DerivedAutoDataAttribute(null)).ThrowsExactly<ArgumentNullException>();
+            new DerivedAutoDataAttribute(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]

@@ -16,15 +16,15 @@
         {
         }
 
-        private ItemHolder(T1[] t1s, T2[] t2s)
+        private ItemHolder(T1[] t1S, T2[] t2S)
         {
-            this.Item1s = t1s;
-            this.Item2s = t2s;
+            this.Item1S = t1S;
+            this.Item2S = t2S;
         }
 
-        public IEnumerable<T1> Item1s { get; }
+        public IEnumerable<T1> Item1S { get; }
 
-        public IEnumerable<T2> Item2s { get; }
+        public IEnumerable<T2> Item2S { get; }
     }
 
     /* Note that constructors must be unordered because this class is used to test that

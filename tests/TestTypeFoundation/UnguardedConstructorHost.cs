@@ -2,14 +2,9 @@
 
 namespace TestTypeFoundation
 {
-    public class UnguardedConstructorHost<T>
+    public class UnguardedConstructorHost<T>(T item)
     {
-        public UnguardedConstructorHost(T item)
-        {
-            this.Item = item;
-        }
-
-        public T Item { get; }
+        public T Item { get; } = item;
 
         private static ConstructorInfo GetConstructor()
         {

@@ -11,7 +11,7 @@ namespace AutoFixture.TUnit
         Justification = "This attribute is the root of a potential attribute hierarchy.")]
     public class CompositeDataAttribute : AutoFixtureDataSourceAttribute
     {
-        private readonly AutoFixtureDataSourceAttribute[] attributes;
+        private readonly AutoFixtureDataSourceAttribute[] _attributes;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
@@ -28,20 +28,20 @@ namespace AutoFixture.TUnit
         /// <param name="attributes">The attributes representing a data source for a data theory.</param>
         public CompositeDataAttribute(params AutoFixtureDataSourceAttribute[] attributes)
         {
-            this.attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
+            this._attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
         }
 
         /// <summary>
         /// Gets the attributes supplied through one of the constructors.
         /// </summary>
-        public IReadOnlyList<AutoFixtureDataSourceAttribute> Attributes => Array.AsReadOnly(this.attributes);
+        public IReadOnlyList<AutoFixtureDataSourceAttribute> Attributes => Array.AsReadOnly(this._attributes);
 
         /// <inheritdoc />
         public override IEnumerable<object[]> GetData(DataGeneratorMetadata metadata)
         {
             if (metadata is null) throw new ArgumentNullException(nameof(metadata));
 
-            var results = this.attributes
+            var results = this._attributes
                 .Select(attr => attr.GenerateDataSources(metadata))
                 .ToArray();
 

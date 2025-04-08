@@ -9,7 +9,7 @@ namespace AutoFixture.TUnit.Internal
     /// </summary>
     public class MemberDataSource : IDataSource
     {
-        private readonly object[] arguments;
+        private readonly object[] _arguments;
 
         /// <summary>
         /// Creates an instance of type <see cref="MemberDataSource" />.
@@ -22,7 +22,7 @@ namespace AutoFixture.TUnit.Internal
         {
             this.Type = type ?? throw new ArgumentNullException(nameof(type));
             this.Name = name ?? throw new ArgumentNullException(nameof(name));
-            this.arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
+            this._arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
             this.Source = this.GetTestDataSource();
         }
 
@@ -39,7 +39,7 @@ namespace AutoFixture.TUnit.Internal
         /// <summary>
         /// Gets the arguments provided to the member.
         /// </summary>
-        public IReadOnlyList<object> Arguments => Array.AsReadOnly(this.arguments);
+        public IReadOnlyList<object> Arguments => Array.AsReadOnly(this._arguments);
 
         /// <summary>
         /// Gets the test data source.
@@ -76,7 +76,7 @@ namespace AutoFixture.TUnit.Internal
             {
                 FieldInfo fieldInfo => new FieldDataSource(fieldInfo),
                 PropertyInfo propertyInfo => new PropertyDataSource(propertyInfo),
-                MethodInfo methodInfo => new MethodDataSource(methodInfo, this.arguments),
+                MethodInfo methodInfo => new MethodDataSource(methodInfo, this._arguments),
                 _ => throw new InvalidOperationException("Unsupported member type.")
             };
         }

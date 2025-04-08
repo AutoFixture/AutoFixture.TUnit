@@ -9,7 +9,7 @@ namespace AutoFixture.TUnit.Internal
     /// </summary>
     public class ParameterMatcherBuilder
     {
-        private readonly ParameterInfo parameterInfo;
+        private readonly ParameterInfo _parameterInfo;
 
         /// <summary>
         /// Creates an instance of type <see cref="ParameterMatcherBuilder"/>.
@@ -20,7 +20,7 @@ namespace AutoFixture.TUnit.Internal
         /// </exception>
         public ParameterMatcherBuilder(ParameterInfo parameterInfo)
         {
-            this.parameterInfo = parameterInfo
+            this._parameterInfo = parameterInfo
                 ?? throw new ArgumentNullException(nameof(parameterInfo));
         }
 
@@ -131,54 +131,54 @@ namespace AutoFixture.TUnit.Internal
 
         private IRequestSpecification AsExactRequest()
         {
-            return new EqualRequestSpecification(this.parameterInfo);
+            return new EqualRequestSpecification(this._parameterInfo);
         }
 
         private IRequestSpecification AsExactType()
         {
             return new OrRequestSpecification(
-                new ExactTypeSpecification(this.parameterInfo.ParameterType),
-                new SeedRequestSpecification(this.parameterInfo.ParameterType));
+                new ExactTypeSpecification(this._parameterInfo.ParameterType),
+                new SeedRequestSpecification(this._parameterInfo.ParameterType));
         }
 
         private IRequestSpecification AsDirectBaseType()
         {
             return new AndRequestSpecification(
                 new InverseRequestSpecification(
-                    new ExactTypeSpecification(this.parameterInfo.ParameterType)),
-                new DirectBaseTypeSpecification(this.parameterInfo.ParameterType));
+                    new ExactTypeSpecification(this._parameterInfo.ParameterType)),
+                new DirectBaseTypeSpecification(this._parameterInfo.ParameterType));
         }
 
         private IRequestSpecification AsImplementedInterfaces()
         {
             return new AndRequestSpecification(
                 new InverseRequestSpecification(
-                    new ExactTypeSpecification(this.parameterInfo.ParameterType)),
-                new ImplementedInterfaceSpecification(this.parameterInfo.ParameterType));
+                    new ExactTypeSpecification(this._parameterInfo.ParameterType)),
+                new ImplementedInterfaceSpecification(this._parameterInfo.ParameterType));
         }
 
         private IRequestSpecification AsParameter()
         {
             return new ParameterSpecification(
                 new ParameterTypeAndNameCriterion(
-                    new Criterion<Type>(this.parameterInfo.ParameterType, new DerivesFromTypeComparer()),
-                    new Criterion<string>(this.parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
+                    new Criterion<Type>(this._parameterInfo.ParameterType, new DerivesFromTypeComparer()),
+                    new Criterion<string>(this._parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
         }
 
         private IRequestSpecification AsProperty()
         {
             return new PropertySpecification(
                 new PropertyTypeAndNameCriterion(
-                    new Criterion<Type>(this.parameterInfo.ParameterType, new DerivesFromTypeComparer()),
-                    new Criterion<string>(this.parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
+                    new Criterion<Type>(this._parameterInfo.ParameterType, new DerivesFromTypeComparer()),
+                    new Criterion<string>(this._parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
         }
 
         private IRequestSpecification AsField()
         {
             return new FieldSpecification(
                 new FieldTypeAndNameCriterion(
-                    new Criterion<Type>(this.parameterInfo.ParameterType, new DerivesFromTypeComparer()),
-                    new Criterion<string>(this.parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
+                    new Criterion<Type>(this._parameterInfo.ParameterType, new DerivesFromTypeComparer()),
+                    new Criterion<string>(this._parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
         }
 
         private class DerivesFromTypeComparer : IEqualityComparer<Type>

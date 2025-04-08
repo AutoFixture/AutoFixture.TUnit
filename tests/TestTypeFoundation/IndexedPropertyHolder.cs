@@ -2,17 +2,12 @@
 {
     public class IndexedPropertyHolder<T>
     {
-        private readonly List<T> items;
-
-        public IndexedPropertyHolder()
-        {
-            this.items = new List<T>();
-        }
+        private readonly List<T> _items = new();
 
         public T this[int index]
         {
-            get { return this.items[index]; }
-            set { this.items[index] = value; }
+            get { return this._items[index]; }
+            set { this._items[index] = value; }
         }
     }
 }

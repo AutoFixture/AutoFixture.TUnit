@@ -1,21 +1,16 @@
 ﻿namespace AutoFixture.TUnit.Tests.TestTypes;
 
-public class CompositeTypeWithOverloadedConstructors<T>
+public class CompositeTypeWithOverloadedConstructors<T>(IEnumerable<T> items)
 {
-    public CompositeTypeWithOverloadedConstructors(IEnumerable<T> items)
-    {
-        this.Items = items;
-    }
-
     public CompositeTypeWithOverloadedConstructors(params T[] items)
+        : this(items.AsEnumerable())
     {
-        this.Items = items;
     }
 
     public CompositeTypeWithOverloadedConstructors(IList<T> items)
+        : this(items.AsEnumerable())
     {
-        this.Items = items;
     }
 
-    public IEnumerable<T> Items { get; }
+    public IEnumerable<T> Items { get; } = items;
 }

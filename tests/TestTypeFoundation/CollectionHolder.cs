@@ -2,11 +2,6 @@
 {
     public class CollectionHolder<T>
     {
-        public CollectionHolder()
-        {
-            this.Collection = new List<T>();
-        }
-
-        public ICollection<T> Collection { get; private set; }
+        public ICollection<T> Collection { get; private set; } = new List<T>();
     }
 }

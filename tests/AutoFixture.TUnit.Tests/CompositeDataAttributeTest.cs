@@ -21,7 +21,7 @@ public class CompositeDataAttributeTest
     {
         // Arrange
         // Act & assert
-        await Assert.That(() => new CompositeDataAttribute(null)).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => new CompositeDataAttribute(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -81,7 +81,7 @@ public class CompositeDataAttributeTest
         // Arrange
         var sut = new CompositeDataAttribute();
         // Act & assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null, null))
+        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null, null!))
             .Select(x => x()).ToArray()).ThrowsException();
     }
 

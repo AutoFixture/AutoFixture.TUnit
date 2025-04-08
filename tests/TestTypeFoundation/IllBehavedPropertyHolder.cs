@@ -2,7 +2,7 @@ namespace TestTypeFoundation
 {
     public class IllBehavedPropertyHolder<T>
     {
-        private T propertyIllBehavedSet;
+        private T _propertyIllBehavedSet;
 
         public T PropertyIllBehavedGet
         {
@@ -20,12 +20,12 @@ namespace TestTypeFoundation
         {
             get
             {
-                return this.propertyIllBehavedSet;
+                return this._propertyIllBehavedSet;
             }
 
             set
             {
-                this.propertyIllBehavedSet = default(T);
+                this._propertyIllBehavedSet = default(T);
             }
         }
     }

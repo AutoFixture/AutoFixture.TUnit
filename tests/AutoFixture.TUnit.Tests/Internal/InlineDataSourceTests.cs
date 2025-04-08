@@ -22,7 +22,7 @@ public class InlineDataSourceTests
         // Arrange
         // Act & Assert
         await Assert.That(() =>
-            new InlineDataSource(null)).ThrowsExactly<ArgumentNullException>();
+            new InlineDataSource(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -44,7 +44,7 @@ public class InlineDataSourceTests
         var sut = new InlineDataSource(Array.Empty<object>());
         // Act & Assert
         await Assert.That(() =>
-            sut.GenerateDataSources(null)).ThrowsExactly<ArgumentNullException>();
+            sut.GenerateDataSources(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
