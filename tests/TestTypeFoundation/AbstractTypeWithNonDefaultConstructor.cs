@@ -9,7 +9,7 @@
                 throw new ArgumentNullException(nameof(value));
             }
 
-            Property = value;
+            this.Property = value;
         }
 
         public T Property { get; }

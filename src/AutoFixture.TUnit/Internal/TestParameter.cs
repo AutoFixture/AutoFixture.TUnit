@@ -4,20 +4,20 @@ namespace AutoFixture.TUnit.Internal
 {
     internal class TestParameter(ParameterInfo parameterInfo)
     {
-        private readonly Lazy<ICustomization> _lazyCustomization = new(
+        private readonly Lazy<ICustomization> lazyCustomization = new(
             () => GetCustomization(parameterInfo));
 
-        private readonly Lazy<FrozenAttribute> _lazyFrozenAttribute = new(
+        private readonly Lazy<FrozenAttribute> lazyFrozenAttribute = new(
             () => parameterInfo.GetCustomAttributes()
                 .OfType<FrozenAttribute>().FirstOrDefault());
 
         public ParameterInfo ParameterInfo { get; } = parameterInfo ?? throw new ArgumentNullException(nameof(parameterInfo));
 
-        public ICustomization GetCustomization() => _lazyCustomization.Value;
+        public ICustomization GetCustomization() => this.lazyCustomization.Value;
 
         public ICustomization GetCustomization(object value)
         {
-            var frozenAttribute = _lazyFrozenAttribute.Value;
+            var frozenAttribute = this.lazyFrozenAttribute.Value;
 
             if (frozenAttribute is null)
             {
@@ -25,7 +25,7 @@ namespace AutoFixture.TUnit.Internal
             }
 
             return new FrozenValueCustomization(
-                new ParameterFilter(ParameterInfo, frozenAttribute.By),
+                new ParameterFilter(this.ParameterInfo, frozenAttribute.By),
                 value);
         }
 

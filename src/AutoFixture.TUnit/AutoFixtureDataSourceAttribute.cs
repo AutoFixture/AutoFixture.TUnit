@@ -12,7 +12,7 @@ public abstract class AutoFixtureDataSourceAttribute : NonTypedDataSourceGenerat
     /// </summary>
     /// <param name="dataGeneratorMetadata"></param>
     /// <returns></returns>
-    public abstract IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata);
+    public abstract IEnumerable<object?[]?> GetData(DataGeneratorMetadata dataGeneratorMetadata);
 
     /// <inheritdoc />
     public override IEnumerable<Func<object[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
@@ -34,7 +34,7 @@ public abstract class AutoFixtureDataSourceAttribute : NonTypedDataSourceGenerat
                 yield break;
             }
 
-            var enumerable = GetData(dataGeneratorMetadata)
+            var enumerable = this.GetData(dataGeneratorMetadata)
                              ?? throw new InvalidOperationException("The source member yielded no test data.");
 
             foreach (var testData in enumerable)

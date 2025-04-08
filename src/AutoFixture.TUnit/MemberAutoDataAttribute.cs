@@ -59,10 +59,10 @@ namespace AutoFixture.TUnit
         /// <exception cref="ArgumentNullException">Thrown when arguments are null.</exception>
         protected MemberAutoDataAttribute(Func<IFixture> fixtureFactory, Type? memberType, string memberName, params object[]? parameters)
         {
-            FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
-            MemberName = memberName ?? throw new ArgumentNullException(nameof(memberName));
-            Parameters = parameters ?? new object[] { null! };
-            MemberType = memberType;
+            this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
+            this.MemberName = memberName ?? throw new ArgumentNullException(nameof(memberName));
+            this.Parameters = parameters ?? new object[] { null! };
+            this.MemberType = memberType;
         }
 
         /// <summary>
@@ -95,12 +95,12 @@ namespace AutoFixture.TUnit
                 throw new ArgumentNullException(nameof(testMethod));
             }
 
-            var sourceType = MemberType ?? testMethod.DeclaringType
+            var sourceType = this.MemberType ?? testMethod.DeclaringType
                 ?? throw new InvalidOperationException("Source type cannot be null.");
 
             var source = new AutoDataSource(
-                createFixture: FixtureFactory,
-                source: new MemberDataSource(sourceType, MemberName, Parameters));
+                createFixture: this.FixtureFactory,
+                source: new MemberDataSource(sourceType, this.MemberName, this.Parameters));
 
             return source.GenerateDataSources(dataGeneratorMetadata).Select(x => x());
         }

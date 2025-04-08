@@ -19,7 +19,7 @@ public class MethodDataSourceTests
     {
         // Arrange
         var methodInfo = typeof(MethodDataSourceTests)
-            .GetMethod(nameof(SutIsTestDataSource));
+            .GetMethod(nameof(this.SutIsTestDataSource));
 
         // Act
         var sut = new MethodDataSource(methodInfo);
@@ -41,7 +41,7 @@ public class MethodDataSourceTests
     {
         // Arrange
         var methodInfo = typeof(MethodDataSourceTests)
-            .GetMethod(nameof(SutIsTestDataSource));
+            .GetMethod(nameof(this.SutIsTestDataSource));
 
         // Act & Assert
         await Assert.That(() =>
@@ -53,7 +53,7 @@ public class MethodDataSourceTests
     {
         // Arrange
         var methodInfo = typeof(MethodDataSourceTests)
-            .GetMethod(nameof(SutIsTestDataSource));
+            .GetMethod(nameof(this.SutIsTestDataSource));
         var arguments = new[] { new object() };
 
         // Act

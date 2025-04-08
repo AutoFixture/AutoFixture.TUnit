@@ -10,7 +10,7 @@ namespace AutoFixture.TUnit.Internal
         Justification = "Type is not a collection.")]
     public class MethodDataSource : DataSource
     {
-        private readonly object[] _arguments;
+        private readonly object[] arguments;
 
         /// <summary>
         /// Creates an instance of type <see cref="MethodDataSource" />.
@@ -19,8 +19,8 @@ namespace AutoFixture.TUnit.Internal
         /// <param name="arguments">The source method arguments.</param>
         public MethodDataSource(MethodInfo methodInfo, params object[] arguments)
         {
-            MethodInfo = methodInfo ?? throw new ArgumentNullException(nameof(methodInfo));
-            this._arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
+            this.MethodInfo = methodInfo ?? throw new ArgumentNullException(nameof(methodInfo));
+            this.arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
         }
 
         /// <summary>
@@ -31,12 +31,12 @@ namespace AutoFixture.TUnit.Internal
         /// <summary>
         /// Gets the source method arguments.
         /// </summary>
-        public IReadOnlyList<object> Arguments => Array.AsReadOnly(_arguments);
+        public IReadOnlyList<object> Arguments => Array.AsReadOnly(this.arguments);
 
         /// <inheritdoc/>
         public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
         {
-            var value = MethodInfo.Invoke(null, _arguments);
+            var value = this.MethodInfo.Invoke(null, this.arguments);
             if (value is not IEnumerable<object[]> enumerable)
             {
                 throw new InvalidCastException("Member does not return an enumerable value.");

@@ -34,7 +34,7 @@ namespace AutoFixture.TUnit
         /// <param name="fixtureFactory">The fixture factory used to construct the fixture.</param>
         protected AutoDataAttribute(Func<IFixture> fixtureFactory)
         {
-            FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
+            this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace AutoFixture.TUnit
         /// <inheritdoc />
         public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
         {
-            var source = new AutoDataSource(FixtureFactory);
+            var source = new AutoDataSource(this.FixtureFactory);
 
             return source.GenerateDataSources(dataGeneratorMetadata).Select(x => x());
         }

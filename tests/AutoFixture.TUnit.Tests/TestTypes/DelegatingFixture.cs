@@ -5,18 +5,18 @@ namespace AutoFixture.TUnit.Tests.TestTypes;
 
 internal class DelegatingFixture : IFixture
 {
-    private readonly List<ISpecimenBuilder> _customizations = new();
-    private readonly List<ISpecimenBuilder> _residueCollectors = new();
+    private readonly List<ISpecimenBuilder> customizations = new();
+    private readonly List<ISpecimenBuilder> residueCollectors = new();
 
     public IList<ISpecimenBuilderTransformation> Behaviors => throw new InvalidOperationException();
 
-    public IList<ISpecimenBuilder> Customizations => _customizations;
+    public IList<ISpecimenBuilder> Customizations => this.customizations;
 
     public bool OmitAutoProperties { get; set; }
 
     public int RepeatCount { get; set; }
 
-    public IList<ISpecimenBuilder> ResidueCollectors => _residueCollectors;
+    public IList<ISpecimenBuilder> ResidueCollectors => this.residueCollectors;
 
     public void AddManyTo<T>(ICollection<T> collection, Func<T> creator)
     {
@@ -40,7 +40,7 @@ internal class DelegatingFixture : IFixture
 
     public IFixture Customize(ICustomization customization)
     {
-        OnCustomize?.Invoke(customization);
+        this.OnCustomize?.Invoke(customization);
         return this;
     }
 
@@ -81,7 +81,7 @@ internal class DelegatingFixture : IFixture
 
     public object Create(object request, ISpecimenContext context)
     {
-        return OnCreate(request, context);
+        return this.OnCreate(request, context);
     }
 
     internal Func<object, ISpecimenContext, object> OnCreate { get; set; } = (_, _) => new object();

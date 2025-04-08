@@ -17,6 +17,6 @@ internal class ParameterNameCriterion(IEquatable<string> nameCriterion) : IEquat
 
     public bool Equals(ParameterInfo other)
     {
-        return NameCriterion.Equals(other.Name);
+        return this.NameCriterion.Equals(other.Name);
     }
 }

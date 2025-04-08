@@ -11,5 +11,5 @@ public class ClassWithEmptyTestData : IEnumerable<object[]>
         yield return [];
     }
 
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 }

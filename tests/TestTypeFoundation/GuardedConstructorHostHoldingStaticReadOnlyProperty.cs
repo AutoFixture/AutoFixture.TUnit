@@ -15,7 +15,7 @@
                 throw new ArgumentNullException(nameof(item));
             }
 
-            Item = item;
+            this.Item = item;
         }
 
         public static TStaticProperty Property { get; private set; }

@@ -8,7 +8,7 @@ namespace TestTypeFoundation
 
         public void SetProperty(T value)
         {
-            Property = value;
+            this.Property = value;
         }
 
         public static PropertyInfo GetProperty()

@@ -71,9 +71,9 @@ namespace AutoFixture.TUnit
         /// </example>
         protected ClassAutoDataAttribute(Func<IFixture> fixtureFactory, Type sourceType, params object[] parameters)
         {
-            FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
-            SourceType = sourceType ?? throw new ArgumentNullException(nameof(sourceType));
-            Parameters = parameters ?? new object[] { null };
+            this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
+            this.SourceType = sourceType ?? throw new ArgumentNullException(nameof(sourceType));
+            this.Parameters = parameters ?? new object[] { null };
         }
 
         /// <summary>
@@ -95,8 +95,8 @@ namespace AutoFixture.TUnit
         public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
         {
             var source = new AutoDataSource(
-                FixtureFactory,
-                new ClassDataSource(SourceType, Parameters));
+                this.FixtureFactory,
+                new ClassDataSource(this.SourceType, this.Parameters));
 
             return source.GenerateDataSources(dataGeneratorMetadata).Select(x => x());
         }

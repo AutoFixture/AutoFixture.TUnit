@@ -2,17 +2,17 @@
 {
     public class TypeWithIndexer
     {
-        private readonly Dictionary<string, string> _dict = new();
+        private readonly Dictionary<string, string> dict = new();
 
         public string this[string index]
         {
             get
             {
-                return _dict[index];
+                return this.dict[index];
             }
             set
             {
-                _dict[index] = value;
+                this.dict[index] = value;
             }
         }
     }

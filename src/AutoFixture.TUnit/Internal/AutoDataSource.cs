@@ -17,8 +17,8 @@ namespace AutoFixture.TUnit.Internal
         /// </exception>
         public AutoDataSource(Func<IFixture> createFixture, IDataSource? source = default)
         {
-            CreateFixture = createFixture ?? throw new ArgumentNullException(nameof(createFixture));
-            Source = source;
+            this.CreateFixture = createFixture ?? throw new ArgumentNullException(nameof(createFixture));
+            this.Source = source;
         }
 
         /// <summary>
@@ -38,15 +38,15 @@ namespace AutoFixture.TUnit.Internal
         /// <returns>Returns a sequence of argument collections.</returns>
         public override IEnumerable<object[]> GetData(DataGeneratorMetadata metadata)
         {
-            return Source is null
-                ? GenerateValues(metadata)
-                : CombineValues(metadata, Source);
+            return this.Source is null
+                ? this.GenerateValues(metadata)
+                : this.CombineValues(metadata, this.Source);
         }
 
         private IEnumerable<object[]> GenerateValues(DataGeneratorMetadata metadata)
         {
             var parameters = Array.ConvertAll(metadata.GetMethod().GetParameters(), TestParameter.From);
-            var fixture = CreateFixture();
+            var fixture = this.CreateFixture();
             yield return Array.ConvertAll(parameters, parameter => GenerateAutoValue(parameter, fixture));
         }
 
@@ -63,7 +63,7 @@ namespace AutoFixture.TUnit.Internal
                     .Select(argument => argument.GetCustomization())
                     .Where(x => x is not NullCustomization);
 
-                var fixture = CreateFixture();
+                var fixture = this.CreateFixture();
 
                 foreach (var customization in customizations)
                 {

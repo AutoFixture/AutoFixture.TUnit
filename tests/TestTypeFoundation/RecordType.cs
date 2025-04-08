@@ -16,17 +16,17 @@ namespace TestTypeFoundation
                 return true;
             }
 
-            return EqualityComparer<T>.Default.Equals(Value, other.Value);
+            return EqualityComparer<T>.Default.Equals(this.Value, other.Value);
         }
 
         public override bool Equals(object? obj)
         {
-            return Equals(obj as RecordType<T>);
+            return this.Equals(obj as RecordType<T>);
         }
 
         public override int GetHashCode()
         {
-            return EqualityComparer<T>.Default.GetHashCode(Value);
+            return EqualityComparer<T>.Default.GetHashCode(this.Value);
         }
     }
 }

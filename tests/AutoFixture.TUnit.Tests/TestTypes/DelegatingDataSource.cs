@@ -8,6 +8,6 @@ public class DelegatingDataSource : AutoFixtureDataSourceAttribute, IDataSource
 
     public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
-        return TestData;
+        return this.TestData;
     }
 }

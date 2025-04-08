@@ -161,25 +161,7 @@ namespace AutoFixture.TUnit.Internal
         {
             return new ParameterSpecification(
                 new ParameterTypeAndNameCriterion(
-
-                    /* Unmerged change from project 'AutoFixture.TUnit(net8.0)'
-                    Before:
-                                        new Criterion<Type>(_parameterInfo.ParameterType, new DerivesFromTypeComparer()),
-                                        new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
-                    After:
-                                        new Criterion<Type>(this.parameterInfo.ParameterType, new DerivesFromTypeComparer()),
-                                        new Criterion<string>(this.parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
-                    */
-                    new Criterion<Type>(
-/* Unmerged change from project 'AutoFixture.TUnit(net8.0)'
-Before:
                     new Criterion<Type>(_parameterInfo.ParameterType, new DerivesFromTypeComparer()),
-                    new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
-After:
-                    new Criterion<Type>(this.parameterInfo.ParameterType, new DerivesFromTypeComparer()),
-                    new Criterion<string>(this.parameterInfo.Name, StringComparer.OrdinalIgnoreCase);
-*/
-_parameterInfo.ParameterType, new DerivesFromTypeComparer()),
                     new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
         }
 
@@ -188,7 +170,7 @@ _parameterInfo.ParameterType, new DerivesFromTypeComparer()),
             return new PropertySpecification(
                 new PropertyTypeAndNameCriterion(
                     new Criterion<Type>(_parameterInfo.ParameterType, new DerivesFromTypeComparer()),
-                    new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)))));
+                    new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
         }
 
         private IRequestSpecification AsField()
@@ -196,14 +178,7 @@ _parameterInfo.ParameterType, new DerivesFromTypeComparer()),
             return new FieldSpecification(
                 new FieldTypeAndNameCriterion(
                     new Criterion<Type>(_parameterInfo.ParameterType, new DerivesFromTypeComparer()),
-
-                    /* Unmerged change from project 'AutoFixture.TUnit(net8.0)'
-                    Before:
-                                        new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
-                    After:
-                                        new Criterion<string>(this.parameterInfo.Name, StringComparer.OrdinalIgnoreCase);
-                    */
-                    new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)))));
+                    new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
         }
 
         private class DerivesFromTypeComparer : IEqualityComparer<Type>

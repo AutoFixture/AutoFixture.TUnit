@@ -14,5 +14,5 @@ public class MixedTypeClassData : IEnumerable<object[]>
         yield return [-95, "test-92", EnumType.Second, new Tuple<string, int>("myValue", 5)];
     }
 
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 }

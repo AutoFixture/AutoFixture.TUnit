@@ -308,7 +308,7 @@ public class ClassAutoDataAttributeTests
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return this.GetEnumerator();
         }
     }
 }

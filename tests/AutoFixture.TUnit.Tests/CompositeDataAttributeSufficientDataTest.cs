@@ -7,7 +7,7 @@ namespace AutoFixture.TUnit.Tests;
 
 public class CompositeDataAttributeSufficientDataTest
 {
-    private readonly MethodInfo _method = typeof(TypeWithOverloadedMembers)
+    private readonly MethodInfo method = typeof(TypeWithOverloadedMembers)
         .GetMethod(nameof(TypeWithOverloadedMembers.DoSomething),
             [typeof(object), typeof(object), typeof(object)]);
 
@@ -20,7 +20,7 @@ public class CompositeDataAttributeSufficientDataTest
         var attribute = new CompositeDataAttribute(attributes.ToArray());
 
         // Act
-        var result = attribute.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(_method))
+        var result = attribute.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(this.method))
             .Select(x => x())
             .ToArray();
 
@@ -34,7 +34,7 @@ public class CompositeDataAttributeSufficientDataTest
         yield return CreateTestData(
             data:
             [
-                new FakeDataAttribute(_method, [[1, 2, 3]])
+                new FakeDataAttribute(this.method, [[1, 2, 3]])
             ],
             expected:
             [
@@ -44,8 +44,8 @@ public class CompositeDataAttributeSufficientDataTest
         yield return CreateTestData(
             data:
             [
-                new FakeDataAttribute(_method, [[1, 2, 3]]),
-                new FakeDataAttribute(_method, [[4, 5, 6]])
+                new FakeDataAttribute(this.method, [[1, 2, 3]]),
+                new FakeDataAttribute(this.method, [[4, 5, 6]])
             ],
             expected:
             [
@@ -55,8 +55,8 @@ public class CompositeDataAttributeSufficientDataTest
         yield return CreateTestData(
             data:
             [
-                new FakeDataAttribute(_method, [[1]]),
-                new FakeDataAttribute(_method, [[2, 3, 4]])
+                new FakeDataAttribute(this.method, [[1]]),
+                new FakeDataAttribute(this.method, [[2, 3, 4]])
             ],
             expected:
             [
@@ -66,8 +66,8 @@ public class CompositeDataAttributeSufficientDataTest
         yield return CreateTestData(
             data:
             [
-                new FakeDataAttribute(_method, [[1, 2]]),
-                new FakeDataAttribute(_method, [[3, 4, 5]])
+                new FakeDataAttribute(this.method, [[1, 2]]),
+                new FakeDataAttribute(this.method, [[3, 4, 5]])
             ],
             expected:
             [
@@ -77,7 +77,7 @@ public class CompositeDataAttributeSufficientDataTest
         yield return CreateTestData(
             data:
             [
-                new FakeDataAttribute(_method, [[1, 2, 3], [4, 5, 6]])
+                new FakeDataAttribute(this.method, [[1, 2, 3], [4, 5, 6]])
             ],
             expected:
             [
@@ -88,8 +88,8 @@ public class CompositeDataAttributeSufficientDataTest
         yield return CreateTestData(
             data:
             [
-                new FakeDataAttribute(_method, [[1, 2, 3], [4, 5, 6]]),
-                new FakeDataAttribute(_method,
+                new FakeDataAttribute(this.method, [[1, 2, 3], [4, 5, 6]]),
+                new FakeDataAttribute(this.method,
                     [[7, 8], [9, 10], [11, 12]])
             ],
             expected:
@@ -101,9 +101,9 @@ public class CompositeDataAttributeSufficientDataTest
         yield return CreateTestData(
             data:
             [
-                new FakeDataAttribute(_method,
+                new FakeDataAttribute(this.method,
                     [[1, 2], [3, 4], [5, 6]]),
-                new FakeDataAttribute(_method,
+                new FakeDataAttribute(this.method,
                     [[7, 8, 9], [10, 11, 12], [13, 14, 15]])
             ],
             expected:
@@ -117,8 +117,8 @@ public class CompositeDataAttributeSufficientDataTest
         yield return CreateTestData(
             data:
             [
-                new FakeDataAttribute(_method, [[1, 2, 3], [4, 5, 6]]),
-                new FakeDataAttribute(_method, [[7, 8, 9]])
+                new FakeDataAttribute(this.method, [[1, 2, 3], [4, 5, 6]]),
+                new FakeDataAttribute(this.method, [[7, 8, 9]])
             ],
             expected:
             [
@@ -129,8 +129,8 @@ public class CompositeDataAttributeSufficientDataTest
         yield return CreateTestData(
             data:
             [
-                new FakeDataAttribute(_method, [[1, 2, 3]]),
-                new FakeDataAttribute(_method, [[4, 5, 6], [7, 8, 9]])
+                new FakeDataAttribute(this.method, [[1, 2, 3]]),
+                new FakeDataAttribute(this.method, [[4, 5, 6], [7, 8, 9]])
             ],
             expected:
             [
@@ -142,8 +142,8 @@ public class CompositeDataAttributeSufficientDataTest
         yield return CreateTestData(
             data:
             [
-                new FakeDataAttribute(_method, [[1, 2]]),
-                new FakeDataAttribute(_method, [[3, 4]])
+                new FakeDataAttribute(this.method, [[1, 2]]),
+                new FakeDataAttribute(this.method, [[3, 4]])
             ],
             expected:
             [
@@ -153,8 +153,8 @@ public class CompositeDataAttributeSufficientDataTest
         yield return CreateTestData(
             data:
             [
-                new FakeDataAttribute(_method, [[1]]),
-                new FakeDataAttribute(_method, [[2, 3]])
+                new FakeDataAttribute(this.method, [[1]]),
+                new FakeDataAttribute(this.method, [[2, 3]])
             ],
             expected:
             [
@@ -164,9 +164,9 @@ public class CompositeDataAttributeSufficientDataTest
         yield return CreateTestData(
             data:
             [
-                new FakeDataAttribute(_method, [[1]]),
-                new FakeDataAttribute(_method, [[]]),
-                new FakeDataAttribute(_method, [[2, 3]])
+                new FakeDataAttribute(this.method, [[1]]),
+                new FakeDataAttribute(this.method, [[]]),
+                new FakeDataAttribute(this.method, [[2, 3]])
             ],
             expected:
             [
@@ -176,9 +176,9 @@ public class CompositeDataAttributeSufficientDataTest
         yield return CreateTestData(
             data:
             [
-                new FakeDataAttribute(_method, [[1]]),
-                new FakeDataAttribute(_method, [[2]]),
-                new FakeDataAttribute(_method, [[3]])
+                new FakeDataAttribute(this.method, [[1]]),
+                new FakeDataAttribute(this.method, [[2]]),
+                new FakeDataAttribute(this.method, [[3]])
             ],
             expected:
             [

@@ -3,13 +3,13 @@ namespace TestTypeFoundation
     public class GuardedPropertyHolder<T>
         where T : class
     {
-        private T _property;
+        private T property;
 
         public T Property
         {
             get
             {
-                return _property;
+                return this.property;
             }
 
             set
@@ -19,7 +19,7 @@ namespace TestTypeFoundation
                     throw new ArgumentNullException(nameof(value));
                 }
 
-                _property = value;
+                this.property = value;
             }
         }
     }
