@@ -71,12 +71,12 @@ namespace AutoFixture.TUnit.Internal
         /// <returns>The current <see cref="ParameterMatcherBuilder"/> instance.</returns>
         public ParameterMatcherBuilder SetFlags(Matching flags)
         {
-            this.MatchExactType = flags.HasFlag(Matching.ExactType);
-            this.MatchDirectBaseType = flags.HasFlag(Matching.DirectBaseType);
-            this.MatchImplementedInterfaces = flags.HasFlag(Matching.ImplementedInterfaces);
-            this.MatchParameter = flags.HasFlag(Matching.ParameterName);
-            this.MatchProperty = flags.HasFlag(Matching.PropertyName);
-            this.MatchField = flags.HasFlag(Matching.FieldName);
+            MatchExactType = flags.HasFlag(Matching.ExactType);
+            MatchDirectBaseType = flags.HasFlag(Matching.DirectBaseType);
+            MatchImplementedInterfaces = flags.HasFlag(Matching.ImplementedInterfaces);
+            MatchParameter = flags.HasFlag(Matching.ParameterName);
+            MatchProperty = flags.HasFlag(Matching.PropertyName);
+            MatchField = flags.HasFlag(Matching.FieldName);
             return this;
         }
 
@@ -89,39 +89,39 @@ namespace AutoFixture.TUnit.Internal
         public IRequestSpecification Build()
         {
             var specifications = new List<IRequestSpecification>(7);
-            if (this.MatchExactRequest)
+            if (MatchExactRequest)
             {
-                specifications.Add(this.AsExactRequest());
+                specifications.Add(AsExactRequest());
             }
 
-            if (this.MatchExactType)
+            if (MatchExactType)
             {
-                specifications.Add(this.AsExactType());
+                specifications.Add(AsExactType());
             }
 
-            if (this.MatchDirectBaseType)
+            if (MatchDirectBaseType)
             {
-                specifications.Add(this.AsDirectBaseType());
+                specifications.Add(AsDirectBaseType());
             }
 
-            if (this.MatchImplementedInterfaces)
+            if (MatchImplementedInterfaces)
             {
-                specifications.Add(this.AsImplementedInterfaces());
+                specifications.Add(AsImplementedInterfaces());
             }
 
-            if (this.MatchProperty)
+            if (MatchProperty)
             {
-                specifications.Add(this.AsProperty());
+                specifications.Add(AsProperty());
             }
 
-            if (this.MatchParameter)
+            if (MatchParameter)
             {
-                specifications.Add(this.AsParameter());
+                specifications.Add(AsParameter());
             }
 
-            if (this.MatchField)
+            if (MatchField)
             {
-                specifications.Add(this.AsField());
+                specifications.Add(AsField());
             }
 
             return specifications.Count == 1
@@ -131,54 +131,79 @@ namespace AutoFixture.TUnit.Internal
 
         private IRequestSpecification AsExactRequest()
         {
-            return new EqualRequestSpecification(this._parameterInfo);
+            return new EqualRequestSpecification(_parameterInfo);
         }
 
         private IRequestSpecification AsExactType()
         {
             return new OrRequestSpecification(
-                new ExactTypeSpecification(this._parameterInfo.ParameterType),
-                new SeedRequestSpecification(this._parameterInfo.ParameterType));
+                new ExactTypeSpecification(_parameterInfo.ParameterType),
+                new SeedRequestSpecification(_parameterInfo.ParameterType));
         }
 
         private IRequestSpecification AsDirectBaseType()
         {
             return new AndRequestSpecification(
                 new InverseRequestSpecification(
-                    new ExactTypeSpecification(this._parameterInfo.ParameterType)),
-                new DirectBaseTypeSpecification(this._parameterInfo.ParameterType));
+                    new ExactTypeSpecification(_parameterInfo.ParameterType)),
+                new DirectBaseTypeSpecification(_parameterInfo.ParameterType));
         }
 
         private IRequestSpecification AsImplementedInterfaces()
         {
             return new AndRequestSpecification(
                 new InverseRequestSpecification(
-                    new ExactTypeSpecification(this._parameterInfo.ParameterType)),
-                new ImplementedInterfaceSpecification(this._parameterInfo.ParameterType));
+                    new ExactTypeSpecification(_parameterInfo.ParameterType)),
+                new ImplementedInterfaceSpecification(_parameterInfo.ParameterType));
         }
 
         private IRequestSpecification AsParameter()
         {
             return new ParameterSpecification(
                 new ParameterTypeAndNameCriterion(
-                    new Criterion<Type>(this._parameterInfo.ParameterType, new DerivesFromTypeComparer()),
-                    new Criterion<string>(this._parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
+
+                    /* Unmerged change from project 'AutoFixture.TUnit(net8.0)'
+                    Before:
+                                        new Criterion<Type>(_parameterInfo.ParameterType, new DerivesFromTypeComparer()),
+                                        new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
+                    After:
+                                        new Criterion<Type>(this.parameterInfo.ParameterType, new DerivesFromTypeComparer()),
+                                        new Criterion<string>(this.parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
+                    */
+                    new Criterion<Type>(
+/* Unmerged change from project 'AutoFixture.TUnit(net8.0)'
+Before:
+                    new Criterion<Type>(_parameterInfo.ParameterType, new DerivesFromTypeComparer()),
+                    new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
+After:
+                    new Criterion<Type>(this.parameterInfo.ParameterType, new DerivesFromTypeComparer()),
+                    new Criterion<string>(this.parameterInfo.Name, StringComparer.OrdinalIgnoreCase);
+*/
+_parameterInfo.ParameterType, new DerivesFromTypeComparer()),
+                    new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
         }
 
         private IRequestSpecification AsProperty()
         {
             return new PropertySpecification(
                 new PropertyTypeAndNameCriterion(
-                    new Criterion<Type>(this._parameterInfo.ParameterType, new DerivesFromTypeComparer()),
-                    new Criterion<string>(this._parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
+                    new Criterion<Type>(_parameterInfo.ParameterType, new DerivesFromTypeComparer()),
+                    new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)))));
         }
 
         private IRequestSpecification AsField()
         {
             return new FieldSpecification(
                 new FieldTypeAndNameCriterion(
-                    new Criterion<Type>(this._parameterInfo.ParameterType, new DerivesFromTypeComparer()),
-                    new Criterion<string>(this._parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
+                    new Criterion<Type>(_parameterInfo.ParameterType, new DerivesFromTypeComparer()),
+
+                    /* Unmerged change from project 'AutoFixture.TUnit(net8.0)'
+                    Before:
+                                        new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
+                    After:
+                                        new Criterion<string>(this.parameterInfo.Name, StringComparer.OrdinalIgnoreCase);
+                    */
+                    new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)))));
         }
 
         private class DerivesFromTypeComparer : IEqualityComparer<Type>

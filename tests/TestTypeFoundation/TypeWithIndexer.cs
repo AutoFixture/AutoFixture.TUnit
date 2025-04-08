@@ -8,11 +8,11 @@
         {
             get
             {
-                return this._dict[index];
+                return _dict[index];
             }
             set
             {
-                this._dict[index] = value;
+                _dict[index] = value;
             }
         }
     }

@@ -26,7 +26,7 @@ namespace AutoFixture.TUnit.Internal
         /// <summary>
         /// The collection of inline values.
         /// </summary>
-        public IReadOnlyList<object> Values => Array.AsReadOnly(this._values);
+        public IReadOnlyList<object> Values => Array.AsReadOnly(_values);
 
         /// <inheritdoc />
         public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
@@ -37,13 +37,13 @@ namespace AutoFixture.TUnit.Internal
             }
 
             var membersToGenerate = dataGeneratorMetadata.MembersToGenerate;
-            if (this._values.Length > membersToGenerate.Length)
+            if (_values.Length > membersToGenerate.Length)
             {
                 throw new InvalidOperationException(
                     "The number of arguments provided exceeds the number of parameters.");
             }
 
-            yield return this._values;
+            yield return _values;
         }
     }
 }

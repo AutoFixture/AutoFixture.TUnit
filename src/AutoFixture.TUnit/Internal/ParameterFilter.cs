@@ -18,10 +18,10 @@ namespace AutoFixture.TUnit.Internal
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="parameterInfo"/> is null.</exception>
         public ParameterFilter(ParameterInfo parameterInfo, Matching flags)
         {
-            this.ParameterInfo = parameterInfo ?? throw new ArgumentNullException(nameof(parameterInfo));
-            this.Flags = flags;
-            this._matcherSpecification = new ParameterMatcherBuilder(this.ParameterInfo)
-                    .SetFlags(this.Flags).Build();
+            ParameterInfo = parameterInfo ?? throw new ArgumentNullException(nameof(parameterInfo));
+            Flags = flags;
+            _matcherSpecification = new ParameterMatcherBuilder(ParameterInfo)
+                    .SetFlags(Flags).Build();
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace AutoFixture.TUnit.Internal
         /// <inheritdoc />
         public bool IsSatisfiedBy(object request)
         {
-            return this._matcherSpecification.IsSatisfiedBy(request);
+            return _matcherSpecification.IsSatisfiedBy(request);
         }
     }
 }

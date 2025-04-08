@@ -1,4 +1,3 @@
-#nullable enable
 using System.Globalization;
 using System.Reflection;
 
@@ -20,10 +19,10 @@ namespace AutoFixture.TUnit.Internal
         /// <exception cref="ArgumentNullException">Thrown when arguments are <see langref="null" />.</exception>
         public MemberDataSource(Type type, string name, params object[] arguments)
         {
-            this.Type = type ?? throw new ArgumentNullException(nameof(type));
-            this.Name = name ?? throw new ArgumentNullException(nameof(name));
+            Type = type ?? throw new ArgumentNullException(nameof(type));
+            Name = name ?? throw new ArgumentNullException(nameof(name));
             this._arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
-            this.Source = this.GetTestDataSource();
+            Source = GetTestDataSource();
         }
 
         /// <summary>
@@ -39,7 +38,7 @@ namespace AutoFixture.TUnit.Internal
         /// <summary>
         /// Gets the arguments provided to the member.
         /// </summary>
-        public IReadOnlyList<object> Arguments => Array.AsReadOnly(this._arguments);
+        public IReadOnlyList<object> Arguments => Array.AsReadOnly(_arguments);
 
         /// <summary>
         /// Gets the test data source.
@@ -48,7 +47,7 @@ namespace AutoFixture.TUnit.Internal
 
         private DataSource GetTestDataSource()
         {
-            var sourceMember = this.Type.GetMember(this.Name,
+            var sourceMember = Type.GetMember(Name,
                     MemberTypes.Method | MemberTypes.Field | MemberTypes.Property,
                     BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy)
                 .FirstOrDefault();
@@ -58,7 +57,7 @@ namespace AutoFixture.TUnit.Internal
                 var message = string.Format(
                     CultureInfo.CurrentCulture,
                     "Could not find public static member (property, field, or method) named '{0}' on {1}",
-                    this.Name, this.Type.FullName);
+                    Name, Type.FullName);
                 throw new ArgumentException(message);
             }
 
@@ -68,7 +67,7 @@ namespace AutoFixture.TUnit.Internal
                 var message = string.Format(
                     CultureInfo.CurrentCulture,
                     "Member {0} on {1} does not return IEnumerable<object[]>",
-                    this.Name, this.Type.FullName);
+                    Name, Type.FullName);
                 throw new ArgumentException(message);
             }
 
@@ -76,7 +75,7 @@ namespace AutoFixture.TUnit.Internal
             {
                 FieldInfo fieldInfo => new FieldDataSource(fieldInfo),
                 PropertyInfo propertyInfo => new PropertyDataSource(propertyInfo),
-                MethodInfo methodInfo => new MethodDataSource(methodInfo, this._arguments),
+                MethodInfo methodInfo => new MethodDataSource(methodInfo, _arguments),
                 _ => throw new InvalidOperationException("Unsupported member type.")
             };
         }
@@ -84,7 +83,7 @@ namespace AutoFixture.TUnit.Internal
         /// <inheritdoc/>
         public IEnumerable<object?[]?> GetData(DataGeneratorMetadata dataGeneratorMetadata)
         {
-            return this.Source.GenerateDataSources(dataGeneratorMetadata).Select(x => x());
+            return Source.GenerateDataSources(dataGeneratorMetadata).Select(x => x());
         }
     }
 }

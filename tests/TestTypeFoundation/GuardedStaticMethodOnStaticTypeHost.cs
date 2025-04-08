@@ -4,7 +4,10 @@ namespace TestTypeFoundation
     {
         public static void Method(object argument)
         {
-            if (argument == null) throw new ArgumentNullException(nameof(argument));
+            if (argument == null)
+            {
+                throw new ArgumentNullException(nameof(argument));
+            }
         }
     }
 }

@@ -7,3 +7,15 @@ indent_style = space
 [*.{sln,csproj,fsproj,config,xml,props}]
 indent_size = 2
 indent_style = space
+
+[*]
+
+# Microsoft .NET properties
+csharp_new_line_before_members_in_object_initializers = false
+csharp_preferred_modifier_order = public, private, protected, internal, file, static, new, abstract, virtual, sealed, readonly, override, extern, unsafe, volatile, async, required:suggestion
+
+# ReSharper properties
+resharper_blank_lines_around_auto_property = 1
+resharper_blank_lines_around_field = 1
+resharper_blank_lines_around_property = 1
+resharper_braces_for_ifelse = required

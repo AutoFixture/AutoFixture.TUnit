@@ -157,7 +157,7 @@ public class ArgumentsAutoDataAttributeTests
     [ArgumentsAutoData("\t\r\n")]
     [ArgumentsAutoData(" ")]
     [ArgumentsAutoData("")]
-    [ArgumentsAutoData([null])]
+    [ArgumentsAutoData([null!])]
     public async Task InjectsInlineValues([Frozen] object a,
         [Frozen] PropertyHolder<object> value,
         PropertyHolder<object> frozen)

@@ -1,4 +1,5 @@
-﻿using AutoFixture.Kernel;
+﻿using System.Collections;
+using AutoFixture.Kernel;
 using AutoFixture.TUnit.Tests.TestTypes;
 using TestTypeFoundation;
 using TUnit.Assertions.AssertConditions.Throws;
@@ -104,7 +105,7 @@ public class ClassAutoDataAttributeTests
     }
 
     [Test]
-    public async Task GetDataDoesNotThrow()
+    public void GetDataDoesNotThrow()
     {
         // Arrange
         var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
@@ -282,9 +283,9 @@ public class ClassAutoDataAttributeTests
             .GetMethod(nameof(ExampleTestClass<string, string, string[], RecordType<string>>.TestMethod));
         var expected = new[]
         {
-            new object[] { null, null, null, null },
-            new object[] { string.Empty, null, null, null },
-            new object[] { null, "  ", null, null },
+            new object[] { null!, null!, null!, null! },
+            new object[] { string.Empty, null!, null!, null! },
+            new object[] { null!, "  ", null!, null! },
         };
 
         // Act
@@ -300,14 +301,14 @@ public class ClassAutoDataAttributeTests
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return [null, null, null, null];
-            yield return [string.Empty, null, null, null];
-            yield return [null, "  ", null, null];
+            yield return [null!, null!, null!, null!];
+            yield return [string.Empty, null!, null!, null!];
+            yield return [null!, "  ", null!, null!];
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
     }
 }

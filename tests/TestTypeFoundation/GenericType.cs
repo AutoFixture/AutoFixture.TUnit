@@ -10,7 +10,7 @@ namespace TestTypeFoundation
                 throw new ArgumentNullException(nameof(t));
             }
 
-            this.Value = t;
+            Value = t;
         }
 
         private T Value { get; }

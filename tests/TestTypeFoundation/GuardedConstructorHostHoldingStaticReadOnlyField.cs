@@ -12,7 +12,7 @@
                 throw new ArgumentNullException(nameof(item));
             }
 
-            this.Item = item;
+            Item = item;
         }
 
         public TItem Item { get; private set; }

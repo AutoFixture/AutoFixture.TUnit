@@ -389,9 +389,9 @@ public class MemberAutoDataAttributeTest
     {
         get
         {
-            yield return [null, null];
-            yield return [string.Empty, null];
-            yield return [" ", null];
+            yield return [null!, null!];
+            yield return [string.Empty, null!];
+            yield return [" ", null!];
         }
     }
 

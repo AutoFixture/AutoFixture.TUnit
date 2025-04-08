@@ -19,7 +19,7 @@ namespace AutoFixture.TUnit.Internal
         /// <param name="arguments">The source method arguments.</param>
         public MethodDataSource(MethodInfo methodInfo, params object[] arguments)
         {
-            this.MethodInfo = methodInfo ?? throw new ArgumentNullException(nameof(methodInfo));
+            MethodInfo = methodInfo ?? throw new ArgumentNullException(nameof(methodInfo));
             this._arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
         }
 
@@ -31,12 +31,12 @@ namespace AutoFixture.TUnit.Internal
         /// <summary>
         /// Gets the source method arguments.
         /// </summary>
-        public IReadOnlyList<object> Arguments => Array.AsReadOnly(this._arguments);
+        public IReadOnlyList<object> Arguments => Array.AsReadOnly(_arguments);
 
         /// <inheritdoc/>
         public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
         {
-            var value = this.MethodInfo.Invoke(null, this._arguments);
+            var value = MethodInfo.Invoke(null, _arguments);
             if (value is not IEnumerable<object[]> enumerable)
             {
                 throw new InvalidCastException("Member does not return an enumerable value.");

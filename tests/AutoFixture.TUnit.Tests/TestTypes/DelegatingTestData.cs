@@ -16,7 +16,7 @@ public class DelegatingTestData : IEnumerable<object[]>
         this._data = data as List<object[]> ?? data.ToList();
     }
 
-    public IEnumerator<object[]> GetEnumerator() => this._data.GetEnumerator();
+    public IEnumerator<object[]> GetEnumerator() => _data.GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

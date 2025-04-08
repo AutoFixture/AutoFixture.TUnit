@@ -51,7 +51,7 @@ public class CompositeDataAttributeTest
         // Arrange
         // Act & assert
         Assert.Throws<ArgumentNullException>(
-            () => new CompositeDataAttribute((IReadOnlyCollection<AutoFixtureDataSourceAttribute>)null));
+            () => new CompositeDataAttribute((IReadOnlyCollection<AutoFixtureDataSourceAttribute>)null!));
     }
 
     [Test]
@@ -81,7 +81,7 @@ public class CompositeDataAttributeTest
         // Arrange
         var sut = new CompositeDataAttribute();
         // Act & assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null, null!))
+        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null!, null!))
             .Select(x => x()).ToArray()).ThrowsException();
     }
 

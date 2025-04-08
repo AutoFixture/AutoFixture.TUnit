@@ -19,7 +19,7 @@ namespace AutoFixture.TUnit.Internal
         /// <exception cref="ArgumentNullException">Thrown when arguments are <see langword="null" />.</exception>
         public ClassDataSource(Type type, params object[] parameters)
         {
-            this.Type = type ?? throw new ArgumentNullException(nameof(type));
+            Type = type ?? throw new ArgumentNullException(nameof(type));
             this._parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
         }
 
@@ -31,16 +31,16 @@ namespace AutoFixture.TUnit.Internal
         /// <summary>
         /// Gets the constructor parameters for test data source type.
         /// </summary>
-        public IReadOnlyList<object> Parameters => Array.AsReadOnly(this._parameters);
+        public IReadOnlyList<object> Parameters => Array.AsReadOnly(_parameters);
 
         /// <inheritdoc/>
         public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
         {
-            var instance = Activator.CreateInstance(type: this.Type, args: this._parameters);
+            var instance = Activator.CreateInstance(type: Type, args: _parameters);
 
             if (instance is not IEnumerable<object[]> enumerable)
             {
-                throw new InvalidOperationException($"Data source type \"{this.Type}\" should implement the \"{typeof(IEnumerable<object>)}\" interface.");
+                throw new InvalidOperationException($"Data source type \"{Type}\" should implement the \"{typeof(IEnumerable<object>)}\" interface.");
             }
 
             return enumerable;

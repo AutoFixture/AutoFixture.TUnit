@@ -9,7 +9,7 @@ namespace TestTypeFoundation
         {
             get
             {
-                return this._property;
+                return _property;
             }
 
             set
@@ -19,7 +19,7 @@ namespace TestTypeFoundation
                     throw new ArgumentNullException(nameof(value));
                 }
 
-                this._property = value;
+                _property = value;
             }
         }
     }

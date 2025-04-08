@@ -29,8 +29,8 @@ namespace AutoFixture.TUnit
         /// <exception cref="ArgumentNullException"></exception>
         protected ArgumentsAutoDataAttribute(Func<IFixture> fixtureFactory, params object[] values)
         {
-            this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
-            this.Values = values ?? new object[] { null };
+            FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
+            Values = values ?? new object[] { null };
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace AutoFixture.TUnit
         /// <inheritdoc />
         public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
         {
-            return new AutoDataSource(this.FixtureFactory, new InlineDataSource(this.Values))
+            return new AutoDataSource(FixtureFactory, new InlineDataSource(Values))
                 .GenerateDataSources(dataGeneratorMetadata)
                 .Select(x => x());
         }

@@ -12,7 +12,7 @@ public class ClassDataSourceTests
     public async Task SutIsTestDataSource()
     {
         // Arrange & Act
-        var sut = new ClassDataSource(typeof(object), Array.Empty<object>());
+        var sut = new ClassDataSource(typeof(object));
 
         // Assert
         await Assert.That(sut).IsAssignableTo<IDataSource>();
@@ -22,7 +22,7 @@ public class ClassDataSourceTests
     public async Task ConstructorWithNullTypeThrows()
     {
         // Act & Assert
-        await Assert.That(() => _ = new ClassDataSource(null!, Array.Empty<object>())).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => _ = new ClassDataSource(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -37,7 +37,7 @@ public class ClassDataSourceTests
     {
         // Arrange
         var expected = typeof(object);
-        var sut = new ClassDataSource(expected, Array.Empty<object>());
+        var sut = new ClassDataSource(expected);
 
         // Act
         var result = sut.Type;
@@ -64,7 +64,7 @@ public class ClassDataSourceTests
     public async Task ThrowsWhenSourceIsNotEnumerable()
     {
         // Arrange
-        var sut = new ClassDataSource(typeof(object), Array.Empty<object>());
+        var sut = new ClassDataSource(typeof(object));
         var method = typeof(SampleTestType)
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
@@ -82,7 +82,7 @@ public class ClassDataSourceTests
             new object[] { "foo", 2, new RecordType<string>("bar") },
             new object[] { "Han", 3, new RecordType<string>("Solo") }
         };
-        var sut = new ClassDataSource(typeof(TestSourceWithMixedValues), Array.Empty<object>());
+        var sut = new ClassDataSource(typeof(TestSourceWithMixedValues));
         var method = typeof(SampleTestType)
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
@@ -104,7 +104,7 @@ public class ClassDataSourceTests
             yield return ["Han", 3, new RecordType<string>("Solo")];
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
     [Test]

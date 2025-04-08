@@ -62,7 +62,7 @@ public class AutoDataAttributeTest
         _ = new DerivedAutoDataAttribute(() =>
         {
             wasInvoked = true;
-            return null;
+            return null!;
         });
 
         // Assert
@@ -88,8 +88,8 @@ public class AutoDataAttributeTest
         var parameters = method!.GetParameters();
         var expectedResult = new object();
 
-        object actualParameter = null;
-        ISpecimenContext actualContext = null;
+        object actualParameter = null!;
+        ISpecimenContext actualContext = null!;
         var builder = new DelegatingSpecimenBuilder
         {
             OnCreate = (r, c) =>

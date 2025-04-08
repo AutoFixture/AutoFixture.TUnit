@@ -37,7 +37,7 @@ public class DataSourceTests
     public async Task ThrowsWhenNoDataFoundForMethod()
     {
         // Arrange
-        var sut = new DelegatingDataSource { TestData = null };
+        var sut = new DelegatingDataSource { TestData = null! };
         var testMethod = typeof(SampleTestType)
             .GetMethod(nameof(SampleTestType.TestMethodWithSingleParameter));
 
@@ -72,9 +72,9 @@ public class DataSourceTests
         var testData = new[]
         {
             new object[] { "hello", 16, 32.86d },
-            new object[] { null, -1, -20.22 },
+            new object[] { null!, -1, -20.22 },
             new object[] { "one", 2 },
-            new object[] { null },
+            new object[] { null! },
             new object[] { },
         };
         var sut = new DelegatingDataSource { TestData = testData };

@@ -39,7 +39,7 @@ public class ModestAttributeTest
 
         // Assert
         var invoker = await Assert.That(result).IsAssignableTo<ConstructorCustomization>();
-        await Assert.That(invoker.TargetType).IsEqualTo(parameter.ParameterType);
-        await Assert.That(invoker.Query).IsAssignableTo<ModestConstructorQuery>();
+        await Assert.That(invoker?.TargetType).IsEqualTo(parameter.ParameterType);
+        await Assert.That(invoker?.Query).IsAssignableTo<ModestConstructorQuery>();
     }
 }

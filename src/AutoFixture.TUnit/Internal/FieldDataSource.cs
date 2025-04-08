@@ -19,7 +19,7 @@ namespace AutoFixture.TUnit.Internal
         /// </exception>
         public FieldDataSource(FieldInfo fieldInfo)
         {
-            this.FieldInfo = fieldInfo ?? throw new ArgumentNullException(nameof(fieldInfo));
+            FieldInfo = fieldInfo ?? throw new ArgumentNullException(nameof(fieldInfo));
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace AutoFixture.TUnit.Internal
         /// </exception>
         public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
         {
-            var value = this.FieldInfo.GetValue(null);
+            var value = FieldInfo.GetValue(null);
             if (value is not IEnumerable<object[]> enumerable)
             {
                 throw new InvalidCastException("Member does not return an enumerable value.");

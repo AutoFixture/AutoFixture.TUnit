@@ -11,5 +11,5 @@ public class ParameterizedClassData(int p1, string p2, EnumType p3) : IEnumerabl
         yield return [p1, p2, p3];
     }
 
-    IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

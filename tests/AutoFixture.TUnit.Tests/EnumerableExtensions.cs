@@ -50,8 +50,6 @@ internal static class EnumerableExtensions
     /// <returns> An <see cref="IReadOnlyCollection{T}"/> that contains elements of the source sequence.</returns>
     public static IReadOnlyCollection<T> AsReadOnlyCollection<T>(this IEnumerable<T> source)
     {
-        return source is not null
-            ? source as IReadOnlyCollection<T> ?? source.ToArray()
-            : null;
+        return source as IReadOnlyCollection<T> ?? source.ToArray();
     }
 }

@@ -33,7 +33,7 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
     InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Publish) },
     EnableGitHubToken = true,
     ImportSecrets = new[] { Secrets.NuGetApiKey })]
-partial class Build : NukeBuild
+class Build : NukeBuild
 {
     public static int Main() => Execute<Build>(x => x.Compile);
 
@@ -147,7 +147,7 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
             ReportGenerator(_ => _
-                .SetFramework("net5.0")
+                .SetFramework("net8.0")
                 .SetAssemblyFilters("-TestTypeFoundation*")
                 .SetReports(TestResultsDirectory / "**" / "coverage.cobertura.xml")
                 .SetTargetDirectory(ReportsDirectory)

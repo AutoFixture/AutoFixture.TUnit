@@ -6,8 +6,8 @@
 
         public T this[int index]
         {
-            get { return this._items[index]; }
-            set { this._items[index] = value; }
+            get { return _items[index]; }
+            set { _items[index] = value; }
         }
     }
 }

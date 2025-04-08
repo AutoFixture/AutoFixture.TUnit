@@ -20,12 +20,12 @@ namespace TestTypeFoundation
         {
             get
             {
-                return this._propertyIllBehavedSet;
+                return _propertyIllBehavedSet;
             }
 
             set
             {
-                this._propertyIllBehavedSet = default(T);
+                _propertyIllBehavedSet = default(T);
             }
         }
     }

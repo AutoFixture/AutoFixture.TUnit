@@ -14,7 +14,7 @@
                 throw new ArgumentNullException(nameof(types));
             }
 
-            this.Types = types;
+            Types = types;
         }
 
         public IEnumerable<AbstractType> Types { get; }

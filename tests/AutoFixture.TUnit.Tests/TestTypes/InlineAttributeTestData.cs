@@ -16,7 +16,9 @@ internal abstract class InlineAttributeTestData<T>
         object OnCreateParameter(object request, ISpecimenContext context)
         {
             if (request is not ParameterInfo parameterInfo)
+            {
                 throw new InvalidOperationException();
+            }
 
             return parameters
                 .Where(x => x.ParameterName == parameterInfo.Name)

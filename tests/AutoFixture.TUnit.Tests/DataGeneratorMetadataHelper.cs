@@ -39,14 +39,14 @@ public class DataGeneratorMetadataHelper
                     Attributes = type.GetCustomAttributes()
                         .ToArray(),
                     Name = type.Name,
-                    Namespace = null,
+                    Namespace = null!,
                     Parameters = [],
                     Properties = []
                 },
                 Parameters = sourceGeneratedParameterInformations,
                 ReturnType = typeof(void),
             },
-            TestClassInstance = null,
+            TestClassInstance = null!,
             ClassInstanceArguments = []
         };
     }

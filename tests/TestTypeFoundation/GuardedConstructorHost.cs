@@ -10,7 +10,7 @@
                 throw new ArgumentNullException(nameof(item));
             }
 
-            this.Item = item;
+            Item = item;
         }
 
         public T Item { get; }

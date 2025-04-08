@@ -19,8 +19,8 @@
                 throw new ArgumentNullException(nameof(text));
             }
 
-            this.Text = text;
-            this.Number = number;
+            Text = text;
+            Number = number;
         }
 
         public string Text { get; }
@@ -36,8 +36,8 @@
                     throw new ArgumentNullException(nameof(text));
                 }
 
-                this.Text = text;
-                this.Number = number;
+                Text = text;
+                Number = number;
             }
 
             public string Text { get; }

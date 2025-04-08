@@ -116,9 +116,9 @@ public class PropertyDataSourceTests
         // Arrange
         var expected = new[]
         {
-            new object[] { null, 1, null },
-            new object[] { null, 2, null },
-            new object[] { null, 3, null }
+            new object[] { null!, 1, null! },
+            new object[] { null!, 2, null! },
+            new object[] { null!, 3, null! }
         };
         var sourceProperty = typeof(PropertyDataSourceTests)
             .GetProperty(nameof(TestDataPropertyWithNullValues));
@@ -137,8 +137,8 @@ public class PropertyDataSourceTests
 
     public static IEnumerable<object[]> TestDataPropertyWithNullValues =>
     [
-        [null, 1, null],
-        [null, 2, null],
-        [null, 3, null]
+        [null!, 1, null!],
+        [null!, 2, null!],
+        [null!, 3, null!]
     ];
 }

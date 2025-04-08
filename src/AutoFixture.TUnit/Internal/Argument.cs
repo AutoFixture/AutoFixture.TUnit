@@ -6,6 +6,6 @@ namespace AutoFixture.TUnit.Internal
 
         public object Value { get; } = value;
 
-        public ICustomization GetCustomization() => this.Parameter.GetCustomization(this.Value);
+        public ICustomization GetCustomization() => Parameter.GetCustomization(Value);
     }
 }

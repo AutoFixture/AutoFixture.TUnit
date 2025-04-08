@@ -34,14 +34,17 @@ namespace AutoFixture.TUnit
         /// <summary>
         /// Gets the attributes supplied through one of the constructors.
         /// </summary>
-        public IReadOnlyList<AutoFixtureDataSourceAttribute> Attributes => Array.AsReadOnly(this._attributes);
+        public IReadOnlyList<AutoFixtureDataSourceAttribute> Attributes => Array.AsReadOnly(_attributes);
 
         /// <inheritdoc />
         public override IEnumerable<object[]> GetData(DataGeneratorMetadata metadata)
         {
-            if (metadata is null) throw new ArgumentNullException(nameof(metadata));
+            if (metadata is null)
+            {
+                throw new ArgumentNullException(nameof(metadata));
+            }
 
-            var results = this._attributes
+            var results = _attributes
                 .Select(attr => attr.GenerateDataSources(metadata))
                 .ToArray();
 

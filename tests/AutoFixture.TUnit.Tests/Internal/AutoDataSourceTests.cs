@@ -150,7 +150,7 @@ public class AutoDataSourceTests
     public async Task ThrowsWhenSourceReturnsNull()
     {
         // Arrange
-        var source = new DelegatingDataSource { TestData = null };
+        var source = new DelegatingDataSource { TestData = null! };
         var fixture = new DelegatingFixture();
         var sut = new AutoDataSource(() => fixture, source);
         var method = typeof(SampleTestType)

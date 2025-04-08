@@ -17,7 +17,7 @@ namespace AutoFixture.TUnit.Internal
         /// <exception cref="ArgumentNullException"></exception>
         public PropertyDataSource(PropertyInfo propertyInfo)
         {
-            this.PropertyInfo = propertyInfo ?? throw new ArgumentNullException(nameof(propertyInfo));
+            PropertyInfo = propertyInfo ?? throw new ArgumentNullException(nameof(propertyInfo));
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace AutoFixture.TUnit.Internal
         /// <inheritdoc/>
         public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
         {
-            var value = this.PropertyInfo.GetValue(null);
+            var value = PropertyInfo.GetValue(null);
 
             if (value is not IEnumerable<object[]> enumerable)
             {

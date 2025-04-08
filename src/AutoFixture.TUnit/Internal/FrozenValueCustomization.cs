@@ -1,4 +1,3 @@
-#nullable enable
 using AutoFixture.Kernel;
 
 namespace AutoFixture.TUnit.Internal
@@ -11,7 +10,7 @@ namespace AutoFixture.TUnit.Internal
         {
             var builder = new FilteringSpecimenBuilder(
                 builder: new FixedBuilder(value),
-                specification: this._specification);
+                specification: _specification);
 
             fixture.Customizations.Insert(0, builder);
         }
