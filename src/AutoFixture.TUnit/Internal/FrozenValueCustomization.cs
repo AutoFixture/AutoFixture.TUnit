@@ -2,7 +2,7 @@ using AutoFixture.Kernel;
 
 namespace AutoFixture.TUnit.Internal;
 
-internal class FrozenValueCustomization(IRequestSpecification specification, object? value) : ICustomization
+internal sealed class FrozenValueCustomization(IRequestSpecification specification, object? value) : ICustomization
 {
     private readonly IRequestSpecification _specification = specification ?? throw new ArgumentNullException(nameof(specification));
 

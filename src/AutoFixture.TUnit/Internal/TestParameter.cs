@@ -2,7 +2,7 @@ using System.Reflection;
 
 namespace AutoFixture.TUnit.Internal;
 
-internal class TestParameter(ParameterInfo parameterInfo)
+internal sealed class TestParameter(ParameterInfo parameterInfo)
 {
     private readonly Lazy<ICustomization> _lazyCustomization = new(
         () => GetCustomization(parameterInfo));

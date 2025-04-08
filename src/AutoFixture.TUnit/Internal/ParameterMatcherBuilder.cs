@@ -181,7 +181,7 @@ public class ParameterMatcherBuilder
                 new Criterion<string>(_parameterInfo.Name, StringComparer.OrdinalIgnoreCase)));
     }
 
-    private class DerivesFromTypeComparer : IEqualityComparer<Type>
+    private sealed class DerivesFromTypeComparer : IEqualityComparer<Type>
     {
         public bool Equals(Type? x, Type? y)
         {

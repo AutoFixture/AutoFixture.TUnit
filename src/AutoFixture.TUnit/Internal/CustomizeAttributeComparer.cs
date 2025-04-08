@@ -1,6 +1,6 @@
 ﻿namespace AutoFixture.TUnit.Internal;
 
-internal class CustomizeAttributeComparer : Comparer<IParameterCustomizationSource>
+internal sealed class CustomizeAttributeComparer : Comparer<IParameterCustomizationSource>
 {
     public override int Compare(IParameterCustomizationSource x, IParameterCustomizationSource y)
     {

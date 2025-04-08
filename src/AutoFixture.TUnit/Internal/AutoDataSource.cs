@@ -34,7 +34,7 @@ public class AutoDataSource : DataSource
     /// <summary>
     /// Returns the combined test data provided by the source and auto-generated values.
     /// </summary>
-    /// <param name="method">The target method for which to provide the arguments.</param>
+    /// <param name="dataGeneratorMetadata">The target method for which to provide the arguments.</param>
     /// <returns>Returns a sequence of argument collections.</returns>
     public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {

@@ -6,7 +6,7 @@ namespace AutoFixture.TUnit.Internal;
 /// <summary>
 /// Specification for identifying requests that match the test parameter by provided criteria.
 /// </summary>
-internal class ParameterFilter : IRequestSpecification
+internal sealed class ParameterFilter : IRequestSpecification
 {
     private readonly IRequestSpecification _matcherSpecification;
 

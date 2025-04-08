@@ -1,6 +1,6 @@
 namespace AutoFixture.TUnit.Internal;
 
-internal class Argument(TestParameter parameter, object? value)
+internal sealed class Argument(TestParameter parameter, object? value)
 {
     public TestParameter Parameter { get; } = parameter ?? throw new ArgumentNullException(nameof(parameter));
 
