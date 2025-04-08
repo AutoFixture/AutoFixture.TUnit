@@ -1,32 +1,31 @@
-namespace TestTypeFoundation
+namespace TestTypeFoundation;
+
+public class RecordType<T>(T value) : IEquatable<RecordType<T>>
 {
-    public class RecordType<T>(T value) : IEquatable<RecordType<T>>
+    public T Value { get; } = value;
+
+    public bool Equals(RecordType<T>? other)
     {
-        public T Value { get; } = value;
-
-        public bool Equals(RecordType<T>? other)
+        if (ReferenceEquals(null, other))
         {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            return EqualityComparer<T>.Default.Equals(this.Value, other.Value);
+            return false;
         }
 
-        public override bool Equals(object? obj)
+        if (ReferenceEquals(this, other))
         {
-            return this.Equals(obj as RecordType<T>);
+            return true;
         }
 
-        public override int GetHashCode()
-        {
-            return EqualityComparer<T>.Default.GetHashCode(this.Value);
-        }
+        return EqualityComparer<T>.Default.Equals(this.Value, other.Value);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return this.Equals(obj as RecordType<T>);
+    }
+
+    public override int GetHashCode()
+    {
+        return EqualityComparer<T>.Default.GetHashCode(this.Value);
     }
 }

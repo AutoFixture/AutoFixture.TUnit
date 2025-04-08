@@ -1,6 +1,5 @@
-﻿namespace TestTypeFoundation
+﻿namespace TestTypeFoundation;
+
+public abstract class AbstractClassWithPublicConstructor
 {
-    public abstract class AbstractClassWithPublicConstructor
-    {
-    }
 }

@@ -1,19 +1,18 @@
-﻿namespace TestTypeFoundation
-{
-    public class TypeWithIndexer
-    {
-        private readonly Dictionary<string, string> dict = new();
+﻿namespace TestTypeFoundation;
 
-        public string this[string index]
+public class TypeWithIndexer
+{
+    private readonly Dictionary<string, string> dict = new();
+
+    public string this[string index]
+    {
+        get
         {
-            get
-            {
-                return this.dict[index];
-            }
-            set
-            {
-                this.dict[index] = value;
-            }
+            return this.dict[index];
+        }
+        set
+        {
+            this.dict[index] = value;
         }
     }
 }

@@ -1,17 +1,16 @@
-﻿namespace TestTypeFoundation
-{
-    public class UnguardedMethodHost
-    {
-        public void ConsumeUnguardedString(string s)
-        {
-        }
+﻿namespace TestTypeFoundation;
 
-        public void ConsumeGuardedGuidAndUnguardedString(Guid g, string s)
+public class UnguardedMethodHost
+{
+    public void ConsumeUnguardedString(string s)
+    {
+    }
+
+    public void ConsumeGuardedGuidAndUnguardedString(Guid g, string s)
+    {
+        if (g == Guid.Empty)
         {
-            if (g == Guid.Empty)
-            {
-                throw new ArgumentException("Guid cannot be empty.", nameof(g));
-            }
+            throw new ArgumentException("Guid cannot be empty.", nameof(g));
         }
     }
 }

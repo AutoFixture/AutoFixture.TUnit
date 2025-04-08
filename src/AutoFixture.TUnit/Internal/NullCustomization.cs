@@ -1,20 +1,19 @@
-namespace AutoFixture.TUnit.Internal
+namespace AutoFixture.TUnit.Internal;
+
+internal sealed class NullCustomization : ICustomization
 {
-    internal sealed class NullCustomization : ICustomization
+    private NullCustomization()
     {
-        private NullCustomization()
-        {
-            // prevent external instantiation
-        }
+        // prevent external instantiation
+    }
 
-        private static readonly Lazy<NullCustomization> LazyInstance = new(
-            () => new NullCustomization(), isThreadSafe: true);
+    private static readonly Lazy<NullCustomization> LazyInstance = new(
+        () => new NullCustomization(), isThreadSafe: true);
 
-        public static NullCustomization Instance => LazyInstance.Value;
+    public static NullCustomization Instance => LazyInstance.Value;
 
-        public void Customize(IFixture fixture)
-        {
-            // intentionally left blank
-        }
+    public void Customize(IFixture fixture)
+    {
+        // intentionally left blank
     }
 }

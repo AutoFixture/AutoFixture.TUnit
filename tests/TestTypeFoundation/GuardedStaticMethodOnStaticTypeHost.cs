@@ -1,13 +1,12 @@
-namespace TestTypeFoundation
+namespace TestTypeFoundation;
+
+public static class GuardedStaticMethodOnStaticTypeHost
 {
-    public static class GuardedStaticMethodOnStaticTypeHost
+    public static void Method(object argument)
     {
-        public static void Method(object argument)
+        if (argument == null)
         {
-            if (argument == null)
-            {
-                throw new ArgumentNullException(nameof(argument));
-            }
+            throw new ArgumentNullException(nameof(argument));
         }
     }
 }

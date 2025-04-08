@@ -1,22 +1,21 @@
 ﻿using System.Reflection;
 
-namespace TestTypeFoundation
+namespace TestTypeFoundation;
+
+public class UnguardedConstructorHost<T>(T item)
 {
-    public class UnguardedConstructorHost<T>(T item)
+    public T Item { get; } = item;
+
+    private static ConstructorInfo GetConstructor()
     {
-        public T Item { get; } = item;
+        var typeInfo = typeof(UnguardedConstructorHost<T>)
+            .GetTypeInfo();
 
-        private static ConstructorInfo GetConstructor()
-        {
-            var typeInfo = typeof(UnguardedConstructorHost<T>)
-                .GetTypeInfo();
+        return typeInfo.DeclaredConstructors.Single();
+    }
 
-            return typeInfo.DeclaredConstructors.Single();
-        }
-
-        public static ParameterInfo GetParameter()
-        {
-            return GetConstructor().GetParameters().Single();
-        }
+    public static ParameterInfo GetParameter()
+    {
+        return GetConstructor().GetParameters().Single();
     }
 }

@@ -1,17 +1,16 @@
-﻿namespace TestTypeFoundation
+﻿namespace TestTypeFoundation;
+
+public class ItemContainer<T>(params T[] items)
 {
-    public class ItemContainer<T>(params T[] items)
+    public ItemContainer(IEnumerable<T> items)
+        : this(items.ToArray())
     {
-        public ItemContainer(IEnumerable<T> items)
-            : this(items.ToArray())
-        {
-        }
-
-        public ItemContainer(IList<T> items)
-            : this(items.ToArray())
-        {
-        }
-
-        public IEnumerable<T> Items { get; } = items;
     }
+
+    public ItemContainer(IList<T> items)
+        : this(items.ToArray())
+    {
+    }
+
+    public IEnumerable<T> Items { get; } = items;
 }
