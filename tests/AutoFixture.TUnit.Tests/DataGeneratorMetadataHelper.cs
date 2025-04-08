@@ -9,14 +9,14 @@ public class DataGeneratorMetadataHelper
     {
         return CreateDataGeneratorMetadata(type.GetMethod(methodName));
     }
-    
+
     public static DataGeneratorMetadata CreateDataGeneratorMetadata(MethodInfo methodInfo)
     {
         var parameters = methodInfo.GetParameters();
         var type = methodInfo.ReflectedType ?? methodInfo.DeclaringType!;
         var methodName = methodInfo.Name;
         var attributes = methodInfo.GetCustomAttributes().ToArray();
-        
+
         var sourceGeneratedParameterInformations = parameters?.Select(CreateParameter).ToArray() ?? [];
 
         return new DataGeneratorMetadata

@@ -51,7 +51,7 @@ partial class Build : NukeBuild
     [Parameter("GitHub auth token", Name = "github-token"), Secret] readonly string GitHubToken;
     [Parameter("Forces the continuous integration build flag")] readonly bool CI;
 
-    [Secret] [Parameter("NuGet API Key (secret)", Name = Secrets.NuGetApiKey)] readonly string NuGetApiKey;
+    [Secret][Parameter("NuGet API Key (secret)", Name = Secrets.NuGetApiKey)] readonly string NuGetApiKey;
     readonly string NuGetSource = "https://api.nuget.org/v3/index.json";
 
     IEnumerable<Project> Excluded => new[]

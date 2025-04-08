@@ -59,8 +59,8 @@ public class InlineDataSourceTests
         // Act & Assert
         await Assert.That(() =>
             sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod))
-                .Select(x => x()).ToArray()
-        ).ThrowsExactly<InvalidOperationException>();
+                .Select(x => x()).ToArray())
+        .ThrowsExactly<InvalidOperationException>();
     }
 
     [Test]

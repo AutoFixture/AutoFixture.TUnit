@@ -109,8 +109,7 @@ public class MemberAutoDataAttributeTest
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentException>(
-            () => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray()
-        );
+            () => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray());
 
         await Assert.That(ex.Message).Contains(memberName);
     }
@@ -125,8 +124,7 @@ public class MemberAutoDataAttributeTest
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentException>(
-            () => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray()
-        );
+            () => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray());
 
         await Assert.That(ex.Message).Contains(memberName);
     }

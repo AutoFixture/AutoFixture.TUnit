@@ -74,7 +74,7 @@ public class PropertyDataSourceTests
 
         // Act & Assert
         await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
-            
+
             .ToArray()).ThrowsExactly<InvalidCastException>();
     }
 

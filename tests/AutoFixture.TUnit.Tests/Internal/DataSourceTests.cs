@@ -93,8 +93,7 @@ public class DataSourceTests
             .All()
             .Satisfy(
                 assert => assert.Satisfies(y => y.Length,
-                    y => y.IsBetween(0, 3).WithInclusiveBounds())
-            );
+                    y => y.IsBetween(0, 3).WithInclusiveBounds()));
     }
 
     [Test]
