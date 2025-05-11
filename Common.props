@@ -38,7 +38,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <GlobalAnalyzerConfigFiles Include="$(MSBuildThisFileDirectory)/AutoFixture.globalconfig" />
+    <GlobalAnalyzerConfigFiles Include="$(MSBuildThisFileDirectory)/AutoFixture.TUnit.globalconfig" />
   </ItemGroup>
 
   <ItemGroup>
