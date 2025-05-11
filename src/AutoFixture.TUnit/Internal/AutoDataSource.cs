@@ -1,5 +1,3 @@
-using AutoFixture.TUnit.Extensions;
-
 namespace AutoFixture.TUnit.Internal;
 
 /// <summary>

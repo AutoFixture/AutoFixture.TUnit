@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using TUnit.Core.Enums;
 
-namespace AutoFixture.TUnit.Extensions;
+namespace AutoFixture.TUnit.Internal;
 
 internal static class DataGeneratorMetadataExtensions
 {

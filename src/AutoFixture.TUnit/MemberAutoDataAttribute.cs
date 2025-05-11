@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using AutoFixture.TUnit.Extensions;
 using AutoFixture.TUnit.Internal;
 
 namespace AutoFixture.TUnit;
