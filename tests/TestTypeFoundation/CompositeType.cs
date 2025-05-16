@@ -14,7 +14,7 @@ public class CompositeType : AbstractType
             throw new ArgumentNullException(nameof(types));
         }
 
-        Types = types;
+        this.Types = types;
     }
 
     public IEnumerable<AbstractType> Types { get; }

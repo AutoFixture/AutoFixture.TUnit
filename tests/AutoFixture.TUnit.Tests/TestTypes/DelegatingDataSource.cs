@@ -4,10 +4,10 @@ namespace AutoFixture.TUnit.Tests.TestTypes;
 
 public class DelegatingDataSource : AutoFixtureDataSourceAttribute, IDataSource
 {
-    public IEnumerable<object?[]> TestData { get; set; } = Array.Empty<object?[]>();
+    public IEnumerable<object[]> TestData { get; set; } = Array.Empty<object[]>();
 
-    public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
-        return TestData;
+        return this.TestData;
     }
 }

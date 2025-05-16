@@ -2,21 +2,21 @@
 
 namespace AutoFixture.TUnit.Tests.TestTypes;
 
-public class DelegatingTestData : IEnumerable<object?[]>
+public class DelegatingTestData : IEnumerable<object[]>
 {
-    private readonly List<object?[]> _data;
+    private readonly List<object[]> data;
 
-    public DelegatingTestData(params object?[][] data)
+    public DelegatingTestData(params object[][] data)
     {
-        this._data = data.ToList();
+        this.data = data.ToList();
     }
 
-    public DelegatingTestData(IEnumerable<object?[]> data)
+    public DelegatingTestData(IEnumerable<object[]> data)
     {
-        this._data = data as List<object?[]> ?? data.ToList();
+        this.data = data as List<object[]> ?? data.ToList();
     }
 
-    public IEnumerator<object?[]> GetEnumerator() => _data.GetEnumerator();
+    public IEnumerator<object[]> GetEnumerator() => this.data.GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 }

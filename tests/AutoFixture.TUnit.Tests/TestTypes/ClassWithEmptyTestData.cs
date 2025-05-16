@@ -2,14 +2,14 @@
 
 namespace AutoFixture.TUnit.Tests.TestTypes;
 
-public class ClassWithEmptyTestData : IEnumerable<object?[]>
+public class ClassWithEmptyTestData : IEnumerable<object[]>
 {
-    public IEnumerator<object?[]> GetEnumerator()
+    public IEnumerator<object[]> GetEnumerator()
     {
         yield return [];
         yield return [];
         yield return [];
     }
 
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 }

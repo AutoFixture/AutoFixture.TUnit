@@ -2,7 +2,7 @@
 
 internal sealed class CustomizeAttributeComparer : Comparer<IParameterCustomizationSource>
 {
-    public override int Compare(IParameterCustomizationSource x, IParameterCustomizationSource y)
+    public override int Compare(IParameterCustomizationSource? x, IParameterCustomizationSource? y)
     {
         return (x is FrozenAttribute, y is FrozenAttribute) switch
         {

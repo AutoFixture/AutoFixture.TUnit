@@ -34,7 +34,7 @@ public abstract class AutoFixtureDataSourceAttribute : NonTypedDataSourceGenerat
                 yield break;
             }
 
-            var enumerable = GetData(dataGeneratorMetadata)
+            var enumerable = this.GetData(dataGeneratorMetadata)
                              ?? throw new InvalidOperationException("The source member yielded no test data.");
 
             foreach (var testData in enumerable)

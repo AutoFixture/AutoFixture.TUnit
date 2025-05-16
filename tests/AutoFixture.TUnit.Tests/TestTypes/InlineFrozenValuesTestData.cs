@@ -1,12 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace AutoFixture.TUnit.Tests.TestTypes;
 
-internal class InlineFrozenValuesTestData : InlineAttributeTestData<(AutoFixtureDataSourceAttribute attribute, MethodInfo testMethod,
-    object?[] expected)>
+[SuppressMessage("Usage", "TUnit0046:Return a `Func<T>` rather than a `<T>`")]
+internal class InlineFrozenValuesTestData : InlineAttributeTestData<(AutoFixtureDataSourceAttribute attribute, MethodInfo testMethod, object[] expected)>
 {
-    public override IEnumerable<(AutoFixtureDataSourceAttribute attribute, MethodInfo testMethod,
-        object?[] expected)> GetData()
+    public override IEnumerable<(AutoFixtureDataSourceAttribute attribute, MethodInfo testMethod, object[] expected)> GetData()
     {
         // All values provided by fixture
         yield return

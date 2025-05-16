@@ -35,8 +35,8 @@ public class MemberAutoDataAttributeScenarioTests
         await Assert.That(a).IsNotEmpty();
         await Assert.That(string.IsNullOrWhiteSpace(a)).IsFalse();
 
-        await Assert.That(b != default, "Value should not be default").IsTrue();
-        await Assert.That(c != default, "Value should not be default").IsTrue();
+        await Assert.That(b != 0).IsTrue().Because("Value should not be default");
+        await Assert.That(c != 0).IsTrue().Because("Value should not be default");
     }
 
     [Test]
@@ -138,21 +138,21 @@ public class MemberAutoDataAttributeScenarioTests
         await Assert.That(c).IsSameReferenceAs(a);
     }
 
-    public static IEnumerable<object?[]> GetSingleStringValueTestData()
+    public static IEnumerable<object[]> GetSingleStringValueTestData()
     {
         yield return ["test-one"];
         yield return ["test-two"];
         yield return ["test-three"];
     }
 
-    public static IEnumerable<object?[]> GetMultipleValueTestData()
+    public static IEnumerable<object[]> GetMultipleValueTestData()
     {
         yield return ["test-one", 22, 25.7m];
         yield return ["test-two", 75, 228.1m];
         yield return ["test-three", 19, 137.09m];
     }
 
-    public static IEnumerable<object?[]> GetStringValuesTestData()
+    public static IEnumerable<object[]> GetStringValuesTestData()
     {
         yield return ["test-one", "test-uno"];
         yield return ["test-two", "test-dos"];

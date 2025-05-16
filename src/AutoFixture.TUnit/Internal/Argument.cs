@@ -1,10 +1,16 @@
 namespace AutoFixture.TUnit.Internal;
 
-internal sealed class Argument(TestParameter parameter, object? value)
+internal sealed class Argument
 {
-    public TestParameter Parameter { get; } = parameter ?? throw new ArgumentNullException(nameof(parameter));
+    public Argument(TestParameter parameter, object? value)
+    {
+        this.Parameter = parameter ?? throw new ArgumentNullException(nameof(parameter));
+        this.Value = value;
+    }
 
-    public object? Value { get; } = value;
+    public TestParameter Parameter { get; }
 
-    public ICustomization GetCustomization() => Parameter.GetCustomization(Value);
+    public object? Value { get; }
+
+    public ICustomization GetCustomization() => this.Parameter.GetCustomization(this.Value);
 }

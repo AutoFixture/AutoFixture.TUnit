@@ -19,7 +19,7 @@ public class PropertyDataSourceTests
         await Assert.That(sut).IsAssignableTo<IDataSource>();
     }
 
-    public static IEnumerable<object?[]> TestDataPropertyWithMixedValues =>
+    public static IEnumerable<object[]> TestDataPropertyWithMixedValues =>
     [
         ["hello", 1, new PropertyHolder<string> { Property = "world" }],
         ["foo", 2, new PropertyHolder<string> { Property = "bar" }],
@@ -84,9 +84,9 @@ public class PropertyDataSourceTests
         // Arrange
         var expected = new[]
         {
-            new object?[] { "hello", 1, new RecordType<string>("world") },
-            new object?[] { "foo", 2, new RecordType<string>("bar") },
-            new object?[] { "Han", 3, new RecordType<string>("Solo") }
+            new object[] { "hello", 1, new RecordType<string>("world") },
+            new object[] { "foo", 2, new RecordType<string>("bar") },
+            new object[] { "Han", 3, new RecordType<string>("Solo") }
         };
         var sourceProperty = typeof(PropertyDataSourceTests)
             .GetProperty(nameof(TestDataPropertyWithRecordValues));
@@ -103,7 +103,7 @@ public class PropertyDataSourceTests
         await Assert.That(result).IsEquivalentTo(expected);
     }
 
-    public static IEnumerable<object?[]> TestDataPropertyWithRecordValues =>
+    public static IEnumerable<object[]> TestDataPropertyWithRecordValues =>
     [
         ["hello", 1, new RecordType<string>("world")],
         ["foo", 2, new RecordType<string>("bar")],
@@ -116,9 +116,9 @@ public class PropertyDataSourceTests
         // Arrange
         var expected = new[]
         {
-            new object?[] { null!, 1, null! },
-            new object?[] { null!, 2, null! },
-            new object?[] { null!, 3, null! }
+            new object[] { null!, 1, null! },
+            new object[] { null!, 2, null! },
+            new object[] { null!, 3, null! }
         };
         var sourceProperty = typeof(PropertyDataSourceTests)
             .GetProperty(nameof(TestDataPropertyWithNullValues));
@@ -135,7 +135,7 @@ public class PropertyDataSourceTests
         await Assert.That(result).IsEquivalentTo(expected);
     }
 
-    public static IEnumerable<object?[]> TestDataPropertyWithNullValues =>
+    public static IEnumerable<object[]> TestDataPropertyWithNullValues =>
     [
         [null!, 1, null!],
         [null!, 2, null!],

@@ -9,9 +9,9 @@ public class MemberDataSourceTests
     public static object NonTestDataField = new();
     public static object NonTestDataProperty => new();
     public static object NonTestDataMethod() => new();
-    public static IEnumerable<object?[]> EmptyTestDataField = Array.Empty<object?[]>();
-    public static IEnumerable<object?[]> EmptyTestData => Array.Empty<object?[]>();
-    public static IEnumerable<object?[]> GetEmptyTestData() => Array.Empty<object?[]>();
+    public static IEnumerable<object[]> EmptyTestDataField = Array.Empty<object[]>();
+    public static IEnumerable<object[]> EmptyTestData => Array.Empty<object[]>();
+    public static IEnumerable<object[]> GetEmptyTestData() => Array.Empty<object[]>();
 
     [Test]
     public async Task SutIsTestDataSource()

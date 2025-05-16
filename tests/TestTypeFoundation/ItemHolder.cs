@@ -20,8 +20,8 @@ public class ItemHolder<T1, T2>
 
     private ItemHolder(T1[] t1S, T2[] t2S)
     {
-        Item1S = t1S;
-        Item2S = t2S;
+        this.Item1S = t1S;
+        this.Item2S = t2S;
     }
 
     public IEnumerable<T1> Item1S { get; }
@@ -55,7 +55,7 @@ public class ItemHolder<T>
 
     private ItemHolder(T[] items)
     {
-        Items = items;
+        this.Items = items;
     }
 
     public IEnumerable<T> Items { get; }

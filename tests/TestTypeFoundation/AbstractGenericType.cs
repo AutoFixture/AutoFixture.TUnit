@@ -1,6 +1,11 @@
 namespace TestTypeFoundation;
 
-public abstract class AbstractGenericType<T>(T t)
+public abstract class AbstractGenericType<T>
 {
-    public T Value { get; } = t;
+    protected AbstractGenericType(T value)
+    {
+        this.Value = value;
+    }
+
+    public T Value { get; }
 }

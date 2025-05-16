@@ -27,7 +27,7 @@ public class MemberAutoDataAttributeTest
     {
         // Arrange
         var memberName = Guid.NewGuid().ToString();
-        var parameters = new object?[] { "value-one", 3, 12.2f };
+        var parameters = new object[] { "value-one", 3, 12.2f };
 
         // Act
         var sut = new MemberAutoDataAttribute(memberName, parameters);
@@ -44,7 +44,7 @@ public class MemberAutoDataAttributeTest
     {
         // Arrange
         var memberName = Guid.NewGuid().ToString();
-        var parameters = new object?[] { "value-one", 3, 12.2f };
+        var parameters = new object[] { "value-one", 3, 12.2f };
         var testType = typeof(MemberAutoDataAttributeTest);
 
         // Act
@@ -212,9 +212,9 @@ public class MemberAutoDataAttributeTest
         var testMethod = TestTypeWithMethodData.GetSingleStringValueTestMethodInfo();
         var expected = new[]
         {
-            new object?[] { "value-one" },
-            new object?[] { "value-two" },
-            new object?[] { "value-three" }
+            new object[] { "value-one" },
+            new object[] { "value-two" },
+            new object[] { "value-three" }
         };
 
         // Act
@@ -235,9 +235,9 @@ public class MemberAutoDataAttributeTest
         var testMethod = TestTypeWithMethodData.GetStringTestsFromArgumentMethodInfo();
         var expected = new[]
         {
-            new object?[] { "value-one" },
-            new object?[] { "value-two" },
-            new object?[] { "value-three" }
+            new object[] { "value-one" },
+            new object[] { "value-two" },
+            new object[] { "value-three" }
         };
 
         // Act
@@ -257,9 +257,9 @@ public class MemberAutoDataAttributeTest
         var testMethod = TestTypeWithMethodData.GetMultipleValueTestMethodInfo();
         var expected = new[]
         {
-            new object?[] { "value-one", 12, 23.3m },
-            new object?[] { "value-two", 38, 12.7m },
-            new object?[] { "value-three", 94, 52.21m }
+            new object[] { "value-one", 12, 23.3m },
+            new object[] { "value-two", 38, 12.7m },
+            new object[] { "value-three", 94, 52.21m }
         };
 
         // Act
@@ -314,9 +314,9 @@ public class MemberAutoDataAttributeTest
         var testMethod = TestTypeWithMethodData.GetTestWithFrozenParameter();
         var expected = new[]
         {
-            new object?[] { "value-one", "value-two", "value-two" },
-            new object?[] { "value-two", "value-three", "value-three" },
-            new object?[] { "value-three", "value-one", "value-one" }
+            new object[] { "value-one", "value-two", "value-two" },
+            new object[] { "value-two", "value-three", "value-three" },
+            new object[] { "value-three", "value-one", "value-one" }
         };
 
         // Act
@@ -371,9 +371,9 @@ public class MemberAutoDataAttributeTest
         var testMethod = ChildTestTypeMethodData.GetMultipleValueTestMethodInfo();
         var expected = new[]
         {
-            new object?[] { "value-one", 12, 23.3m },
-            new object?[] { "value-two", 38, 12.7m },
-            new object?[] { "value-three", 94, 52.21m }
+            new object[] { "value-one", 12, 23.3m },
+            new object[] { "value-two", 38, 12.7m },
+            new object[] { "value-three", 94, 52.21m }
         };
 
         // Act
@@ -385,7 +385,7 @@ public class MemberAutoDataAttributeTest
         await Assert.That(testData).IsEquivalentTo(expected);
     }
 
-    public static IEnumerable<object?[]> TestDataWithNullValues
+    public static IEnumerable<object[]> TestDataWithNullValues
     {
         get
         {

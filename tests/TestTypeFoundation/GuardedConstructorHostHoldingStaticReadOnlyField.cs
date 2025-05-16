@@ -12,7 +12,7 @@ public class GuardedConstructorHostHoldingStaticReadOnlyField<TItem, TStaticFiel
             throw new ArgumentNullException(nameof(item));
         }
 
-        Item = item;
+        this.Item = item;
     }
 
     public TItem Item { get; private set; }

@@ -1,6 +1,6 @@
 ﻿namespace TestTypeFoundation;
 
-public class ItemContainer<T>(params T[] items)
+public class ItemContainer<T>
 {
     public ItemContainer(IEnumerable<T> items)
         : this(items.ToArray())
@@ -12,5 +12,10 @@ public class ItemContainer<T>(params T[] items)
     {
     }
 
-    public IEnumerable<T> Items { get; } = items;
+    public ItemContainer(params T[] items)
+    {
+        this.Items = items;
+    }
+
+    public IEnumerable<T> Items { get; }
 }

@@ -15,8 +15,8 @@ public class AutoDataSource : DataSource
     /// </exception>
     public AutoDataSource(Func<IFixture> createFixture, IDataSource? source = default)
     {
-        CreateFixture = createFixture ?? throw new ArgumentNullException(nameof(createFixture));
-        Source = source;
+        this.CreateFixture = createFixture ?? throw new ArgumentNullException(nameof(createFixture));
+        this.Source = source;
     }
 
     /// <summary>
@@ -36,15 +36,15 @@ public class AutoDataSource : DataSource
     /// <returns>Returns a sequence of argument collections.</returns>
     public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
-        return Source is null
-            ? GenerateValues(dataGeneratorMetadata)
-            : CombineValues(dataGeneratorMetadata, Source);
+        return this.Source is null
+            ? this.GenerateValues(dataGeneratorMetadata)
+            : this.CombineValues(dataGeneratorMetadata, this.Source);
     }
 
     private IEnumerable<object?[]> GenerateValues(DataGeneratorMetadata metadata)
     {
         var parameters = Array.ConvertAll(metadata.GetMethod().GetParameters(), TestParameter.From);
-        var fixture = CreateFixture();
+        var fixture = this.CreateFixture();
         yield return Array.ConvertAll(parameters, parameter => GenerateAutoValue(parameter, fixture));
     }
 
@@ -61,7 +61,7 @@ public class AutoDataSource : DataSource
                 .Select(argument => argument.GetCustomization())
                 .Where(x => x is not NullCustomization);
 
-            var fixture = CreateFixture();
+            var fixture = this.CreateFixture();
 
             foreach (var customization in customizations)
             {

@@ -5,7 +5,7 @@ namespace AutoFixture.TUnit.Tests.TestTypes;
 
 public class TestTypeWithMethodData
 {
-    public IEnumerable<object?[]> NonStaticSource()
+    public IEnumerable<object[]> NonStaticSource()
     {
         yield return [new object()];
         yield return [new object()];
@@ -29,7 +29,7 @@ public class TestTypeWithMethodData
             .GetMethod(nameof(NonEnumerableMethod));
     }
 
-    public static IEnumerable<object?[]> TestDataWithNoValues()
+    public static IEnumerable<object[]> TestDataWithNoValues()
     {
         yield return [];
         yield return [];
@@ -49,14 +49,14 @@ public class TestTypeWithMethodData
             .GetMethod(nameof(SingleStringValueTest));
     }
 
-    public static IEnumerable<object?[]> GetSingleStringValueTestData()
+    public static IEnumerable<object[]> GetSingleStringValueTestData()
     {
         yield return ["value-one"];
         yield return ["value-two"];
         yield return ["value-three"];
     }
 
-    public static IEnumerable<object?[]> GetStringTestsFromArgument(string argument)
+    public static IEnumerable<object[]> GetStringTestsFromArgument(string argument)
     {
         yield return [argument + "-one"];
         yield return [argument + "-two"];
@@ -75,8 +75,8 @@ public class TestTypeWithMethodData
         await Assert.That(a).IsNotEmpty();
         await Assert.That(string.IsNullOrWhiteSpace(a)).IsFalse();
 
-        await Assert.That(b != 0, "Value should not be default").IsTrue();
-        await Assert.That(c != 0, "Value should not be default").IsTrue();
+        await Assert.That(b != 0).IsTrue().Because("Value should not be default");
+        await Assert.That(c != 0).IsTrue().Because("Value should not be default");
     }
 
     public static MethodInfo GetMultipleValueTestMethodInfo()
@@ -85,7 +85,7 @@ public class TestTypeWithMethodData
             .GetMethod(nameof(MultipleValueTest));
     }
 
-    public static IEnumerable<object?[]> GetMultipleValueTestData()
+    public static IEnumerable<object[]> GetMultipleValueTestData()
     {
         yield return ["value-one", 12, 23.3m];
         yield return ["value-two", 38, 12.7m];
@@ -102,7 +102,7 @@ public class TestTypeWithMethodData
         await Assert.That(c).IsEqualTo(b);
     }
 
-    public static IEnumerable<object?[]> GetDataForTestWithFrozenParameter()
+    public static IEnumerable<object[]> GetDataForTestWithFrozenParameter()
     {
         yield return ["value-one", "value-two"];
         yield return ["value-two", "value-three"];
@@ -123,7 +123,7 @@ public class TestTypeWithMethodData
         await Assert.That(b).IsSameReferenceAs(a);
     }
 
-    public static IEnumerable<object?[]> GetTestWithComplexTypesData()
+    public static IEnumerable<object[]> GetTestWithComplexTypesData()
     {
         yield return
         [
@@ -148,12 +148,12 @@ public class TestTypeWithMethodData
             .GetMethod(nameof(TestWithComplexTypes));
     }
 
-    public static IEnumerable<object?[]> GetStringValuesTestData()
+    public static IEnumerable<object[]> GetStringValuesTestData()
     {
         yield return ["test-one", "test-uno"];
         yield return ["test-two", "test-dos"];
         yield return ["test-three", "test-tres"];
     }
 
-    public static IEnumerable<object?[]> GetEmptyTestData() => [];
+    public static IEnumerable<object[]> GetEmptyTestData() => [];
 }

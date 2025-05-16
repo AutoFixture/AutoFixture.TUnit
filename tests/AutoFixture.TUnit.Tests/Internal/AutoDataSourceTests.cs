@@ -89,9 +89,9 @@ public class AutoDataSourceTests
         // Assert
         await Assert.That(result).IsNotNull();
         await Assert.That(result.Length).IsEqualTo(3);
-        await Assert.That(result[0]).IsEquivalentTo(new object?[] { "a", 15, 13.3 });
-        await Assert.That(result[1]).IsEquivalentTo(new object?[] { "b", 123, 13.3 });
-        await Assert.That(result[2]).IsEquivalentTo(new object?[] { "c", 999, 13.3 });
+        await Assert.That(result[0]).IsEquivalentTo(new object[] { "a", 15, 13.3 });
+        await Assert.That(result[1]).IsEquivalentTo(new object[] { "b", 123, 13.3 });
+        await Assert.That(result[2]).IsEquivalentTo(new object[] { "c", 999, 13.3 });
     }
 
     [Test]
@@ -121,9 +121,9 @@ public class AutoDataSourceTests
         // Assert
         await Assert.That(result).IsNotNull();
         await Assert.That(result.Length).IsEqualTo(3);
-        await Assert.That(result[0]).IsEquivalentTo(new object?[] { "a", 85, 913.12 });
-        await Assert.That(result[1]).IsEquivalentTo(new object?[] { "b", 519, 73.1 });
-        await Assert.That(result[2]).IsEquivalentTo(new object?[] { "c", 411, 529.6 });
+        await Assert.That(result[0]).IsEquivalentTo(new object[] { "a", 85, 913.12 });
+        await Assert.That(result[1]).IsEquivalentTo(new object[] { "b", 519, 73.1 });
+        await Assert.That(result[2]).IsEquivalentTo(new object[] { "c", 411, 529.6 });
     }
 
     [Test]
@@ -132,7 +132,7 @@ public class AutoDataSourceTests
         // Arrange
         var source = new DelegatingDataSource
         {
-            TestData = Array.Empty<object?[]>(),
+            TestData = Array.Empty<object[]>(),
         };
         var fixture = new DelegatingFixture();
         var sut = new AutoDataSource(() => fixture, source);

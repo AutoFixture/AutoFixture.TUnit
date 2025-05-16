@@ -7,7 +7,7 @@ namespace AutoFixture.TUnit.Tests.Internal;
 
 public class MethodDataSourceTests
 {
-    public static IEnumerable<object?[]> GetTestDataFieldWithMixedValues()
+    public static IEnumerable<object[]> GetTestDataFieldWithMixedValues()
     {
         yield return ["hello", 1, new RecordType<string>("world")];
         yield return ["foo", 2, new RecordType<string>("bar")];
@@ -19,7 +19,7 @@ public class MethodDataSourceTests
     {
         // Arrange
         var methodInfo = typeof(MethodDataSourceTests)
-            .GetMethod(nameof(SutIsTestDataSource));
+            .GetMethod(nameof(this.SutIsTestDataSource));
 
         // Act
         var sut = new MethodDataSource(methodInfo);
@@ -41,7 +41,7 @@ public class MethodDataSourceTests
     {
         // Arrange
         var methodInfo = typeof(MethodDataSourceTests)
-            .GetMethod(nameof(SutIsTestDataSource));
+            .GetMethod(nameof(this.SutIsTestDataSource));
 
         // Act & Assert
         await Assert.That(() =>
@@ -53,7 +53,7 @@ public class MethodDataSourceTests
     {
         // Arrange
         var methodInfo = typeof(MethodDataSourceTests)
-            .GetMethod(nameof(SutIsTestDataSource));
+            .GetMethod(nameof(this.SutIsTestDataSource));
         var arguments = new[] { new object() };
 
         // Act
@@ -70,9 +70,9 @@ public class MethodDataSourceTests
         // Arrange
         var expected = new[]
         {
-            new object?[] { "hello", 1, new RecordType<string>("world") },
-            new object?[] { "foo", 2, new RecordType<string>("bar") },
-            new object?[] { "Han", 3, new RecordType<string>("Solo") }
+            new object[] { "hello", 1, new RecordType<string>("world") },
+            new object[] { "foo", 2, new RecordType<string>("bar") },
+            new object[] { "Han", 3, new RecordType<string>("Solo") }
         };
         var testDataSource = typeof(MethodDataSourceTests)
             .GetMethod(nameof(GetTestDataFieldWithMixedValues));

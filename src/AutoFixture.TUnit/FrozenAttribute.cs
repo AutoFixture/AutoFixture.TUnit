@@ -36,7 +36,7 @@ public class FrozenAttribute : CustomizeAttribute
     /// </param>
     public FrozenAttribute(Matching by)
     {
-        By = by;
+        this.By = by;
     }
 
     /// <summary>
@@ -65,7 +65,7 @@ public class FrozenAttribute : CustomizeAttribute
             throw new ArgumentNullException(nameof(parameter));
         }
 
-        var matcher = new ParameterMatcherBuilder(parameter).SetFlags(By).Build();
+        var matcher = new ParameterMatcherBuilder(parameter).SetFlags(this.By).Build();
 
         return new FreezeOnMatchCustomization(parameter, matcher);
     }

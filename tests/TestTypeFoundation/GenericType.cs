@@ -3,14 +3,9 @@ namespace TestTypeFoundation;
 public class GenericType<T>
     where T : class
 {
-    public GenericType(T t)
+    public GenericType(T value)
     {
-        if (t == null)
-        {
-            throw new ArgumentNullException(nameof(t));
-        }
-
-        Value = t;
+        this.Value = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     private T Value { get; }

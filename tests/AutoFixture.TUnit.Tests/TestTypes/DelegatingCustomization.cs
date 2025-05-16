@@ -4,12 +4,12 @@ internal class DelegatingCustomization : ICustomization
 {
     internal DelegatingCustomization()
     {
-        OnCustomize = _ => { };
+        this.OnCustomize = _ => { };
     }
 
     public void Customize(IFixture fixture)
     {
-        OnCustomize(fixture);
+        this.OnCustomize(fixture);
     }
 
     internal Action<IFixture> OnCustomize { get; set; }

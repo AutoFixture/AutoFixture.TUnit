@@ -13,8 +13,8 @@ public class ChildTestTypeMethodData : TestTypeWithMethodData
         await Assert.That(a).IsNotEmpty();
         await Assert.That(string.IsNullOrWhiteSpace(a)).IsFalse();
 
-        await Assert.That(b != 0, "Value should not be default").IsTrue();
-        await Assert.That(c != 0, "Value should not be default").IsTrue();
+        await Assert.That(b != 0).IsTrue().Because("Value should not be default");
+        await Assert.That(c != 0).IsTrue().Because("Value should not be default");
     }
 
     public static new MethodInfo GetMultipleValueTestMethodInfo()

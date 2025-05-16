@@ -9,7 +9,7 @@ namespace AutoFixture.TUnit.Internal;
     Justification = "Type is not a collection.")]
 public sealed class InlineDataSource : AutoFixtureDataSourceAttribute
 {
-    private readonly object?[] _values;
+    private readonly object?[] values;
 
     /// <summary>
     /// Creates an instance of type <see cref="InlineDataSource" />.
@@ -20,13 +20,13 @@ public sealed class InlineDataSource : AutoFixtureDataSourceAttribute
     /// </exception>
     public InlineDataSource(object?[] values)
     {
-        this._values = values ?? throw new ArgumentNullException(nameof(values));
+        this.values = values ?? throw new ArgumentNullException(nameof(values));
     }
 
     /// <summary>
     /// The collection of inline values.
     /// </summary>
-    public IReadOnlyList<object?> Values => Array.AsReadOnly(_values);
+    public IReadOnlyList<object?> Values => Array.AsReadOnly(this.values);
 
     /// <inheritdoc />
     public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
@@ -37,12 +37,12 @@ public sealed class InlineDataSource : AutoFixtureDataSourceAttribute
         }
 
         var membersToGenerate = dataGeneratorMetadata.MembersToGenerate;
-        if (_values.Length > membersToGenerate.Length)
+        if (this.values.Length > membersToGenerate.Length)
         {
             throw new InvalidOperationException(
                 "The number of arguments provided exceeds the number of parameters.");
         }
 
-        yield return _values;
+        yield return this.values;
     }
 }

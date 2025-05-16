@@ -5,6 +5,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net48;net8.0</TargetFrameworks>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <Choose>

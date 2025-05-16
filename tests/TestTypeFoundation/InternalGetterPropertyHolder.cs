@@ -1,6 +1,11 @@
 ﻿namespace TestTypeFoundation;
 
-public class InternalGetterPropertyHolder<T>(T property)
+public class InternalGetterPropertyHolder<T>
 {
-    public T Property { internal get; set; } = property;
+    public InternalGetterPropertyHolder(T property)
+    {
+        this.Property = property;
+    }
+
+    public T Property { internal get; set; }
 }

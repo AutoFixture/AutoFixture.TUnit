@@ -71,11 +71,11 @@ public class DataSourceTests
         // Arrange
         var testData = new[]
         {
-            new object?[] { "hello", 16, 32.86d },
-            new object?[] { null!, -1, -20.22 },
-            new object?[] { "one", 2 },
-            new object?[] { null! },
-            new object?[] { },
+            new object[] { "hello", 16, 32.86d },
+            new object[] { null!, -1, -20.22 },
+            new object[] { "one", 2 },
+            new object[] { null! },
+            new object[] { },
         };
         var sut = new DelegatingDataSource { TestData = testData };
         var testMethod = typeof(SampleTestType)
@@ -100,7 +100,7 @@ public class DataSourceTests
     public async Task ThrowsWhenTestDataContainsMoreArgumentsThanParameters()
     {
         // Arrange
-        var testData = new[] { new object?[] { "hello", 16, 32.86d, "extra" } };
+        var testData = new[] { new object[] { "hello", 16, 32.86d, "extra" } };
         var sut = new DelegatingDataSource { TestData = testData };
         var testMethod = typeof(SampleTestType)
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));

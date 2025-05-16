@@ -28,8 +28,8 @@ public class ArgumentsAutoDataAttribute : AutoFixtureDataSourceAttribute
     /// <exception cref="ArgumentNullException"></exception>
     protected ArgumentsAutoDataAttribute(Func<IFixture> fixtureFactory, params object?[]? values)
     {
-        FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
-        Values = values ?? [null];
+        this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
+        this.Values = values ?? [null];
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ public class ArgumentsAutoDataAttribute : AutoFixtureDataSourceAttribute
     /// <inheritdoc />
     public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
-        return new AutoDataSource(FixtureFactory, new InlineDataSource(Values))
+        return new AutoDataSource(this.FixtureFactory, new InlineDataSource(this.Values))
             .GenerateDataSources(dataGeneratorMetadata)
             .Select(x => x());
     }

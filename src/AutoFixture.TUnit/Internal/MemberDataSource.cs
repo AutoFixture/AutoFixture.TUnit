@@ -8,7 +8,7 @@ namespace AutoFixture.TUnit.Internal;
 /// </summary>
 public class MemberDataSource : IDataSource
 {
-    private readonly object?[] _arguments;
+    private readonly object?[] arguments;
 
     /// <summary>
     /// Creates an instance of type <see cref="MemberDataSource" />.
@@ -19,10 +19,10 @@ public class MemberDataSource : IDataSource
     /// <exception cref="ArgumentNullException">Thrown when arguments are <see langref="null" />.</exception>
     public MemberDataSource(Type type, string name, params object?[] arguments)
     {
-        Type = type ?? throw new ArgumentNullException(nameof(type));
-        Name = name ?? throw new ArgumentNullException(nameof(name));
-        this._arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
-        Source = GetTestDataSource();
+        this.Type = type ?? throw new ArgumentNullException(nameof(type));
+        this.Name = name ?? throw new ArgumentNullException(nameof(name));
+        this.arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
+        this.Source = this.GetTestDataSource();
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ public class MemberDataSource : IDataSource
     /// <summary>
     /// Gets the arguments provided to the member.
     /// </summary>
-    public IReadOnlyList<object?> Arguments => Array.AsReadOnly(_arguments);
+    public IReadOnlyList<object?> Arguments => Array.AsReadOnly(this.arguments);
 
     /// <summary>
     /// Gets the test data source.
@@ -47,7 +47,7 @@ public class MemberDataSource : IDataSource
 
     private DataSource GetTestDataSource()
     {
-        var sourceMember = Type.GetMember(Name,
+        var sourceMember = this.Type.GetMember(this.Name,
                 MemberTypes.Method | MemberTypes.Field | MemberTypes.Property,
                 BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy)
             .FirstOrDefault();
@@ -56,8 +56,7 @@ public class MemberDataSource : IDataSource
         {
             var message = string.Format(
                 CultureInfo.CurrentCulture,
-                "Could not find public static member (property, field, or method) named '{0}' on {1}",
-                Name, Type.FullName);
+                "Could not find public static member (property, field, or method) named '{0}' on {1}", this.Name, this.Type.FullName);
             throw new ArgumentException(message);
         }
 
@@ -66,8 +65,7 @@ public class MemberDataSource : IDataSource
         {
             var message = string.Format(
                 CultureInfo.CurrentCulture,
-                "Member {0} on {1} does not return IEnumerable<object?[]>",
-                Name, Type.FullName);
+                "Member {0} on {1} does not return IEnumerable<object?[]>", this.Name, this.Type.FullName);
             throw new ArgumentException(message);
         }
 
@@ -75,7 +73,7 @@ public class MemberDataSource : IDataSource
         {
             FieldInfo fieldInfo => new FieldDataSource(fieldInfo),
             PropertyInfo propertyInfo => new PropertyDataSource(propertyInfo),
-            MethodInfo methodInfo => new MethodDataSource(methodInfo, _arguments),
+            MethodInfo methodInfo => new MethodDataSource(methodInfo, this.arguments),
             _ => throw new InvalidOperationException("Unsupported member type.")
         };
     }
@@ -83,6 +81,6 @@ public class MemberDataSource : IDataSource
     /// <inheritdoc/>
     public IEnumerable<object?[]?> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
-        return Source.GenerateDataSources(dataGeneratorMetadata).Select(x => x());
+        return this.Source.GenerateDataSources(dataGeneratorMetadata).Select(x => x());
     }
 }
