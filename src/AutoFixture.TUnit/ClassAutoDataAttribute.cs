@@ -37,22 +37,14 @@ public class ClassAutoDataAttribute : AutoFixtureDataSourceAttribute
     /// that would be complicated or probably impossible to provide using other options.
     /// The missing arguments for the test are being supplied from the Fixture instance.
     /// <code>
-    /// [Theory]
-    /// [CustomAutoClassData(typeof(MyTestData))]
+    /// [Test]
+    /// [ClassAutoData(typeof(MyTestData))]
     /// public void ClassDataSuppliesExtraValues(int sum, int[] numbers, Person client)
     /// {
     ///     var actual = numbers.Sum(x => x);
     ///
     ///     Assert.Equal(sum, actual);
     ///     Assert.NotNull(client);
-    /// }
-    ///
-    /// private class CustomAutoClassData : ClassAutoDataAttribute
-    /// {
-    ///     public CustomAutoClassData(Type sourceType) :
-    ///         base(() => new Fixture(), sourceType)
-    ///     {
-    ///     }
     /// }
     ///
     /// private class MyTestData : IEnumerable&lt;object?[]&gt;
