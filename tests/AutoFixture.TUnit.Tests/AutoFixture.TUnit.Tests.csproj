@@ -5,6 +5,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net48;net8.0</TargetFrameworks>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <Choose>
@@ -18,6 +19,7 @@
   <ItemGroup>
     <PackageReference Include="TUnit" Version="0.19.32" />
     <PackageReference Include="AutoFixture" Version="4.18.1" />
+    <PackageReference Remove="StyleCop.Analyzers" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\AutoFixture.TUnit\AutoFixture.TUnit.csproj" />
+    <ProjectReference Include="..\TestTypeFoundation\TestTypeFoundation.csproj" />
   </ItemGroup>
 
   <ItemGroup>

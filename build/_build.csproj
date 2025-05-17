@@ -12,6 +12,7 @@
     <!-- NETSDK1138: Ignore .NET SDK deprecation notice -->
     <NoWarn>$(NoWarn);NETSDK1138;NU1902;NU1903</NoWarn>
     <Configurations>Debug;Release;Verify</Configurations>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>

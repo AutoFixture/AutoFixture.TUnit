@@ -20,20 +20,20 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
     "continuous",
     GitHubActionsImage.WindowsLatest,
     AutoGenerate = false,
-    OnPullRequestBranches = new[] { MasterBranch, ReleaseBranch },
+    OnPullRequestBranches = [MasterBranch, ReleaseBranch],
     PublishArtifacts = false,
-    InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Pack) },
+    InvokedTargets = [nameof(Verify), nameof(Cover), nameof(Pack)],
     EnableGitHubToken = true)]
 [GitHubActions(
     "release",
     GitHubActionsImage.WindowsLatest,
     AutoGenerate = false,
-    OnPushTags = new[] { "v*" },
+    OnPushTags = ["v*"],
     PublishArtifacts = true,
-    InvokedTargets = new[] { nameof(Verify), nameof(Cover), nameof(Publish) },
+    InvokedTargets = [nameof(Verify), nameof(Cover), nameof(Publish)],
     EnableGitHubToken = true,
-    ImportSecrets = new[] { Secrets.NuGetApiKey })]
-partial class Build : NukeBuild
+    ImportSecrets = [Secrets.NuGetApiKey])]
+class Build : NukeBuild
 {
     public static int Main() => Execute<Build>(x => x.Compile);
 
@@ -43,7 +43,7 @@ partial class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Solution] readonly Solution Solution;
+    [Solution("AutoFixture.TUnit.sln")] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
     [GitVersion] readonly GitVersion GitVersion;
     [CI] readonly GitHubActions GitHubActions;
@@ -51,14 +51,14 @@ partial class Build : NukeBuild
     [Parameter("GitHub auth token", Name = "github-token"), Secret] readonly string GitHubToken;
     [Parameter("Forces the continuous integration build flag")] readonly bool CI;
 
-    [Secret] [Parameter("NuGet API Key (secret)", Name = Secrets.NuGetApiKey)] readonly string NuGetApiKey;
+    [Secret][Parameter("NuGet API Key (secret)", Name = Secrets.NuGetApiKey)] readonly string NuGetApiKey;
     readonly string NuGetSource = "https://api.nuget.org/v3/index.json";
 
-    IEnumerable<Project> Excluded => new[]
-    {
+    IEnumerable<Project> Excluded =>
+    [
         Solution.GetProject("_build"),
         Solution.GetProject("TestTypeFoundation")
-    };
+    ];
 
     IEnumerable<Project> TestProjects => Solution.GetAllProjects("*Tests");
     IEnumerable<Project> Libraries => Solution.Projects.Except(TestProjects).Except(Excluded);
@@ -147,7 +147,7 @@ partial class Build : NukeBuild
         .Executes(() =>
         {
             ReportGenerator(_ => _
-                .SetFramework("net5.0")
+                .SetFramework("net8.0")
                 .SetAssemblyFilters("-TestTypeFoundation*")
                 .SetReports(TestResultsDirectory / "**" / "coverage.cobertura.xml")
                 .SetTargetDirectory(ReportsDirectory)

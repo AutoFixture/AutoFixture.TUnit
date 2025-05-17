@@ -1,16 +1,18 @@
 root = true
 
-[*.{cs,fs,fsx}]
-indent_size = 4
-indent_style = space
-
 [*.{sln,csproj,fsproj,config,xml,props}]
 indent_size = 2
 indent_style = space
 
 [*.cs]
+indent_size = 4
+indent_style = space
+
 # Require "this." keyword qualification in code
 dotnet_style_qualification_for_field = true:suggestion
 dotnet_style_qualification_for_property = true:suggestion
 dotnet_style_qualification_for_method = true:suggestion
 dotnet_style_qualification_for_event = true:suggestion
+
+dotnet_diagnostic.CA1510.severity = suggestion
+dotnet_diagnostic.CA1859.severity = suggestion
