@@ -479,7 +479,7 @@ public class Scenario
         await Assert.That(p.Length == 3).IsTrue();
     }
 
-    [Test, ClassAutoData(typeof(StringDataClass))]
+    [Test, AutoClassDataSource(typeof(StringDataClass))]
     public async Task ClassAutoDataUsesValuesSuppliedByClass(string s1, string s2, string s3)
     {
         await Assert.That(new[] { "foo", "dim" }).Contains(s1);
@@ -487,7 +487,7 @@ public class Scenario
         await Assert.That(s3).IsNotEmpty();
     }
 
-    [Test, ClassAutoData(typeof(StringDataClass))]
+    [Test, AutoClassDataSource(typeof(StringDataClass))]
     public async Task ClassAutoDataSuppliesDataSpecimens(string s1, string s2, string s3, MyClass myClass)
     {
         await Assert.That(s1).IsNotEmpty();
@@ -496,7 +496,7 @@ public class Scenario
         await Assert.That(myClass).IsNotNull();
     }
 
-    [Test, ClassAutoData(typeof(MixedDataClass))]
+    [Test, AutoClassDataSource(typeof(MixedDataClass))]
     public async Task ClassAutoDataSuppliesDataOfMixedTypes(int p1, string p2, PropertyHolder<string> p3, MyClass myClass)
     {
         await Assert.That(p1).IsNotEqualTo(0);
@@ -506,7 +506,7 @@ public class Scenario
         await Assert.That(myClass).IsNotNull();
     }
 
-    [Test, ClassAutoData(typeof(ParameterizedDataClass), 28, "bar", 93.102)]
+    [Test, AutoClassDataSource(typeof(ParameterizedDataClass), 28, "bar", 93.102)]
     public async Task ClassAutoDataCanBeParameterized(int p1, string p2, double p3, RecordType<double> p4)
     {
         var actual = new object[] { p1, p2, p3 };
