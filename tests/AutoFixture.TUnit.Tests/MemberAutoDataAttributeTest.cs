@@ -19,7 +19,7 @@ public class MemberAutoDataAttributeTest
         var sut = new MemberAutoDataAttribute(memberName);
 
         // Assert
-        await Assert.That(sut).IsAssignableTo<AutoFixtureDataSourceAttribute>();
+        await Assert.That(sut).IsAssignableTo<AutoDataSourceAttribute>();
     }
 
     [Test]

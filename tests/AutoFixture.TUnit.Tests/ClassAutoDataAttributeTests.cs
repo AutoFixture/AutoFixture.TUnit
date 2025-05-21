@@ -22,7 +22,7 @@ public class ClassAutoDataAttributeTests
         var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
 
         // Assert
-        await Assert.That(sut).IsAssignableTo<AutoFixtureDataSourceAttribute>();
+        await Assert.That(sut).IsAssignableTo<AutoDataSourceAttribute>();
     }
 
     [Test]

@@ -9,4 +9,4 @@ namespace AutoFixture.TUnit.Internal;
     Justification = "The type is not a collection.")]
 [SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix",
     Justification = "The type is not a collection.")]
-public abstract class DataSource : AutoFixtureDataSourceAttribute, IDataSource;
+public abstract class DataSource : AutoDataSourceAttribute, IDataSource;

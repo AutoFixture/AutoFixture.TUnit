@@ -2,7 +2,7 @@
 
 namespace AutoFixture.TUnit.Tests.TestTypes;
 
-public class DelegatingDataSource : AutoFixtureDataSourceAttribute, IDataSource
+public class DelegatingDataSource : AutoDataSourceAttribute, IDataSource
 {
     public IEnumerable<object[]> TestData { get; set; } = Array.Empty<object[]>();
 

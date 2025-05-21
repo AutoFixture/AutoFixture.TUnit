@@ -13,7 +13,7 @@ namespace AutoFixture.TUnit;
 /// </summary>
 [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
     Justification = "This attribute is the root of a potential attribute hierarchy.")]
-public class MemberAutoDataAttribute : AutoFixtureDataSourceAttribute
+public class MemberAutoDataAttribute : AutoDataSourceAttribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="MemberAutoDataAttribute" /> class.
