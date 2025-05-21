@@ -6,7 +6,7 @@ namespace AutoFixture.TUnit.Tests;
 public class ClassAutoDataScenarioTests
 {
     [Test]
-    [ClassAutoData(typeof(MixedTypeClassData))]
+    [AutoClassDataSource(typeof(MixedTypeClassData))]
     public async Task TestWithMixedTypesPasses(int? a, string b, EnumType? c, Tuple<string, int> d)
     {
         await Assert.That(a).IsNotNull();
@@ -16,7 +16,7 @@ public class ClassAutoDataScenarioTests
     }
 
     [Test]
-    [ClassAutoData(typeof(ParameterizedClassData), 42, "test-13", EnumType.Third)]
+    [AutoClassDataSource(typeof(ParameterizedClassData), 42, "test-13", EnumType.Third)]
     public async Task TestWithParameterizedClassDataReceivesExpectedData(
         int a, string b, EnumType c, PropertyHolder<string> d)
     {
@@ -27,7 +27,7 @@ public class ClassAutoDataScenarioTests
     }
 
     [Test]
-    [ClassAutoData(typeof(ParameterizedClassData), 13, "test-46", EnumType.Second)]
+    [AutoClassDataSource(typeof(ParameterizedClassData), 13, "test-46", EnumType.Second)]
     public async Task TestWithFrozenParametersReceivesExpectedData(
         [Frozen] int a, [Frozen] string b, [Frozen] EnumType c,
         PropertyHolder<int> a1, PropertyHolder<string> b1, PropertyHolder<EnumType> c1)
@@ -42,7 +42,7 @@ public class ClassAutoDataScenarioTests
     }
 
     [Test]
-    [ClassAutoData(typeof(ParameterizedClassData), 59, "hello-world", EnumType.Second)]
+    [AutoClassDataSource(typeof(ParameterizedClassData), 59, "hello-world", EnumType.Second)]
     public async Task TestWithInjectedValuesRespectsOtherParameterCustomizations(
         [Frozen] int a, [Frozen] string b, [Frozen] EnumType c,
         [FavorEnumerables] CompositeTypeWithOverloadedConstructors<int> numbers,

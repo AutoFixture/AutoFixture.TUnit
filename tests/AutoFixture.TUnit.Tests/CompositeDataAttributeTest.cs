@@ -13,7 +13,7 @@ public class CompositeDataAttributeTest
         var sut = new CompositeDataAttribute();
 
         // Assert
-        await Assert.That(sut).IsAssignableTo<AutoFixtureDataSourceAttribute>();
+        await Assert.That(sut).IsAssignableTo<AutoDataSourceAttribute>();
     }
 
     [Test]
@@ -31,7 +31,7 @@ public class CompositeDataAttributeTest
         var a = () => { };
         var method = a.GetMethodInfo();
 
-        var attributes = new AutoFixtureDataSourceAttribute[]
+        var attributes = new AutoDataSourceAttribute[]
         {
             new FakeDataAttribute(method, []),
             new FakeDataAttribute(method, []),
@@ -40,7 +40,7 @@ public class CompositeDataAttributeTest
 
         var sut = new CompositeDataAttribute(attributes);
         // Act
-        IEnumerable<AutoFixtureDataSourceAttribute> result = sut.Attributes;
+        IEnumerable<AutoDataSourceAttribute> result = sut.Attributes;
         // Assert
         await Assert.That(result).IsEquivalentTo(attributes);
     }
@@ -51,7 +51,7 @@ public class CompositeDataAttributeTest
         // Arrange
         // Act & assert
         Assert.Throws<ArgumentNullException>(
-            () => new CompositeDataAttribute((IReadOnlyCollection<AutoFixtureDataSourceAttribute>)null!));
+            () => new CompositeDataAttribute((IReadOnlyCollection<AutoDataSourceAttribute>)null!));
     }
 
     [Test]
@@ -61,7 +61,7 @@ public class CompositeDataAttributeTest
         var a = () => { };
         var method = a.GetMethodInfo();
 
-        var attributes = new AutoFixtureDataSourceAttribute[]
+        var attributes = new AutoDataSourceAttribute[]
         {
             new FakeDataAttribute(method, []),
             new FakeDataAttribute(method, []),

@@ -37,8 +37,8 @@ public class Scenario
     }
 
     [Test]
-    [ArgumentsAutoData("foo")]
-    [ArgumentsAutoData("foo", "bar")]
+    [AutoArguments("foo")]
+    [AutoArguments("foo", "bar")]
     public async Task InlineAutoDataUsesSuppliedDataValues(string s1, string s2)
     {
         await Assert.That(s1).IsEqualTo("foo");
@@ -46,8 +46,8 @@ public class Scenario
     }
 
     [Test]
-    [ArgumentsAutoData("foo")]
-    [ArgumentsAutoData("foo", "bar")]
+    [AutoArguments("foo")]
+    [AutoArguments("foo", "bar")]
     public async Task InlineAutoDataSuppliesDataSpecimens(string s1, string s2, MyClass myClass)
     {
         await Assert.That(s1).IsEqualTo("foo");
@@ -56,8 +56,8 @@ public class Scenario
     }
 
     [Test]
-    [ArgumentsAutoData("foo")]
-    [ArgumentsAutoData("foo", "bar")]
+    [AutoArguments("foo")]
+    [AutoArguments("foo", "bar")]
     public async Task InlineAutoDataSuppliesDataSpecimensOnlyForNonProvidedValues(string s1, string s2, string s3)
     {
         await Assert.That(s1).IsEqualTo("foo");
@@ -83,7 +83,7 @@ public class Scenario
     }
 
     public class MyCustomArgumentsAutoDataAttribute
-        : ArgumentsAutoDataAttribute
+        : AutoArgumentsAttribute
     {
         public MyCustomArgumentsAutoDataAttribute(params object[] values)
             : base(() => new Fixture().Customize(new TheAnswer()), values)
@@ -91,14 +91,14 @@ public class Scenario
         }
     }
 
-    [Test, MemberAutoData(nameof(StringData))]
+    [Test, AutoMemberDataSource(nameof(StringData))]
     public async Task MemberAutoDataUsesSuppliedDataValues(string s1, string s2)
     {
         await Assert.That(s1).IsEqualTo("foo");
         await Assert.That(s2).IsNotNull();
     }
 
-    [Test, MemberAutoData(nameof(StringData))]
+    [Test, AutoMemberDataSource(nameof(StringData))]
     public async Task MemberAutoDataSuppliesDataSpecimens(string s1, string s2, MyClass myClass)
     {
         await Assert.That(s1).IsEqualTo("foo");
@@ -106,7 +106,7 @@ public class Scenario
         await Assert.That(myClass).IsNotNull();
     }
 
-    [Test, MemberAutoData(nameof(StringData))]
+    [Test, AutoMemberDataSource(nameof(StringData))]
     public async Task MemberAutoDataSuppliesDataSpecimensOnlyForNonProvidedValues(string s1, string s2, string s3)
     {
         await Assert.That(s1).IsEqualTo("foo");
@@ -115,7 +115,7 @@ public class Scenario
         await Assert.That(s3).IsNotEqualTo("bar");
     }
 
-    [Test, MemberAutoData(nameof(GetParametrizedData), 21, 38, 43)]
+    [Test, AutoMemberDataSource(nameof(GetParametrizedData), 21, 38, 43)]
     public async Task MemberAutoDataCanBeParametrized(int x, int y, int z)
     {
         await Assert.That(x).IsEqualTo(21);
@@ -123,7 +123,7 @@ public class Scenario
         await Assert.That(z).IsEqualTo(43);
     }
 
-    [Test, MyCustomMemberAutoData(nameof(IntData))]
+    [Test, MyCustomAutoMemberDataSource(nameof(IntData))]
     public async Task CustomMemberAutoDataSuppliesExtraValues(int x, int y, int z)
     {
         await Assert.That(x).IsEqualTo(1337);
@@ -131,7 +131,7 @@ public class Scenario
         await Assert.That(z).IsEqualTo(42);
     }
 
-    [Test, MyCustomMemberAutoData(nameof(GetParametrizedData), 21, 38, 43)]
+    [Test, MyCustomAutoMemberDataSource(nameof(GetParametrizedData), 21, 38, 43)]
     public async Task CustomMemberAutoDataCanBeParametrized(int x, int y, int z)
     {
         await Assert.That(x).IsEqualTo(21);
@@ -163,10 +163,10 @@ public class Scenario
         yield return [x, y, z];
     }
 
-    public class MyCustomMemberAutoDataAttribute
-        : MemberAutoDataAttribute
+    public class MyCustomAutoMemberDataSourceAttribute
+        : AutoMemberDataSourceAttribute
     {
-        public MyCustomMemberAutoDataAttribute(string memberName, params object[] parameters)
+        public MyCustomAutoMemberDataSourceAttribute(string memberName, params object[] parameters)
             : base(() => new Fixture().Customize(new TheAnswer()), memberName, parameters)
         {
         }
@@ -479,7 +479,7 @@ public class Scenario
         await Assert.That(p.Length == 3).IsTrue();
     }
 
-    [Test, ClassAutoData(typeof(StringDataClass))]
+    [Test, AutoClassDataSource(typeof(StringDataClass))]
     public async Task ClassAutoDataUsesValuesSuppliedByClass(string s1, string s2, string s3)
     {
         await Assert.That(new[] { "foo", "dim" }).Contains(s1);
@@ -487,7 +487,7 @@ public class Scenario
         await Assert.That(s3).IsNotEmpty();
     }
 
-    [Test, ClassAutoData(typeof(StringDataClass))]
+    [Test, AutoClassDataSource(typeof(StringDataClass))]
     public async Task ClassAutoDataSuppliesDataSpecimens(string s1, string s2, string s3, MyClass myClass)
     {
         await Assert.That(s1).IsNotEmpty();
@@ -496,7 +496,7 @@ public class Scenario
         await Assert.That(myClass).IsNotNull();
     }
 
-    [Test, ClassAutoData(typeof(MixedDataClass))]
+    [Test, AutoClassDataSource(typeof(MixedDataClass))]
     public async Task ClassAutoDataSuppliesDataOfMixedTypes(int p1, string p2, PropertyHolder<string> p3, MyClass myClass)
     {
         await Assert.That(p1).IsNotEqualTo(0);
@@ -506,7 +506,7 @@ public class Scenario
         await Assert.That(myClass).IsNotNull();
     }
 
-    [Test, ClassAutoData(typeof(ParameterizedDataClass), 28, "bar", 93.102)]
+    [Test, AutoClassDataSource(typeof(ParameterizedDataClass), 28, "bar", 93.102)]
     public async Task ClassAutoDataCanBeParameterized(int p1, string p2, double p3, RecordType<double> p4)
     {
         var actual = new object[] { p1, p2, p3 };

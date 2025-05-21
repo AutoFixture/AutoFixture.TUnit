@@ -5,7 +5,7 @@ using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.Tests;
 
-public class AutoDataAttributeTest
+public class AutoDataSourceAttributeTests
 {
     [Test]
     public async Task SutIsDataAttribute()
@@ -14,7 +14,7 @@ public class AutoDataAttributeTest
         var sut = new AutoDataAttribute();
 
         // Assert
-        await Assert.That(sut).IsAssignableTo<AutoFixtureDataSourceAttribute>();
+        await Assert.That(sut).IsAssignableTo<AutoDataSourceAttribute>();
     }
 
     [Test]
