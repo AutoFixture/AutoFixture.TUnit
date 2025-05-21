@@ -37,8 +37,8 @@ public class Scenario
     }
 
     [Test]
-    [ArgumentsAutoData("foo")]
-    [ArgumentsAutoData("foo", "bar")]
+    [AutoArguments("foo")]
+    [AutoArguments("foo", "bar")]
     public async Task InlineAutoDataUsesSuppliedDataValues(string s1, string s2)
     {
         await Assert.That(s1).IsEqualTo("foo");
@@ -46,8 +46,8 @@ public class Scenario
     }
 
     [Test]
-    [ArgumentsAutoData("foo")]
-    [ArgumentsAutoData("foo", "bar")]
+    [AutoArguments("foo")]
+    [AutoArguments("foo", "bar")]
     public async Task InlineAutoDataSuppliesDataSpecimens(string s1, string s2, MyClass myClass)
     {
         await Assert.That(s1).IsEqualTo("foo");
@@ -56,8 +56,8 @@ public class Scenario
     }
 
     [Test]
-    [ArgumentsAutoData("foo")]
-    [ArgumentsAutoData("foo", "bar")]
+    [AutoArguments("foo")]
+    [AutoArguments("foo", "bar")]
     public async Task InlineAutoDataSuppliesDataSpecimensOnlyForNonProvidedValues(string s1, string s2, string s3)
     {
         await Assert.That(s1).IsEqualTo("foo");
@@ -83,7 +83,7 @@ public class Scenario
     }
 
     public class MyCustomArgumentsAutoDataAttribute
-        : ArgumentsAutoDataAttribute
+        : AutoArgumentsAttribute
     {
         public MyCustomArgumentsAutoDataAttribute(params object[] values)
             : base(() => new Fixture().Customize(new TheAnswer()), values)

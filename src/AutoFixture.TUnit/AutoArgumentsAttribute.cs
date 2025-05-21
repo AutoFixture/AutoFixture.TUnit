@@ -9,24 +9,24 @@ namespace AutoFixture.TUnit;
 /// </summary>
 [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
     Justification = "This attribute is the root of a potential attribute hierarchy.")]
-public class ArgumentsAutoDataAttribute : AutoFixtureDataSourceAttribute
+public class AutoArgumentsAttribute : AutoFixtureDataSourceAttribute
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ArgumentsAutoDataAttribute" /> class.
+    /// Initializes a new instance of the <see cref="AutoArgumentsAttribute" /> class.
     /// </summary>
     /// <param name="values">The data values to pass to the theory.</param>
-    public ArgumentsAutoDataAttribute(params object?[] values)
+    public AutoArgumentsAttribute(params object?[] values)
         : this(() => new Fixture(), values)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ArgumentsAutoDataAttribute" /> class.
+    /// Initializes a new instance of the <see cref="AutoArgumentsAttribute" /> class.
     /// </summary>
     /// <param name="fixtureFactory">The fixture factory.</param>
     /// <param name="values">The data values to pass to the theory.</param>
     /// <exception cref="ArgumentNullException"></exception>
-    protected ArgumentsAutoDataAttribute(Func<IFixture> fixtureFactory, params object?[]? values)
+    protected AutoArgumentsAttribute(Func<IFixture> fixtureFactory, params object?[]? values)
     {
         this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
         this.Values = values ?? [null];
