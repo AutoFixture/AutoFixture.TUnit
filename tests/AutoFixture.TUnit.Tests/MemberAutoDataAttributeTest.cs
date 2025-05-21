@@ -16,7 +16,7 @@ public class MemberAutoDataAttributeTest
         var memberName = Guid.NewGuid().ToString();
 
         // Act
-        var sut = new MemberAutoDataAttribute(memberName);
+        var sut = new AutoMemberDataSourceAttribute(memberName);
 
         // Assert
         await Assert.That(sut).IsAssignableTo<AutoDataSourceAttribute>();
@@ -30,7 +30,7 @@ public class MemberAutoDataAttributeTest
         var parameters = new object[] { "value-one", 3, 12.2f };
 
         // Act
-        var sut = new MemberAutoDataAttribute(memberName, parameters);
+        var sut = new AutoMemberDataSourceAttribute(memberName, parameters);
 
         // Assert
         await Assert.That(sut.MemberName).IsEqualTo(memberName);
@@ -48,7 +48,7 @@ public class MemberAutoDataAttributeTest
         var testType = typeof(MemberAutoDataAttributeTest);
 
         // Act
-        var sut = new MemberAutoDataAttribute(testType, memberName, parameters);
+        var sut = new AutoMemberDataSourceAttribute(testType, memberName, parameters);
 
         // Assert
         await Assert.That(sut.MemberName).IsEqualTo(memberName);
@@ -61,7 +61,7 @@ public class MemberAutoDataAttributeTest
     public async Task ThrowsWhenInitializedWithNullMemberName()
     {
         // Act & Assert
-        await Assert.That(() => new MemberAutoDataAttribute(null!)).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => new AutoMemberDataSourceAttribute(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -71,7 +71,7 @@ public class MemberAutoDataAttributeTest
         var memberName = Guid.NewGuid().ToString();
 
         // Act
-        var actual = new MemberAutoDataAttribute(memberName, null!);
+        var actual = new AutoMemberDataSourceAttribute(memberName, null!);
 
         // Act & Assert
         var value = await Assert.That(actual.Parameters).HasSingleItem();
@@ -85,14 +85,14 @@ public class MemberAutoDataAttributeTest
         var memberName = Guid.NewGuid().ToString();
 
         // Act & Assert
-        _ = new MemberAutoDataAttribute(null!, memberName);
+        _ = new AutoMemberDataSourceAttribute(null!, memberName);
     }
 
     [Test]
     public void ThrowsWhenTestMethodNull()
     {
         // Arrange
-        var sut = new MemberAutoDataAttribute("memberName");
+        var sut = new AutoMemberDataSourceAttribute("memberName");
 
         // Act & Assert
         Assert.Throws<Exception>(
@@ -104,7 +104,7 @@ public class MemberAutoDataAttributeTest
     {
         // Arrange
         var memberName = nameof(TestTypeWithMethodData.NonEnumerableMethod);
-        var sut = new MemberAutoDataAttribute(memberName);
+        var sut = new AutoMemberDataSourceAttribute(memberName);
         var method = TestTypeWithMethodData.GetNonEnumerableMethodInfo();
 
         // Act & Assert
@@ -119,7 +119,7 @@ public class MemberAutoDataAttributeTest
     {
         // Arrange
         const string memberName = nameof(TestTypeWithMethodData.NonStaticSource);
-        var sut = new MemberAutoDataAttribute(memberName);
+        var sut = new AutoMemberDataSourceAttribute(memberName);
         var method = TestTypeWithMethodData.GetNonStaticSourceMethodInfo();
 
         // Act & Assert
@@ -134,7 +134,7 @@ public class MemberAutoDataAttributeTest
     {
         // Arrange
         var memberName = Guid.NewGuid().ToString();
-        var sut = new MemberAutoDataAttribute(typeof(TestTypeWithMethodData), memberName);
+        var sut = new AutoMemberDataSourceAttribute(typeof(TestTypeWithMethodData), memberName);
         var method = TestTypeWithMethodData.GetMultipleValueTestMethodInfo();
 
         // Act & Assert
@@ -153,7 +153,7 @@ public class MemberAutoDataAttributeTest
         var wasInvoked = false;
 
         // Act
-        _ = new DerivedMemberAutoDataAttribute(() =>
+        _ = new DerivedAutoMemberDataSourceAttribute(() =>
         {
             wasInvoked = true;
             return new DelegatingFixture();
@@ -187,7 +187,7 @@ public class MemberAutoDataAttributeTest
             OnCustomize = c => customizationLog.Add(c)
         };
 
-        var sut = new DerivedMemberAutoDataAttribute(
+        var sut = new DerivedAutoMemberDataSourceAttribute(
             () => fixture,
             typeof(TestTypeWithMethodData),
             nameof(TestTypeWithMethodData.TestDataWithNoValues));
@@ -208,7 +208,7 @@ public class MemberAutoDataAttributeTest
     {
         // Arrange
         const string memberName = nameof(TestTypeWithMethodData.GetSingleStringValueTestData);
-        var sut = new MemberAutoDataAttribute(memberName);
+        var sut = new AutoMemberDataSourceAttribute(memberName);
         var testMethod = TestTypeWithMethodData.GetSingleStringValueTestMethodInfo();
         var expected = new[]
         {
@@ -231,7 +231,7 @@ public class MemberAutoDataAttributeTest
     {
         // Arrange
         const string memberName = nameof(TestTypeWithMethodData.GetStringTestsFromArgument);
-        var sut = new MemberAutoDataAttribute(memberName, "value");
+        var sut = new AutoMemberDataSourceAttribute(memberName, "value");
         var testMethod = TestTypeWithMethodData.GetStringTestsFromArgumentMethodInfo();
         var expected = new[]
         {
@@ -253,7 +253,7 @@ public class MemberAutoDataAttributeTest
     {
         // Arrange
         const string memberName = nameof(TestTypeWithMethodData.GetMultipleValueTestData);
-        var sut = new MemberAutoDataAttribute(memberName);
+        var sut = new AutoMemberDataSourceAttribute(memberName);
         var testMethod = TestTypeWithMethodData.GetMultipleValueTestMethodInfo();
         var expected = new[]
         {
@@ -276,7 +276,7 @@ public class MemberAutoDataAttributeTest
     {
         // Arrange
         const string memberName = nameof(TestTypeWithMethodData.GetSingleStringValueTestData);
-        var sut = new MemberAutoDataAttribute(memberName);
+        var sut = new AutoMemberDataSourceAttribute(memberName);
         var testMethod = TestTypeWithMethodData.GetMultipleValueTestMethodInfo();
 
         // Act
@@ -310,7 +310,7 @@ public class MemberAutoDataAttributeTest
     {
         // Arrange
         const string memberName = nameof(TestTypeWithMethodData.GetDataForTestWithFrozenParameter);
-        var sut = new MemberAutoDataAttribute(memberName);
+        var sut = new AutoMemberDataSourceAttribute(memberName);
         var testMethod = TestTypeWithMethodData.GetTestWithFrozenParameter();
         var expected = new[]
         {
@@ -333,7 +333,7 @@ public class MemberAutoDataAttributeTest
     {
         // Arrange
         const string memberName = nameof(TestTypeWithMethodData.GetSingleStringValueTestData);
-        var sut = new MemberAutoDataAttribute(memberName);
+        var sut = new AutoMemberDataSourceAttribute(memberName);
         var testMethod = TestTypeWithMethodData.GetTestWithFrozenParameter();
 
         // Act
@@ -367,7 +367,7 @@ public class MemberAutoDataAttributeTest
     {
         // Arrange
         const string memberName = nameof(TestTypeWithMethodData.GetMultipleValueTestData);
-        var sut = new MemberAutoDataAttribute(memberName);
+        var sut = new AutoMemberDataSourceAttribute(memberName);
         var testMethod = ChildTestTypeMethodData.GetMultipleValueTestMethodInfo();
         var expected = new[]
         {
@@ -396,7 +396,7 @@ public class MemberAutoDataAttributeTest
     }
 
     [Test]
-    [MemberAutoData(nameof(TestDataWithNullValues))]
+    [AutoMemberDataSource(nameof(TestDataWithNullValues))]
     public async Task NullTestDataReturned(string a, string b, PropertyHolder<string> c)
     {
         await Assert.That(string.IsNullOrWhiteSpace(a)).IsTrue();

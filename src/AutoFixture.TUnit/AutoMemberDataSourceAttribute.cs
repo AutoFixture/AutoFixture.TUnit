@@ -13,49 +13,49 @@ namespace AutoFixture.TUnit;
 /// </summary>
 [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
     Justification = "This attribute is the root of a potential attribute hierarchy.")]
-public class MemberAutoDataAttribute : AutoDataSourceAttribute
+public class AutoMemberDataSourceAttribute : AutoDataSourceAttribute
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="MemberAutoDataAttribute" /> class.
+    /// Initializes a new instance of the <see cref="AutoMemberDataSourceAttribute" /> class.
     /// </summary>
     /// <param name="memberName">The name of the public static member on the test class that will provide the test data.</param>
     /// <param name="parameters">The parameters for the member (only supported for methods; ignored for everything else).</param>
-    public MemberAutoDataAttribute(string memberName, params object?[] parameters)
+    public AutoMemberDataSourceAttribute(string memberName, params object?[] parameters)
         : this(() => new Fixture(), memberType: null, memberName, parameters)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MemberAutoDataAttribute" /> class.
+    /// Initializes a new instance of the <see cref="AutoMemberDataSourceAttribute" /> class.
     /// </summary>
     /// <param name="memberType">The type declaring the source member.</param>
     /// <param name="memberName">The name of the public static member on the test class that will provide the test data.</param>
     /// <param name="parameters">The parameters for the member (only supported for methods; ignored for everything else).</param>
-    public MemberAutoDataAttribute(Type? memberType, string memberName, params object?[] parameters)
+    public AutoMemberDataSourceAttribute(Type? memberType, string memberName, params object?[] parameters)
         : this(() => new Fixture(), memberType, memberName, parameters)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MemberAutoDataAttribute" /> class.
+    /// Initializes a new instance of the <see cref="AutoMemberDataSourceAttribute" /> class.
     /// </summary>
     /// <param name="fixtureFactory">The fixture factory delegate.</param>
     /// <param name="memberName">The name of the public static member on the test class that will provide the test data.</param>
     /// <param name="parameters">The parameters for the member (only supported for methods; ignored for everything else).</param>
-    protected MemberAutoDataAttribute(Func<IFixture> fixtureFactory, string memberName, params object?[] parameters)
+    protected AutoMemberDataSourceAttribute(Func<IFixture> fixtureFactory, string memberName, params object?[] parameters)
         : this(fixtureFactory, memberType: null, memberName, parameters)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MemberAutoDataAttribute" /> class.
+    /// Initializes a new instance of the <see cref="AutoMemberDataSourceAttribute" /> class.
     /// </summary>
     /// <param name="fixtureFactory">The fixture factory delegate.</param>
     /// <param name="memberType">The type declaring the source member.</param>
     /// <param name="memberName">The name of the public static member on the test class that will provide the test data.</param>
     /// <param name="parameters">The parameters for the member (only supported for methods; ignored for everything else).</param>
     /// <exception cref="ArgumentNullException">Thrown when arguments are null.</exception>
-    protected MemberAutoDataAttribute(Func<IFixture> fixtureFactory, Type? memberType, string memberName, params object?[]? parameters)
+    protected AutoMemberDataSourceAttribute(Func<IFixture> fixtureFactory, Type? memberType, string memberName, params object?[]? parameters)
     {
         this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
         this.MemberName = memberName ?? throw new ArgumentNullException(nameof(memberName));
