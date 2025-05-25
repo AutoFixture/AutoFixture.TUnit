@@ -7,7 +7,7 @@ namespace AutoFixture.TUnit.Internal;
 /// </summary>
 [SuppressMessage("Design", "CA1010:Generic interface should also be implemented",
     Justification = "Type is not a collection.")]
-public sealed class InlineDataSource : AutoDataSourceAttribute
+public sealed class InlineDataSource : BaseDataSourceAttribute
 {
     private readonly object?[] values;
 

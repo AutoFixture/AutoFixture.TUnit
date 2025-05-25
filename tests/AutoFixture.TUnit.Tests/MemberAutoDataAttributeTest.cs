@@ -19,7 +19,7 @@ public class MemberAutoDataAttributeTest
         var sut = new AutoMemberDataSourceAttribute(memberName);
 
         // Assert
-        await Assert.That(sut).IsAssignableTo<AutoDataSourceAttribute>();
+        await Assert.That(sut).IsAssignableTo<BaseDataSourceAttribute>();
     }
 
     [Test]

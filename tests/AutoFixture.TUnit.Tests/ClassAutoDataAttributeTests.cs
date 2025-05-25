@@ -22,7 +22,7 @@ public class ClassAutoDataAttributeTests
         var sut = new AutoClassDataSourceAttribute(typeof(MixedTypeClassData));
 
         // Assert
-        await Assert.That(sut).IsAssignableTo<AutoDataSourceAttribute>();
+        await Assert.That(sut).IsAssignableTo<BaseDataSourceAttribute>();
     }
 
     [Test]

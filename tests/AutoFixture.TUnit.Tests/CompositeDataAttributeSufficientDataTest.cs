@@ -16,7 +16,7 @@ public class CompositeDataAttributeSufficientDataTest
 
     [Test]
     [MethodDataSource(typeof(CompositeDataAttributeSufficientDataTest), nameof(GetEnumerator))]
-    public async Task GetDataReturnsCorrectResult(IEnumerable<AutoDataSourceAttribute> attributes, IEnumerable<object[]> expectedResult)
+    public async Task GetDataReturnsCorrectResult(IEnumerable<BaseDataSourceAttribute> attributes, IEnumerable<object[]> expectedResult)
     {
         // Arrange
         var attribute = new CompositeDataAttribute(attributes.ToArray());
@@ -30,7 +30,7 @@ public class CompositeDataAttributeSufficientDataTest
         await Assert.That(result).IsEquivalentTo(expectedResult, new CollectionEquivalentToEqualityComparer<object[]>());
     }
 
-    public IEnumerable<(IEnumerable<AutoDataSourceAttribute> Attributes, IEnumerable<object[]> ExpectedResult)> GetEnumerator()
+    public IEnumerable<(IEnumerable<BaseDataSourceAttribute> Attributes, IEnumerable<object[]> ExpectedResult)> GetEnumerator()
     {
         yield return CreateTestData(
             data:
@@ -187,8 +187,8 @@ public class CompositeDataAttributeSufficientDataTest
             ]);
     }
 
-    private static (IEnumerable<AutoDataSourceAttribute> attributes,
-        IEnumerable<object[]> expectedResult) CreateTestData(AutoDataSourceAttribute[] data, object[][] expected)
+    private static (IEnumerable<BaseDataSourceAttribute> attributes,
+        IEnumerable<object[]> expectedResult) CreateTestData(BaseDataSourceAttribute[] data, object[][] expected)
     {
         return (data, expected);
     }

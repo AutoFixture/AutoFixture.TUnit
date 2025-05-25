@@ -14,7 +14,7 @@ public class AutoDataSourceAttributeTests
         var sut = new AutoDataAttribute();
 
         // Assert
-        await Assert.That(sut).IsAssignableTo<AutoDataSourceAttribute>();
+        await Assert.That(sut).IsAssignableTo<BaseDataSourceAttribute>();
     }
 
     [Test]

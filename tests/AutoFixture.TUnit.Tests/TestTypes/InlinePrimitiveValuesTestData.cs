@@ -4,9 +4,9 @@ using System.Reflection;
 namespace AutoFixture.TUnit.Tests.TestTypes;
 
 [SuppressMessage("Usage", "TUnit0046:Return a `Func<T>` rather than a `<T>`")]
-internal class InlinePrimitiveValuesTestData : InlineAttributeTestData<(AutoDataSourceAttribute attribute, MethodInfo testMethod, object[] expected)>
+internal class InlinePrimitiveValuesTestData : InlineAttributeTestData<(BaseDataSourceAttribute attribute, MethodInfo testMethod, object[] expected)>
 {
-    public override IEnumerable<(AutoDataSourceAttribute attribute, MethodInfo testMethod, object[] expected)> GetData()
+    public override IEnumerable<(BaseDataSourceAttribute attribute, MethodInfo testMethod, object[] expected)> GetData()
     {
         // All values provided by fixture
         yield return

@@ -5,7 +5,7 @@ namespace AutoFixture.TUnit;
 /// <summary>
 /// Base class for data sources that provide AutoFixture test data for TUnit data driven tests.
 /// </summary>
-public abstract class AutoDataSourceAttribute : NonTypedDataSourceGeneratorAttribute, IDataSource
+public abstract class BaseDataSourceAttribute : NonTypedDataSourceGeneratorAttribute, IDataSource
 {
     /// <summary>
     /// Returns the test data provided by the source.

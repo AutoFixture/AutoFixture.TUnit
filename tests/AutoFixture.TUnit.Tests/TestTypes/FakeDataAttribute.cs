@@ -2,7 +2,7 @@
 
 namespace AutoFixture.TUnit.Tests.TestTypes;
 
-public class FakeDataAttribute : AutoDataSourceAttribute
+public class FakeDataAttribute : BaseDataSourceAttribute
 {
     private readonly MethodInfo expectedMethod;
     private readonly IEnumerable<object[]> output;

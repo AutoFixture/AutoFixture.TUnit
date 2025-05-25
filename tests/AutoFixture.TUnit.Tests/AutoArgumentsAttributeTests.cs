@@ -13,7 +13,7 @@ public class AutoArgumentsAttributeTests
         var sut = new AutoArgumentsAttribute();
 
         // Assert
-        await Assert.That(sut).IsAssignableTo<AutoDataSourceAttribute>();
+        await Assert.That(sut).IsAssignableTo<BaseDataSourceAttribute>();
     }
 
     [Test]
@@ -115,7 +115,7 @@ public class AutoArgumentsAttributeTests
     [Test]
     [MethodDataSource(typeof(InlinePrimitiveValuesTestData), nameof(InlinePrimitiveValuesTestData.GetData))]
     [MethodDataSource(typeof(InlineFrozenValuesTestData), nameof(InlineFrozenValuesTestData.GetData))]
-    public async Task ReturnsSingleTestDataWithExpectedValues(AutoDataSourceAttribute attribute, MethodInfo testMethod,
+    public async Task ReturnsSingleTestDataWithExpectedValues(BaseDataSourceAttribute attribute, MethodInfo testMethod,
         object[] expected)
     {
         // Act
