@@ -5,11 +5,11 @@ namespace AutoFixture.TUnit.Tests.TestTypes;
 
 internal abstract class InlineAttributeTestData<T>
 {
-    protected static DerivedArgumentsAutoDataAttribute CreateAttributeWithFakeFixture(
+    protected static DerivedAutoArgumentsAttribute CreateAttributeWithFakeFixture(
         object[] inlineValues,
         params (string ParameterName, object Value)[] parameters)
     {
-        return new DerivedArgumentsAutoDataAttribute(
+        return new DerivedAutoArgumentsAttribute(
             fixtureFactory: () => new DelegatingFixture { OnCreate = OnCreateParameter },
             values: inlineValues);
 
@@ -26,11 +26,11 @@ internal abstract class InlineAttributeTestData<T>
         }
     }
 
-    protected static DerivedArgumentsAutoDataAttribute CreateAttribute(
+    protected static DerivedAutoArgumentsAttribute CreateAttribute(
         object[] inlineValues,
         params (string ParameterName, object Value)[] parameters)
     {
-        return new DerivedArgumentsAutoDataAttribute(
+        return new DerivedAutoArgumentsAttribute(
             () => new Fixture().Customize(CreateCustomization()),
             inlineValues);
 

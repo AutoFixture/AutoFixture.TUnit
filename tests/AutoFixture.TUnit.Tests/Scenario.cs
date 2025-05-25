@@ -69,9 +69,9 @@ public class Scenario
     // This test and its associated types is used to document one of the
     // InlineAutoDataAttribute constructor overloads.
     [Test]
-    [MyCustomArgumentsAutoData(1337)]
-    [MyCustomArgumentsAutoData(1337, 7)]
-    [MyCustomArgumentsAutoData(1337, 7, 42)]
+    [MyCustomAutoArguments(1337)]
+    [MyCustomAutoArguments(1337, 7)]
+    [MyCustomAutoArguments(1337, 7, 42)]
 #pragma warning disable xUnit1026 // Test methods should use all of their parameters - it's required by the test logic.
     public async Task CustomInlineDataSuppliesExtraValues(int x, int y, int z)
 #pragma warning restore xUnit1026 // Test methods should use all of their parameters
@@ -82,10 +82,10 @@ public class Scenario
         await Assert.That(z).IsEqualTo(42);
     }
 
-    public class MyCustomArgumentsAutoDataAttribute
+    public class MyCustomAutoArgumentsAttribute
         : AutoArgumentsAttribute
     {
-        public MyCustomArgumentsAutoDataAttribute(params object[] values)
+        public MyCustomAutoArgumentsAttribute(params object[] values)
             : base(() => new Fixture().Customize(new TheAnswer()), values)
         {
         }

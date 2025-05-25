@@ -49,7 +49,7 @@ public class AutoArgumentsAttributeTests
     {
         // Arrange
         var expectedValues = new[] { new object(), new object(), new object() };
-        var sut = new DerivedArgumentsAutoDataAttribute(() => new DelegatingFixture(), expectedValues);
+        var sut = new DerivedAutoArgumentsAttribute(() => new DelegatingFixture(), expectedValues);
 
         // Act
         var result = sut.Values;
@@ -65,7 +65,7 @@ public class AutoArgumentsAttributeTests
         var wasInvoked = false;
 
         // Act
-        _ = new DerivedArgumentsAutoDataAttribute(() =>
+        _ = new DerivedAutoArgumentsAttribute(() =>
         {
             wasInvoked = true;
             return new DelegatingFixture();
@@ -96,7 +96,7 @@ public class AutoArgumentsAttributeTests
         {
             OnCustomize = c => customizationLog.Add(c)
         };
-        var sut = new DerivedArgumentsAutoDataAttribute(() => fixture);
+        var sut = new DerivedAutoArgumentsAttribute(() => fixture);
 
         // Act
         _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(typeof(TypeWithCustomizationAttributes), methodName))
