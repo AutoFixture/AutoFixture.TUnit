@@ -22,10 +22,7 @@ public sealed class FavorArraysAttribute : CustomizeAttribute
     /// </returns>
     public override ICustomization GetCustomization(ParameterInfo parameter)
     {
-        if (parameter is null)
-        {
-            throw new ArgumentNullException(nameof(parameter));
-        }
+        if (parameter is null) throw new ArgumentNullException(nameof(parameter));
 
         return new ConstructorCustomization(parameter.ParameterType, new ArrayFavoringConstructorQuery());
     }

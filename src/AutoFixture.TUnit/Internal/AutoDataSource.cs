@@ -13,7 +13,7 @@ public class AutoDataSource : DataSource
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="createFixture"/> is <see langword="null"/>.
     /// </exception>
-    public AutoDataSource(Func<IFixture> createFixture, IDataSource? source = default)
+    public AutoDataSource(Func<IFixture> createFixture, IDataSource? source = null)
     {
         this.CreateFixture = createFixture ?? throw new ArgumentNullException(nameof(createFixture));
         this.Source = source;

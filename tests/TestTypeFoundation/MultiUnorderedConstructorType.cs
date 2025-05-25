@@ -14,12 +14,7 @@ public class MultiUnorderedConstructorType
 
     public MultiUnorderedConstructorType(string text, int number)
     {
-        if (text == null)
-        {
-            throw new ArgumentNullException(nameof(text));
-        }
-
-        this.Text = text;
+        this.Text = text ?? throw new ArgumentNullException(nameof(text));
         this.Number = number;
     }
 
@@ -31,12 +26,7 @@ public class MultiUnorderedConstructorType
     {
         public ParameterObject(string text, int number)
         {
-            if (text == null)
-            {
-                throw new ArgumentNullException(nameof(text));
-            }
-
-            this.Text = text;
+            this.Text = text ?? throw new ArgumentNullException(nameof(text));
             this.Number = number;
         }
 

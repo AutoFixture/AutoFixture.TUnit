@@ -10,17 +10,19 @@ public abstract class BaseDataSourceAttribute : NonTypedDataSourceGeneratorAttri
     /// <summary>
     /// Returns the test data provided by the source.
     /// </summary>
-    /// <param name="dataGeneratorMetadata"></param>
-    /// <returns></returns>
+    /// <param name="dataGeneratorMetadata">
+    /// The metadata for the target method for which to provide the arguments.
+    /// </param>
+    /// <returns>
+    /// Returns a sequence of argument collections, where each collection
+    /// is an array of objects representing the arguments for a test method.
+    /// </returns>
     public abstract IEnumerable<object?[]?> GetData(DataGeneratorMetadata dataGeneratorMetadata);
 
     /// <inheritdoc />
     public override IEnumerable<Func<object?[]>> GenerateDataSources(DataGeneratorMetadata dataGeneratorMetadata)
     {
-        if (dataGeneratorMetadata is null)
-        {
-            throw new ArgumentNullException(nameof(dataGeneratorMetadata));
-        }
+        if (dataGeneratorMetadata is null) throw new ArgumentNullException(nameof(dataGeneratorMetadata));
 
         return GetTestDataEnumerable();
 
@@ -35,19 +37,12 @@ public abstract class BaseDataSourceAttribute : NonTypedDataSourceGeneratorAttri
             }
 
             var enumerable = this.GetData(dataGeneratorMetadata)
-                             ?? throw new InvalidOperationException("The source member yielded no test data.");
+                ?? throw new InvalidOperationException("The source member yielded no test data.");
 
             foreach (var testData in enumerable)
             {
-                if (testData is null)
-                {
-                    throw new InvalidOperationException("The source member yielded a null test data.");
-                }
-
-                if (testData.Length > parameters.Length)
-                {
-                    throw new InvalidOperationException("The number of arguments provided exceeds the number of parameters.");
-                }
+                if (testData is null) throw new InvalidOperationException("The source member yielded a null test data.");
+                if (testData.Length > parameters.Length) throw new InvalidOperationException("The number of arguments provided exceeds the number of parameters.");
 
                 yield return () => testData;
             }

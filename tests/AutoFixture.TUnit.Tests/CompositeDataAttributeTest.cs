@@ -21,7 +21,8 @@ public class CompositeDataAttributeTest
     {
         // Arrange
         // Act & assert
-        await Assert.That(() => new CompositeDataAttribute(null!)).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => new CompositeDataAttribute(null!))
+            .ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -48,10 +49,9 @@ public class CompositeDataAttributeTest
     [Test]
     public void InitializeWithNullEnumerableThrows()
     {
-        // Arrange
         // Act & assert
         Assert.Throws<ArgumentNullException>(
-            () => new CompositeDataAttribute((IReadOnlyCollection<BaseDataSourceAttribute>)null!));
+            () => _ = new CompositeDataAttribute(((IEnumerable<BaseDataSourceAttribute>)null)!));
     }
 
     [Test]
@@ -76,12 +76,13 @@ public class CompositeDataAttributeTest
     }
 
     [Test]
-    public async Task GetDataWithNullMethodThrows()
+    public async Task GetDataWithNullGeneratorMetadataThrows()
     {
         // Arrange
         var sut = new CompositeDataAttribute();
+
         // Act & assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null!, null!))
+        await Assert.That(() => sut.GenerateDataSources(null!)
             .Select(x => x()).ToArray()).ThrowsException();
     }
 
@@ -89,18 +90,18 @@ public class CompositeDataAttributeTest
     public async Task GetDataOnMethodWithNoParametersReturnsNoTheory()
     {
         // Arrange
-        Action a = () => { };
+        var a = () => { };
         var method = a.GetMethodInfo();
-
         var sut = new CompositeDataAttribute(
             new FakeDataAttribute(method, []),
             new FakeDataAttribute(method, []),
             new FakeDataAttribute(method, []));
+        var dataGeneratorMetadata = DataGeneratorMetadataHelper
+            .CreateDataGeneratorMetadata(method);
 
         // Act
-        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
-                .Select(x => x())
-                .ToArray();
+        var result = sut.GenerateDataSources(dataGeneratorMetadata)
+                .Select(x => x()).ToArray();
 
         // Assert
         await Assert.That(result).All().Satisfy(row => row.IsEmpty());

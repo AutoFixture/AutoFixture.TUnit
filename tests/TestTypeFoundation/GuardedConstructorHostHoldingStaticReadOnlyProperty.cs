@@ -10,12 +10,7 @@ public class GuardedConstructorHostHoldingStaticReadOnlyProperty<TItem, TStaticP
 
     public GuardedConstructorHostHoldingStaticReadOnlyProperty(TItem item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
-
-        this.Item = item;
+        this.Item = item ?? throw new ArgumentNullException(nameof(item));
     }
 
     public static TStaticProperty Property { get; private set; }

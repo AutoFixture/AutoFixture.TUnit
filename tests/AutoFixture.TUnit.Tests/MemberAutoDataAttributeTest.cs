@@ -61,7 +61,8 @@ public class MemberAutoDataAttributeTest
     public async Task ThrowsWhenInitializedWithNullMemberName()
     {
         // Act & Assert
-        await Assert.That(() => new AutoMemberDataSourceAttribute(null!)).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => new AutoMemberDataSourceAttribute(null!))
+            .ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -96,20 +97,22 @@ public class MemberAutoDataAttributeTest
 
         // Act & Assert
         Assert.Throws<Exception>(
-            () => sut.GenerateDataSources(null!).Select(x => x()).ToArray());
+            () => _ = sut.GenerateDataSources(null!).Select(x => x()).ToArray());
     }
 
     [Test]
     public async Task ThrowsWhenMemberNotEnumerable()
     {
         // Arrange
-        var memberName = nameof(TestTypeWithMethodData.NonEnumerableMethod);
+        const string memberName = nameof(TestTypeWithMethodData.NonEnumerableMethod);
         var sut = new AutoMemberDataSourceAttribute(memberName);
         var method = TestTypeWithMethodData.GetNonEnumerableMethodInfo();
+        var dataGeneratorMetadata = DataGeneratorMetadataHelper
+            .CreateDataGeneratorMetadata(method!);
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentException>(
-            () => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray());
+            () => sut.GetData(dataGeneratorMetadata).ToArray());
 
         await Assert.That(ex.Message).Contains(memberName);
     }
@@ -121,10 +124,12 @@ public class MemberAutoDataAttributeTest
         const string memberName = nameof(TestTypeWithMethodData.NonStaticSource);
         var sut = new AutoMemberDataSourceAttribute(memberName);
         var method = TestTypeWithMethodData.GetNonStaticSourceMethodInfo();
+        var dataGeneratorMetadata = DataGeneratorMetadataHelper
+            .CreateDataGeneratorMetadata(method!);
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentException>(
-            () => sut.GetData(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray());
+            () => sut.GetData(dataGeneratorMetadata).ToArray());
 
         await Assert.That(ex.Message).Contains(memberName);
     }
@@ -136,12 +141,12 @@ public class MemberAutoDataAttributeTest
         var memberName = Guid.NewGuid().ToString();
         var sut = new AutoMemberDataSourceAttribute(typeof(TestTypeWithMethodData), memberName);
         var method = TestTypeWithMethodData.GetMultipleValueTestMethodInfo();
+        var dataGeneratorMetadata = DataGeneratorMetadataHelper
+            .CreateDataGeneratorMetadata(method!);
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentException>(
-            () => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!))
-                .Select(x => x())
-                .ToArray());
+            () => sut.GenerateDataSources(dataGeneratorMetadata).Select(x => x()).ToArray());
         await Assert.That(ex.Message).Contains(memberName);
     }
 
@@ -186,16 +191,16 @@ public class MemberAutoDataAttributeTest
         {
             OnCustomize = c => customizationLog.Add(c)
         };
-
+        var dataGeneratorMetadata = DataGeneratorMetadataHelper
+            .CreateDataGeneratorMetadata(method!);
         var sut = new DerivedAutoMemberDataSourceAttribute(
             () => fixture,
             typeof(TestTypeWithMethodData),
             nameof(TestTypeWithMethodData.TestDataWithNoValues));
 
         // Act
-        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!))
-            .Select(x => x())
-            .ToArray();
+        _ = sut.GenerateDataSources(dataGeneratorMetadata)
+            .Select(x => x()).ToArray();
 
         // Assert
         var composite = await Assert.That(customizationLog[0]).IsAssignableTo<CompositeCustomization>();
@@ -210,6 +215,8 @@ public class MemberAutoDataAttributeTest
         const string memberName = nameof(TestTypeWithMethodData.GetSingleStringValueTestData);
         var sut = new AutoMemberDataSourceAttribute(memberName);
         var testMethod = TestTypeWithMethodData.GetSingleStringValueTestMethodInfo();
+        var dataGeneratorMetadata = DataGeneratorMetadataHelper
+            .CreateDataGeneratorMetadata(testMethod!);
         var expected = new[]
         {
             new object[] { "value-one" },
@@ -218,7 +225,7 @@ public class MemberAutoDataAttributeTest
         };
 
         // Act
-        var testData = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+        var testData = sut.GenerateDataSources(dataGeneratorMetadata)
             .Select(x => x())
             .ToArray();
 
@@ -233,6 +240,8 @@ public class MemberAutoDataAttributeTest
         const string memberName = nameof(TestTypeWithMethodData.GetStringTestsFromArgument);
         var sut = new AutoMemberDataSourceAttribute(memberName, "value");
         var testMethod = TestTypeWithMethodData.GetStringTestsFromArgumentMethodInfo();
+        var dataGeneratorMetadata = DataGeneratorMetadataHelper
+            .CreateDataGeneratorMetadata(testMethod!);
         var expected = new[]
         {
             new object[] { "value-one" },
@@ -241,9 +250,8 @@ public class MemberAutoDataAttributeTest
         };
 
         // Act
-        var testData = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
-            .Select(x => x())
-            .ToArray();
+        var testData = sut.GenerateDataSources(dataGeneratorMetadata)
+            .Select(x => x()).ToArray();
 
         await Assert.That(testData).IsEquivalentTo(expected);
     }
@@ -255,6 +263,8 @@ public class MemberAutoDataAttributeTest
         const string memberName = nameof(TestTypeWithMethodData.GetMultipleValueTestData);
         var sut = new AutoMemberDataSourceAttribute(memberName);
         var testMethod = TestTypeWithMethodData.GetMultipleValueTestMethodInfo();
+        var dataGeneratorMetadata = DataGeneratorMetadataHelper
+            .CreateDataGeneratorMetadata(testMethod!);
         var expected = new[]
         {
             new object[] { "value-one", 12, 23.3m },
@@ -263,9 +273,8 @@ public class MemberAutoDataAttributeTest
         };
 
         // Act
-        var testData = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
-            .Select(x => x())
-            .ToArray();
+        var testData = sut.GenerateDataSources(dataGeneratorMetadata)
+            .Select(x => x()).ToArray();
 
         // Assert
         await Assert.That(testData).IsEquivalentTo(expected);
@@ -278,11 +287,12 @@ public class MemberAutoDataAttributeTest
         const string memberName = nameof(TestTypeWithMethodData.GetSingleStringValueTestData);
         var sut = new AutoMemberDataSourceAttribute(memberName);
         var testMethod = TestTypeWithMethodData.GetMultipleValueTestMethodInfo();
+        var dataGeneratorMetadata = DataGeneratorMetadataHelper
+            .CreateDataGeneratorMetadata(testMethod!);
 
         // Act
-        var testData = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
-            .Select(x => x())
-            .ToArray();
+        var testData = sut.GenerateDataSources(dataGeneratorMetadata)
+            .Select(x => x()).ToArray();
 
         var arguments1 = testData[0];
         var arguments2 = testData[1];
@@ -312,6 +322,8 @@ public class MemberAutoDataAttributeTest
         const string memberName = nameof(TestTypeWithMethodData.GetDataForTestWithFrozenParameter);
         var sut = new AutoMemberDataSourceAttribute(memberName);
         var testMethod = TestTypeWithMethodData.GetTestWithFrozenParameter();
+        var dataGeneratorMetadata = DataGeneratorMetadataHelper
+            .CreateDataGeneratorMetadata(testMethod!);
         var expected = new[]
         {
             new object[] { "value-one", "value-two", "value-two" },
@@ -320,9 +332,8 @@ public class MemberAutoDataAttributeTest
         };
 
         // Act
-        var testData = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
-            .Select(x => x())
-            .ToArray();
+        var testData = sut.GenerateDataSources(dataGeneratorMetadata)
+            .Select(x => x()).ToArray();
 
         // Assert
         await Assert.That(testData).IsEquivalentTo(expected);
@@ -335,11 +346,11 @@ public class MemberAutoDataAttributeTest
         const string memberName = nameof(TestTypeWithMethodData.GetSingleStringValueTestData);
         var sut = new AutoMemberDataSourceAttribute(memberName);
         var testMethod = TestTypeWithMethodData.GetTestWithFrozenParameter();
+        var dataGeneratorMetadata = DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!);
 
         // Act
-        var testData = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
-            .Select(x => x())
-            .ToArray();
+        var testData = sut.GenerateDataSources(dataGeneratorMetadata)
+            .Select(x => x()).ToArray();
 
         var arguments1 = testData[0];
         var arguments2 = testData[1];
@@ -375,11 +386,11 @@ public class MemberAutoDataAttributeTest
             new object[] { "value-two", 38, 12.7m },
             new object[] { "value-three", 94, 52.21m }
         };
+        var dataGeneratorMetadata = DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!);
 
         // Act
-        var testData = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
-            .Select(x => x())
-            .ToArray();
+        var testData = sut.GenerateDataSources(dataGeneratorMetadata)
+            .Select(x => x()).ToArray();
 
         // Assert
         await Assert.That(testData).IsEquivalentTo(expected);

@@ -16,21 +16,29 @@ public class CompositeDataAttributeSufficientDataTest
 
     [Test]
     [MethodDataSource(typeof(CompositeDataAttributeSufficientDataTest), nameof(GetEnumerator))]
-    public async Task GetDataReturnsCorrectResult(IEnumerable<BaseDataSourceAttribute> attributes, IEnumerable<object[]> expectedResult)
+    public async Task GetDataReturnsCorrectResult(
+        IEnumerable<BaseDataSourceAttribute> attributes,
+        IEnumerable<object[]> expectedResult)
     {
         // Arrange
         var attribute = new CompositeDataAttribute(attributes.ToArray());
+        var dataGeneratorMetadata = DataGeneratorMetadataHelper
+            .CreateDataGeneratorMetadata(this.method);
+        var comparer = new CollectionEquivalentToEqualityComparer<object[]>();
 
         // Act
-        var result = attribute.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(this.method))
-            .Select(x => x())
-            .ToArray();
+        var result = attribute.GenerateDataSources(dataGeneratorMetadata)
+            .Select(x => x()).ToArray();
 
         // Assert
-        await Assert.That(result).IsEquivalentTo(expectedResult, new CollectionEquivalentToEqualityComparer<object[]>());
+        await Assert.That(result)
+            .IsEquivalentTo(expectedResult, comparer);
     }
 
-    public IEnumerable<(IEnumerable<BaseDataSourceAttribute> Attributes, IEnumerable<object[]> ExpectedResult)> GetEnumerator()
+    public IEnumerable<(
+            IEnumerable<BaseDataSourceAttribute> Attributes,
+            IEnumerable<object[]> ExpectedResult)>
+        GetEnumerator()
     {
         yield return CreateTestData(
             data:
@@ -187,22 +195,11 @@ public class CompositeDataAttributeSufficientDataTest
             ]);
     }
 
-    private static (IEnumerable<BaseDataSourceAttribute> attributes,
-        IEnumerable<object[]> expectedResult) CreateTestData(BaseDataSourceAttribute[] data, object[][] expected)
+    private static (
+        IEnumerable<BaseDataSourceAttribute> Attributes,
+        IEnumerable<object[]> ExpectedResult)
+        CreateTestData(BaseDataSourceAttribute[] data, object[][] expected)
     {
         return (data, expected);
-    }
-
-    private sealed class TheoryComparer : IEqualityComparer<object[]>
-    {
-        public bool Equals(object[] x, object[] y)
-        {
-            return x!.SequenceEqual(y!);
-        }
-
-        public int GetHashCode(object[] array)
-        {
-            return array.Select(obj => obj.GetHashCode()).Aggregate((x, y) => x ^ y);
-        }
     }
 }

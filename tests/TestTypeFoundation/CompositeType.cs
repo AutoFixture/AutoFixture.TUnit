@@ -9,12 +9,7 @@ public class CompositeType : AbstractType
 
     public CompositeType(params AbstractType[] types)
     {
-        if (types == null)
-        {
-            throw new ArgumentNullException(nameof(types));
-        }
-
-        this.Types = types;
+        this.Types = types ?? throw new ArgumentNullException(nameof(types));
     }
 
     public IEnumerable<AbstractType> Types { get; }

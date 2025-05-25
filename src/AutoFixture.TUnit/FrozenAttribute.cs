@@ -60,10 +60,7 @@ public class FrozenAttribute : CustomizeAttribute
     /// </returns>
     public override ICustomization GetCustomization(ParameterInfo parameter)
     {
-        if (parameter is null)
-        {
-            throw new ArgumentNullException(nameof(parameter));
-        }
+        if (parameter is null) throw new ArgumentNullException(nameof(parameter));
 
         var matcher = new ParameterMatcherBuilder(parameter).SetFlags(this.By).Build();
 
