@@ -4,7 +4,7 @@ using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.Tests;
 
-public class CompositeDataAttributeTest
+public class CompositeDataSourceAttributeTest
 {
     [Test]
     public async Task SutIsDataAttribute()

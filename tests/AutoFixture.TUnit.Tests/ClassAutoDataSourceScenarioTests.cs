@@ -3,7 +3,7 @@ using TestTypeFoundation;
 
 namespace AutoFixture.TUnit.Tests;
 
-public class ClassAutoDataScenarioTests
+public class ClassAutoDataSourceScenarioTests
 {
     [Test]
     [AutoClassDataSource(typeof(MixedTypeClassData))]

@@ -6,7 +6,7 @@ using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.Tests;
 
-public class ClassAutoDataAttributeTests
+public class ClassAutoDataSourceAttributeTests
 {
     [Test]
     public void CanCreateInstance()

@@ -7,7 +7,7 @@ namespace AutoFixture.TUnit.Tests;
 
 [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local",
     Justification = "Using parameter for precondition checks is acceptable in assertions.")]
-public class MemberAutoDataAttributeTest
+public class MemberAutoDataSourceAttributeTest
 {
     [Test]
     public async Task SutIsDataAttribute()
@@ -45,7 +45,7 @@ public class MemberAutoDataAttributeTest
         // Arrange
         var memberName = Guid.NewGuid().ToString();
         var parameters = new object[] { "value-one", 3, 12.2f };
-        var testType = typeof(MemberAutoDataAttributeTest);
+        var testType = typeof(MemberAutoDataSourceAttributeTest);
 
         // Act
         var sut = new AutoMemberDataSourceAttribute(testType, memberName, parameters);

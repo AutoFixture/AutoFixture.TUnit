@@ -8,14 +8,14 @@ namespace AutoFixture.TUnit.Tests;
 
 [SuppressMessage("Usage", "TUnit0014:Method should have a `Test` attribute or be made `private` or `protected`")]
 [SuppressMessage("Usage", "TUnit0046:Return a `Func<T>` rather than a `<T>`")]
-public class CompositeDataAttributeSufficientDataTest
+public class CompositeDataSourceAttributeSufficientDataTest
 {
     private readonly MethodInfo method = typeof(TypeWithOverloadedMembers)
         .GetMethod(nameof(TypeWithOverloadedMembers.DoSomething),
             [typeof(object), typeof(object), typeof(object)]);
 
     [Test]
-    [MethodDataSource(typeof(CompositeDataAttributeSufficientDataTest), nameof(GetEnumerator))]
+    [MethodDataSource(typeof(CompositeDataSourceAttributeSufficientDataTest), nameof(GetEnumerator))]
     public async Task GetDataReturnsCorrectResult(
         IEnumerable<BaseDataSourceAttribute> attributes,
         IEnumerable<object[]> expectedResult)

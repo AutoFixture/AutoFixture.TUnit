@@ -3,7 +3,7 @@ using TestTypeFoundation;
 
 namespace AutoFixture.TUnit.Tests;
 
-public class MemberAutoDataAttributeScenarioTests
+public class MemberAutoDataSourceAttributeScenarioTests
 {
     [Test]
     [AutoMemberDataSource(nameof(GetSingleStringValueTestData))]
