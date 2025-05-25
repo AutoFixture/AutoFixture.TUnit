@@ -15,13 +15,14 @@ public class DependencyConstraintsTests
     [Arguments("Unquote")]
     [Arguments("xunit")]
     [Arguments("xunit.extensions")]
-    public async Task AutoFixtureXunit3DoesNotReference(string assemblyName)
+    public async Task AssemblyDoesNotReference(string assemblyName)
     {
-        // Arrange
-        // Act
-        var references = typeof(AutoDataSourceAttribute).GetTypeInfo().Assembly.GetReferencedAssemblies();
+        // Arrange && Act
+        var typeInfo = typeof(AutoDataSourceAttribute).GetTypeInfo();
+        var referencedAssemblies = typeInfo.Assembly.GetReferencedAssemblies();
         // Assert
-        await Assert.That(references).DoesNotContain(an => an.Name == assemblyName);
+        await Assert.That(referencedAssemblies)
+            .DoesNotContain(an => an.Name == assemblyName);
     }
 
     [Test]
@@ -35,12 +36,14 @@ public class DependencyConstraintsTests
     [Arguments("Unquote")]
     [Arguments("xunit")]
     [Arguments("xunit.extensions")]
-    public async Task AutoFixtureXunit3UnitTestsDoNotReference(string assemblyName)
+    public async Task UnitTestsAssemblyDoesNotReference(string assemblyName)
     {
-        // Arrange
-        // Act
-        var references = this.GetType().GetTypeInfo().Assembly.GetReferencedAssemblies();
+        // Arrange && Act
+        var typeInfo = this.GetType().GetTypeInfo();
+        var referencedAssemblies = typeInfo.Assembly.GetReferencedAssemblies();
+
         // Assert
-        await Assert.That(references).DoesNotContain(an => an.Name == assemblyName);
+        await Assert.That(referencedAssemblies)
+            .DoesNotContain(an => an.Name == assemblyName);
     }
 }
