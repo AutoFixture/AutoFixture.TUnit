@@ -9,10 +9,10 @@ namespace AutoFixture.TUnit;
 /// </summary>
 [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
     Justification = "This attribute is the root of a potential attribute hierarchy.")]
-public class AutoDataAttribute : BaseDataSourceAttribute
+public class AutoDataSourceAttribute : BaseDataSourceAttribute
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="AutoDataAttribute" /> class.
+    /// Initializes a new instance of the <see cref="AutoDataSourceAttribute" /> class.
     /// </summary>
     /// <remarks>
     /// <para>
@@ -20,18 +20,18 @@ public class AutoDataAttribute : BaseDataSourceAttribute
     /// <see cref="Fixture" />.
     /// </para>
     /// </remarks>
-    public AutoDataAttribute()
+    public AutoDataSourceAttribute()
         : this(() => new Fixture())
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AutoDataAttribute" /> class
+    /// Initializes a new instance of the <see cref="AutoDataSourceAttribute" /> class
     /// with the supplied <paramref name="fixtureFactory" />. Fixture will be created
     /// on demand using the provided factory.
     /// </summary>
     /// <param name="fixtureFactory">The fixture factory used to construct the fixture.</param>
-    protected AutoDataAttribute(Func<IFixture> fixtureFactory)
+    protected AutoDataSourceAttribute(Func<IFixture> fixtureFactory)
     {
         this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
     }

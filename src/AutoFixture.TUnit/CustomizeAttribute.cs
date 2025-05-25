@@ -4,7 +4,7 @@ namespace AutoFixture.TUnit;
 
 /// <summary>
 /// Base class for customizing parameters in methods decorated with
-/// <see cref="AutoDataAttribute"/>.
+/// <see cref="AutoDataSourceAttribute"/>.
 /// </summary>
 [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
 public abstract class CustomizeAttribute : Attribute, IParameterCustomizationSource

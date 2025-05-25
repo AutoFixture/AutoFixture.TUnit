@@ -19,7 +19,7 @@ public class DependencyConstraintsTests
     {
         // Arrange
         // Act
-        var references = typeof(AutoDataAttribute).GetTypeInfo().Assembly.GetReferencedAssemblies();
+        var references = typeof(AutoDataSourceAttribute).GetTypeInfo().Assembly.GetReferencedAssemblies();
         // Assert
         await Assert.That(references).DoesNotContain(an => an.Name == assemblyName);
     }

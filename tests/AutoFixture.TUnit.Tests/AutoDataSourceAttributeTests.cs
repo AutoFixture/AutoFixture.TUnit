@@ -11,7 +11,7 @@ public class AutoDataSourceAttributeTests
     public async Task SutIsDataAttribute()
     {
         // Arrange & Act
-        var sut = new AutoDataAttribute();
+        var sut = new AutoDataSourceAttribute();
 
         // Assert
         await Assert.That(sut).IsAssignableTo<BaseDataSourceAttribute>();
@@ -21,7 +21,7 @@ public class AutoDataSourceAttributeTests
     public async Task InitializedWithDefaultConstructorHasCorrectFixture()
     {
         // Arrange
-        var sut = new AutoDataAttribute();
+        var sut = new AutoDataSourceAttribute();
 
         // Act
         var result = sut.FixtureFactory();
@@ -37,7 +37,7 @@ public class AutoDataSourceAttributeTests
         var fixture = new Fixture();
 
         // Act
-        var sut = new DerivedAutoDataAttribute(() => fixture);
+        var sut = new DerivedAutoDataSourceAttribute(() => fixture);
 
         // Assert
         await Assert.That(sut.FixtureFactory()).IsSameReferenceAs(fixture);
@@ -49,7 +49,7 @@ public class AutoDataSourceAttributeTests
         // Arrange
         // Act & Assert
         await Assert.That(() =>
-            new DerivedAutoDataAttribute(null!)).ThrowsExactly<ArgumentNullException>();
+            new DerivedAutoDataSourceAttribute(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -59,7 +59,7 @@ public class AutoDataSourceAttributeTests
         var wasInvoked = false;
 
         // Act
-        _ = new DerivedAutoDataAttribute(() =>
+        _ = new DerivedAutoDataSourceAttribute(() =>
         {
             wasInvoked = true;
             return null!;
@@ -73,7 +73,7 @@ public class AutoDataSourceAttributeTests
     public async Task GetDataWithNullMethodThrows()
     {
         // Arrange
-        var sut = new AutoDataAttribute();
+        var sut = new AutoDataSourceAttribute();
 
         // Act & assert
         await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null!, null!))).ThrowsException();
@@ -100,7 +100,7 @@ public class AutoDataSourceAttributeTests
             }
         };
         var composer = new DelegatingFixture { OnCreate = builder.OnCreate };
-        var sut = new DerivedAutoDataAttribute(() => composer);
+        var sut = new DerivedAutoDataSourceAttribute(() => composer);
 
         // Act
         var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
@@ -137,7 +137,7 @@ public class AutoDataSourceAttributeTests
         {
             OnCustomize = c => customizationLog.Add(c)
         };
-        var sut = new DerivedAutoDataAttribute(() => fixture);
+        var sut = new DerivedAutoDataSourceAttribute(() => fixture);
 
         // Act
         _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
@@ -165,7 +165,7 @@ public class AutoDataSourceAttributeTests
         {
             OnCustomize = c => customizationLog.Add(c)
         };
-        var sut = new DerivedAutoDataAttribute(() => fixture);
+        var sut = new DerivedAutoDataSourceAttribute(() => fixture);
 
         // Act
         _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
