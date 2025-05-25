@@ -25,8 +25,8 @@ public class GreedyAttributeTest
         // Arrange
         var sut = new GreedyAttribute();
         // Act & assert
-        await Assert.That(() =>
-            sut.GetCustomization(null!)).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => sut.GetCustomization(null!))
+            .ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]

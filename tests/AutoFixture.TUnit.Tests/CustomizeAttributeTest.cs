@@ -7,9 +7,9 @@ public class CustomizeAttributeTest
     [Test]
     public async Task TestableSutIsSut()
     {
-        // Arrange
-        // Act
+        // Arrange && Act
         var sut = new DelegatingCustomizeAttribute();
+
         // Assert
         await Assert.That(sut).IsAssignableTo<CustomizeAttribute>();
     }
@@ -17,9 +17,9 @@ public class CustomizeAttributeTest
     [Test]
     public async Task SutIsAttribute()
     {
-        // Arrange
-        // Act
+        // Arrange && Act
         var sut = new DelegatingCustomizeAttribute();
+
         // Assert
         await Assert.That(sut).IsAssignableTo<Attribute>();
     }
@@ -27,9 +27,9 @@ public class CustomizeAttributeTest
     [Test]
     public async Task SutImplementsIParameterCustomizationSource()
     {
-        // Arrange
-        // Act
+        // Arrange && Act
         var sut = new DelegatingCustomizeAttribute();
+
         // Assert
         await Assert.That(sut).IsAssignableTo<IParameterCustomizationSource>();
     }

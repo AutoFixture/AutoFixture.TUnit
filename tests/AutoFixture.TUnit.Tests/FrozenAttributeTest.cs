@@ -20,7 +20,7 @@ public class FrozenAttributeTest
         // Arrange
         var sut = new FrozenAttribute();
         // Act & assert
-        await Assert.That(() =>
-            sut.GetCustomization(null!)).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => sut.GetCustomization(null!))
+            .ThrowsExactly<ArgumentNullException>();
     }
 }

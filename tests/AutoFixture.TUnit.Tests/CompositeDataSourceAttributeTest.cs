@@ -4,16 +4,16 @@ using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.Tests;
 
-public class CompositeDataAttributeTest
+public class CompositeDataSourceAttributeTest
 {
     [Test]
     public async Task SutIsDataAttribute()
     {
         // Arrange & Act
-        var sut = new CompositeDataAttribute();
+        var sut = new CompositeDataSourceAttribute();
 
         // Assert
-        await Assert.That(sut).IsAssignableTo<AutoFixtureDataSourceAttribute>();
+        await Assert.That(sut).IsAssignableTo<BaseDataSourceAttribute>();
     }
 
     [Test]
@@ -21,7 +21,8 @@ public class CompositeDataAttributeTest
     {
         // Arrange
         // Act & assert
-        await Assert.That(() => new CompositeDataAttribute(null!)).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => new CompositeDataSourceAttribute(null!))
+            .ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -31,16 +32,16 @@ public class CompositeDataAttributeTest
         var a = () => { };
         var method = a.GetMethodInfo();
 
-        var attributes = new AutoFixtureDataSourceAttribute[]
+        var attributes = new BaseDataSourceAttribute[]
         {
             new FakeDataAttribute(method, []),
             new FakeDataAttribute(method, []),
             new FakeDataAttribute(method, [])
         };
 
-        var sut = new CompositeDataAttribute(attributes);
+        var sut = new CompositeDataSourceAttribute(attributes);
         // Act
-        IEnumerable<AutoFixtureDataSourceAttribute> result = sut.Attributes;
+        IEnumerable<BaseDataSourceAttribute> result = sut.Attributes;
         // Assert
         await Assert.That(result).IsEquivalentTo(attributes);
     }
@@ -48,10 +49,9 @@ public class CompositeDataAttributeTest
     [Test]
     public void InitializeWithNullEnumerableThrows()
     {
-        // Arrange
         // Act & assert
         Assert.Throws<ArgumentNullException>(
-            () => new CompositeDataAttribute((IReadOnlyCollection<AutoFixtureDataSourceAttribute>)null!));
+            () => _ = new CompositeDataSourceAttribute(((IEnumerable<BaseDataSourceAttribute>)null)!));
     }
 
     [Test]
@@ -61,14 +61,14 @@ public class CompositeDataAttributeTest
         var a = () => { };
         var method = a.GetMethodInfo();
 
-        var attributes = new AutoFixtureDataSourceAttribute[]
+        var attributes = new BaseDataSourceAttribute[]
         {
             new FakeDataAttribute(method, []),
             new FakeDataAttribute(method, []),
             new FakeDataAttribute(method, [])
         };
 
-        var sut = new CompositeDataAttribute(attributes);
+        var sut = new CompositeDataSourceAttribute(attributes);
         // Act
         var result = sut.Attributes;
         // Assert
@@ -76,12 +76,13 @@ public class CompositeDataAttributeTest
     }
 
     [Test]
-    public async Task GetDataWithNullMethodThrows()
+    public async Task GetDataWithNullGeneratorMetadataThrows()
     {
         // Arrange
-        var sut = new CompositeDataAttribute();
+        var sut = new CompositeDataSourceAttribute();
+
         // Act & assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null!, null!))
+        await Assert.That(() => sut.GenerateDataSources(null!)
             .Select(x => x()).ToArray()).ThrowsException();
     }
 
@@ -89,18 +90,18 @@ public class CompositeDataAttributeTest
     public async Task GetDataOnMethodWithNoParametersReturnsNoTheory()
     {
         // Arrange
-        Action a = () => { };
+        var a = () => { };
         var method = a.GetMethodInfo();
-
-        var sut = new CompositeDataAttribute(
+        var sut = new CompositeDataSourceAttribute(
             new FakeDataAttribute(method, []),
             new FakeDataAttribute(method, []),
             new FakeDataAttribute(method, []));
+        var dataGeneratorMetadata = DataGeneratorMetadataHelper
+            .CreateDataGeneratorMetadata(method);
 
         // Act
-        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
-                .Select(x => x())
-                .ToArray();
+        var result = sut.GenerateDataSources(dataGeneratorMetadata)
+                .Select(x => x()).ToArray();
 
         // Assert
         await Assert.That(result).All().Satisfy(row => row.IsEmpty());

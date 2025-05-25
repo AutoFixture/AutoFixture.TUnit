@@ -4,7 +4,7 @@ using AutoFixture.Kernel;
 namespace AutoFixture.TUnit;
 
 /// <summary>
-/// An attribute that can be applied to parameters in an <see cref="AutoDataAttribute"/>-driven
+/// An attribute that can be applied to parameters in an <see cref="AutoDataSourceAttribute"/>-driven
 /// Theory to indicate that the parameter value should be created using a constructor with one
 /// or more <see cref="IEnumerable{T}" /> arguments, if applicable.
 /// </summary>
@@ -22,10 +22,7 @@ public sealed class FavorEnumerablesAttribute : CustomizeAttribute
     /// </returns>
     public override ICustomization GetCustomization(ParameterInfo parameter)
     {
-        if (parameter == null)
-        {
-            throw new ArgumentNullException(nameof(parameter));
-        }
+        if (parameter is null) throw new ArgumentNullException(nameof(parameter));
 
         return new ConstructorCustomization(parameter.ParameterType, new EnumerableFavoringConstructorQuery());
     }

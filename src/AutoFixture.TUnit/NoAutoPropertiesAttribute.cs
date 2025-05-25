@@ -3,7 +3,7 @@
 namespace AutoFixture.TUnit;
 
 /// <summary>
-/// An attribute that can be applied to parameters in an <see cref="AutoDataAttribute"/>-driven
+/// An attribute that can be applied to parameters in an <see cref="AutoDataSourceAttribute"/>-driven
 /// Theory to indicate that the parameter value should not have properties auto populated
 /// when the <see cref="IFixture"/> creates an instance of that type.
 /// </summary>
@@ -22,10 +22,7 @@ public sealed class NoAutoPropertiesAttribute : CustomizeAttribute
     /// </exception>
     public override ICustomization GetCustomization(ParameterInfo parameter)
     {
-        if (parameter is null)
-        {
-            throw new ArgumentNullException(nameof(parameter));
-        }
+        if (parameter is null) throw new ArgumentNullException(nameof(parameter));
 
         var targetType = parameter.ParameterType;
         return new NoAutoPropertiesCustomization(targetType);

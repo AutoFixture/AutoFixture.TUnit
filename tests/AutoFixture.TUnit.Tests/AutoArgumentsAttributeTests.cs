@@ -4,23 +4,23 @@ using TestTypeFoundation;
 
 namespace AutoFixture.TUnit.Tests;
 
-public class ArgumentsAutoDataAttributeTests
+public class AutoArgumentsAttributeTests
 {
     [Test]
     public async Task SutIsDataAttribute()
     {
         // Arrange & Act
-        var sut = new ArgumentsAutoDataAttribute();
+        var sut = new AutoArgumentsAttribute();
 
         // Assert
-        await Assert.That(sut).IsAssignableTo<AutoFixtureDataSourceAttribute>();
+        await Assert.That(sut).IsAssignableTo<BaseDataSourceAttribute>();
     }
 
     [Test]
     public async Task ValuesWillBeEmptyWhenSutIsCreatedWithDefaultConstructor()
     {
         // Arrange
-        var sut = new ArgumentsAutoDataAttribute();
+        var sut = new AutoArgumentsAttribute();
         var expected = Enumerable.Empty<object>();
 
         // Act
@@ -35,7 +35,7 @@ public class ArgumentsAutoDataAttributeTests
     {
         // Arrange
         var expectedValues = new[] { new object(), new object(), new object() };
-        var sut = new ArgumentsAutoDataAttribute(expectedValues);
+        var sut = new AutoArgumentsAttribute(expectedValues);
 
         // Act
         var result = sut.Values;
@@ -49,7 +49,7 @@ public class ArgumentsAutoDataAttributeTests
     {
         // Arrange
         var expectedValues = new[] { new object(), new object(), new object() };
-        var sut = new DerivedArgumentsAutoDataAttribute(() => new DelegatingFixture(), expectedValues);
+        var sut = new DerivedAutoArgumentsAttribute(() => new DelegatingFixture(), expectedValues);
 
         // Act
         var result = sut.Values;
@@ -65,7 +65,7 @@ public class ArgumentsAutoDataAttributeTests
         var wasInvoked = false;
 
         // Act
-        _ = new DerivedArgumentsAutoDataAttribute(() =>
+        _ = new DerivedAutoArgumentsAttribute(() =>
         {
             wasInvoked = true;
             return new DelegatingFixture();
@@ -96,7 +96,7 @@ public class ArgumentsAutoDataAttributeTests
         {
             OnCustomize = c => customizationLog.Add(c)
         };
-        var sut = new DerivedArgumentsAutoDataAttribute(() => fixture);
+        var sut = new DerivedAutoArgumentsAttribute(() => fixture);
 
         // Act
         _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(typeof(TypeWithCustomizationAttributes), methodName))
@@ -115,7 +115,7 @@ public class ArgumentsAutoDataAttributeTests
     [Test]
     [MethodDataSource(typeof(InlinePrimitiveValuesTestData), nameof(InlinePrimitiveValuesTestData.GetData))]
     [MethodDataSource(typeof(InlineFrozenValuesTestData), nameof(InlineFrozenValuesTestData.GetData))]
-    public async Task ReturnsSingleTestDataWithExpectedValues(AutoFixtureDataSourceAttribute attribute, MethodInfo testMethod,
+    public async Task ReturnsSingleTestDataWithExpectedValues(BaseDataSourceAttribute attribute, MethodInfo testMethod,
         object[] expected)
     {
         // Act
@@ -127,7 +127,7 @@ public class ArgumentsAutoDataAttributeTests
     }
 
     [Test]
-    [ArgumentsAutoData]
+    [AutoArguments]
     public async Task GeneratesRandomData(int a, float b, string c, decimal d)
     {
         await Assert.That(a).IsNotEqualTo(0);
@@ -137,7 +137,7 @@ public class ArgumentsAutoDataAttributeTests
     }
 
     [Test]
-    [ArgumentsAutoData(12, 32.1f, "hello", 71.231d)]
+    [AutoArguments(12, 32.1f, "hello", 71.231d)]
     public async Task InlinesAllData(int a, float b, string c, decimal d)
     {
         await Assert.That(a).IsEqualTo(12);
@@ -147,17 +147,17 @@ public class ArgumentsAutoDataAttributeTests
     }
 
     [Test]
-    [ArgumentsAutoData(0)]
-    [ArgumentsAutoData(5)]
-    [ArgumentsAutoData(-12)]
-    [ArgumentsAutoData(21.3f)]
-    [ArgumentsAutoData(18.7d)]
-    [ArgumentsAutoData(EnumType.First)]
-    [ArgumentsAutoData("Hello World")]
-    [ArgumentsAutoData("\t\r\n")]
-    [ArgumentsAutoData(" ")]
-    [ArgumentsAutoData("")]
-    [ArgumentsAutoData([null!])]
+    [AutoArguments(0)]
+    [AutoArguments(5)]
+    [AutoArguments(-12)]
+    [AutoArguments(21.3f)]
+    [AutoArguments(18.7d)]
+    [AutoArguments(EnumType.First)]
+    [AutoArguments("Hello World")]
+    [AutoArguments("\t\r\n")]
+    [AutoArguments(" ")]
+    [AutoArguments("")]
+    [AutoArguments([null!])]
     public async Task InjectsInlineValues([Frozen] object a,
         [Frozen] PropertyHolder<object> value,
         PropertyHolder<object> frozen)

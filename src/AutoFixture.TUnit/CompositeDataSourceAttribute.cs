@@ -8,24 +8,24 @@ namespace AutoFixture.TUnit;
 /// </summary>
 [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
     Justification = "This attribute is the root of a potential attribute hierarchy.")]
-public class CompositeDataAttribute : AutoFixtureDataSourceAttribute
+public class CompositeDataSourceAttribute : BaseDataSourceAttribute
 {
-    private readonly AutoFixtureDataSourceAttribute[] attributes;
+    private readonly BaseDataSourceAttribute[] attributes;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
+    /// Initializes a new instance of the <see cref="CompositeDataSourceAttribute"/> class.
     /// </summary>
     /// <param name="attributes">The attributes representing a data source for a data theory.</param>
-    public CompositeDataAttribute(IEnumerable<AutoFixtureDataSourceAttribute> attributes)
-        : this(attributes as AutoFixtureDataSourceAttribute[] ?? attributes.ToArray())
+    public CompositeDataSourceAttribute(IEnumerable<BaseDataSourceAttribute> attributes)
+        : this(attributes as BaseDataSourceAttribute[] ?? attributes.ToArray())
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
+    /// Initializes a new instance of the <see cref="CompositeDataSourceAttribute"/> class.
     /// </summary>
     /// <param name="attributes">The attributes representing a data source for a data theory.</param>
-    public CompositeDataAttribute(params AutoFixtureDataSourceAttribute[] attributes)
+    public CompositeDataSourceAttribute(params BaseDataSourceAttribute[] attributes)
     {
         this.attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
     }
@@ -33,7 +33,7 @@ public class CompositeDataAttribute : AutoFixtureDataSourceAttribute
     /// <summary>
     /// Gets the attributes supplied through one of the constructors.
     /// </summary>
-    public IReadOnlyList<AutoFixtureDataSourceAttribute> Attributes => Array.AsReadOnly(this.attributes);
+    public IReadOnlyList<BaseDataSourceAttribute> Attributes => Array.AsReadOnly(this.attributes);
 
     /// <inheritdoc />
     public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)

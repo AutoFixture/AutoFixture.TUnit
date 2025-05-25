@@ -12,5 +12,6 @@ internal sealed class Argument
 
     public object? Value { get; }
 
-    public ICustomization GetCustomization() => this.Parameter.GetCustomization(this.Value);
+    public ICustomization GetCustomization()
+        => this.Parameter.GetCustomization(this.Value);
 }

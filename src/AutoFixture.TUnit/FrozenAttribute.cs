@@ -5,7 +5,7 @@ using AutoFixture.TUnit.Internal;
 namespace AutoFixture.TUnit;
 
 /// <summary>
-/// An attribute that can be applied to parameters in an <see cref="AutoDataAttribute" />-driven
+/// An attribute that can be applied to parameters in an <see cref="AutoDataSourceAttribute" />-driven
 /// Theory to indicate that the parameter value should be frozen so that the same instance is
 /// returned every time the <see cref="IFixture" /> creates an instance of that type.
 /// </summary>
@@ -60,10 +60,7 @@ public class FrozenAttribute : CustomizeAttribute
     /// </returns>
     public override ICustomization GetCustomization(ParameterInfo parameter)
     {
-        if (parameter is null)
-        {
-            throw new ArgumentNullException(nameof(parameter));
-        }
+        if (parameter is null) throw new ArgumentNullException(nameof(parameter));
 
         var matcher = new ParameterMatcherBuilder(parameter).SetFlags(this.By).Build();
 

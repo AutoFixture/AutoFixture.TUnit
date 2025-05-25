@@ -4,7 +4,7 @@ public class GuardedMethodHost
 {
     public void ConsumeString(string s)
     {
-        if (s == null)
+        if (s is null)
         {
             throw new ArgumentNullException(nameof(s));
         }
@@ -28,7 +28,7 @@ public class GuardedMethodHost
 
     public void ConsumeStringAndInt32(string s, int i)
     {
-        if (s == null)
+        if (s is null)
         {
             throw new ArgumentNullException(nameof(s));
         }
@@ -40,7 +40,7 @@ public class GuardedMethodHost
 
     public void ConsumeStringAndGuid(string s, Guid g)
     {
-        if (s == null)
+        if (s is null)
         {
             throw new ArgumentNullException(nameof(s));
         }
@@ -64,7 +64,7 @@ public class GuardedMethodHost
 
     public void ConsumeStringAndInt32AndGuid(string s, int i, Guid g)
     {
-        if (s == null)
+        if (s is null)
         {
             throw new ArgumentNullException(nameof(s));
         }

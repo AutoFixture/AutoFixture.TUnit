@@ -10,20 +10,20 @@ namespace AutoFixture.TUnit;
 /// </summary>
 [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
     Justification = "This attribute is the root of a potential attribute hierarchy.")]
-public class ClassAutoDataAttribute : AutoFixtureDataSourceAttribute
+public class AutoClassDataSourceAttribute : BaseDataSourceAttribute
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ClassAutoDataAttribute"/> class.
+    /// Initializes a new instance of the <see cref="AutoClassDataSourceAttribute"/> class.
     /// </summary>
     /// <param name="sourceType">The type of the class that provides the data.</param>
     /// <param name="parameters">The parameters passed to the data provider class constructor.</param>
-    public ClassAutoDataAttribute(Type sourceType, params object?[] parameters)
+    public AutoClassDataSourceAttribute(Type sourceType, params object?[] parameters)
         : this(() => new Fixture(), sourceType, parameters)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ClassAutoDataAttribute"/> class.
+    /// Initializes a new instance of the <see cref="AutoClassDataSourceAttribute"/> class.
     /// </summary>
     /// <param name="fixtureFactory">The fixture factory that provides missing data from <paramref name="sourceType"/>.</param>
     /// <param name="sourceType">The type of the class that provides the data.</param>
@@ -38,7 +38,7 @@ public class ClassAutoDataAttribute : AutoFixtureDataSourceAttribute
     /// The missing arguments for the test are being supplied from the Fixture instance.
     /// <code>
     /// [Test]
-    /// [ClassAutoData(typeof(MyTestData))]
+    /// [AutoClassDataSource(typeof(MyTestData))]
     /// public void ClassDataSuppliesExtraValues(int sum, int[] numbers, Person client)
     /// {
     ///     var actual = numbers.Sum(x => x);
@@ -60,7 +60,7 @@ public class ClassAutoDataAttribute : AutoFixtureDataSourceAttribute
     /// }
     /// </code>
     /// </example>
-    protected ClassAutoDataAttribute(Func<IFixture> fixtureFactory, Type sourceType, params object?[] parameters)
+    protected AutoClassDataSourceAttribute(Func<IFixture> fixtureFactory, Type sourceType, params object?[] parameters)
     {
         this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
         this.SourceType = sourceType ?? throw new ArgumentNullException(nameof(sourceType));

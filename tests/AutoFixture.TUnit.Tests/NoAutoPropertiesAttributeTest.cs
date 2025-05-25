@@ -21,8 +21,8 @@ public class NoAutoPropertiesAttributeTest
         // Arrange
         var sut = new NoAutoPropertiesAttribute();
         // Act & assert
-        await Assert.That(() =>
-            sut.GetCustomization(null!)).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => sut.GetCustomization(null!))
+            .ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]

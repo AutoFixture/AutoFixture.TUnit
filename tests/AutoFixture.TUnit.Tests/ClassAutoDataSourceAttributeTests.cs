@@ -6,37 +6,37 @@ using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.Tests;
 
-public class ClassAutoDataAttributeTests
+public class ClassAutoDataSourceAttributeTests
 {
     [Test]
     public void CanCreateInstance()
     {
         // Act & Assert
-        _ = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
+        _ = new AutoClassDataSourceAttribute(typeof(MixedTypeClassData));
     }
 
     [Test]
     public async Task IsDataAttribute()
     {
         // Arrange & Act
-        var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
+        var sut = new AutoClassDataSourceAttribute(typeof(MixedTypeClassData));
 
         // Assert
-        await Assert.That(sut).IsAssignableTo<AutoFixtureDataSourceAttribute>();
+        await Assert.That(sut).IsAssignableTo<BaseDataSourceAttribute>();
     }
 
     [Test]
     public async Task ThrowsWhenSourceTypeIsNull()
     {
         // Act & Assert
-        await Assert.That(() => new ClassAutoDataAttribute(null!)).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => new AutoClassDataSourceAttribute(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
     public async Task TreatsNullParameterValueAsArrayWithNull()
     {
         // Arrange & Act
-        var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData), null!);
+        var sut = new AutoClassDataSourceAttribute(typeof(MixedTypeClassData), null!);
 
         // Assert
         await Assert.That(sut.Parameters).HasSingleItem()
@@ -48,7 +48,7 @@ public class ClassAutoDataAttributeTests
     public async Task ThrowsWhenFixtureFactoryIsNull()
     {
         // Act & Assert
-        await Assert.That(() => new DerivedClassAutoDataAttribute(
+        await Assert.That(() => new DerivedAutoClassDataSourceAttribute(
             fixtureFactory: null!, typeof(MixedTypeClassData))).ThrowsExactly<ArgumentNullException>();
     }
 
@@ -56,7 +56,7 @@ public class ClassAutoDataAttributeTests
     public async Task GetDataThrowsWhenSourceTypeNotEnumerable()
     {
         // Arrange
-        var sut = new ClassAutoDataAttribute(typeof(MyClass));
+        var sut = new AutoClassDataSourceAttribute(typeof(MyClass));
         var testMethod = typeof(ExampleTestClass)
             .GetMethod(nameof(ExampleTestClass.TestMethod));
 
@@ -69,7 +69,7 @@ public class ClassAutoDataAttributeTests
     public async Task GetDataThrowsWhenParametersDoNotMatchConstructor()
     {
         // Arrange
-        var sut = new ClassAutoDataAttribute(typeof(MyClass), "myString", 33, null!);
+        var sut = new AutoClassDataSourceAttribute(typeof(MyClass), "myString", 33, null!);
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act & Assert
@@ -81,7 +81,7 @@ public class ClassAutoDataAttributeTests
     public async Task GetDataDoesNotThrowWhenSourceYieldsNoResults()
     {
         // Arrange
-        var sut = new ClassAutoDataAttribute(typeof(EmptyClassData));
+        var sut = new AutoClassDataSourceAttribute(typeof(EmptyClassData));
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act
@@ -96,7 +96,7 @@ public class ClassAutoDataAttributeTests
     public async Task GetDataThrowsWhenSourceYieldsNullResults()
     {
         // Arrange
-        var sut = new ClassAutoDataAttribute(typeof(ClassWithNullTestData));
+        var sut = new AutoClassDataSourceAttribute(typeof(ClassWithNullTestData));
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act & assert
@@ -108,7 +108,7 @@ public class ClassAutoDataAttributeTests
     public void GetDataDoesNotThrow()
     {
         // Arrange
-        var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
+        var sut = new AutoClassDataSourceAttribute(typeof(MixedTypeClassData));
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act & Assert
@@ -119,7 +119,7 @@ public class ClassAutoDataAttributeTests
     public async Task GetDataReturnsEnumerable()
     {
         // Arrange
-        var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
+        var sut = new AutoClassDataSourceAttribute(typeof(MixedTypeClassData));
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act
@@ -133,7 +133,7 @@ public class ClassAutoDataAttributeTests
     public async Task GetDataReturnsNonEmptyEnumerable()
     {
         // Arrange
-        var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
+        var sut = new AutoClassDataSourceAttribute(typeof(MixedTypeClassData));
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act
@@ -147,7 +147,7 @@ public class ClassAutoDataAttributeTests
     public async Task GetDataReturnsExpectedTestDataCount()
     {
         // Arrange
-        var sut = new ClassAutoDataAttribute(typeof(MixedTypeClassData));
+        var sut = new AutoClassDataSourceAttribute(typeof(MixedTypeClassData));
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act
@@ -161,7 +161,7 @@ public class ClassAutoDataAttributeTests
     public async Task GetDataThrowsWhenDataSourceNotEnumerable()
     {
         // Arrange
-        var sut = new ClassAutoDataAttribute(typeof(GuardedConstructorHost<object>));
+        var sut = new AutoClassDataSourceAttribute(typeof(GuardedConstructorHost<object>));
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act & Assert
@@ -173,7 +173,7 @@ public class ClassAutoDataAttributeTests
     public async Task GetDataThrowsForNonMatchingConstructorTypes()
     {
         // Arrange
-        var sut = new ClassAutoDataAttribute(typeof(DelegatingTestData), "myString", 33, null!);
+        var sut = new AutoClassDataSourceAttribute(typeof(DelegatingTestData), "myString", 33, null!);
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act & Assert
@@ -205,7 +205,7 @@ public class ClassAutoDataAttributeTests
             OnCustomize = c => customizationLog.Add(c)
         };
 
-        var sut = new DerivedClassAutoDataAttribute(() => fixture, typeof(ClassWithEmptyTestData));
+        var sut = new DerivedAutoClassDataSourceAttribute(() => fixture, typeof(ClassWithEmptyTestData));
 
         // Act
         _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!))
@@ -229,7 +229,7 @@ public class ClassAutoDataAttributeTests
             new FixedParameterBuilder<string>("b", "value"),
             new FixedParameterBuilder<EnumType>("c", EnumType.First),
             new FixedParameterBuilder<Tuple<string, int>>("d", new Tuple<string, int>("value", 1)));
-        var sut = new DerivedClassAutoDataAttribute(
+        var sut = new DerivedAutoClassDataSourceAttribute(
             () => new DelegatingFixture { OnCreate = (r, c) => builder.Create(r, c) },
             typeof(MixedTypeClassData));
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
@@ -256,7 +256,7 @@ public class ClassAutoDataAttributeTests
             new FixedParameterBuilder<int>("a", 1),
             new FixedParameterBuilder<string>("b", "value"),
             new FixedParameterBuilder<Tuple<string, int>>("d", new Tuple<string, int>("value", 1)));
-        var sut = new DerivedClassAutoDataAttribute(
+        var sut = new DerivedAutoClassDataSourceAttribute(
             () => new DelegatingFixture { OnCreate = (r, c) => builder.Create(r, c) },
             typeof(ParameterizedClassData),
             29, "myValue", EnumType.Third);
@@ -278,7 +278,7 @@ public class ClassAutoDataAttributeTests
     public async Task TestWithNullParametersPasses()
     {
         // Arrange
-        var sut = new ClassAutoDataAttribute(typeof(TestDataWithNullValues));
+        var sut = new AutoClassDataSourceAttribute(typeof(TestDataWithNullValues));
         var testMethod = typeof(ExampleTestClass<string, string, string[], RecordType<string>>)
             .GetMethod(nameof(ExampleTestClass<string, string, string[], RecordType<string>>.TestMethod));
         var expected = new[]

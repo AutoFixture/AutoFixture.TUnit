@@ -5,12 +5,7 @@ public class GuardedConstructorHost<T>
 {
     public GuardedConstructorHost(T item)
     {
-        if (item == null)
-        {
-            throw new ArgumentNullException(nameof(item));
-        }
-
-        this.Item = item;
+        this.Item = item ?? throw new ArgumentNullException(nameof(item));
     }
 
     public T Item { get; }

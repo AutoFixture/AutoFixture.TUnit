@@ -3,17 +3,17 @@ using TestTypeFoundation;
 
 namespace AutoFixture.TUnit.Tests;
 
-public class MemberAutoDataAttributeScenarioTests
+public class MemberAutoDataSourceAttributeScenarioTests
 {
     [Test]
-    [MemberAutoData(nameof(GetSingleStringValueTestData))]
-    [MemberAutoData(
+    [AutoMemberDataSource(nameof(GetSingleStringValueTestData))]
+    [AutoMemberDataSource(
         memberType: typeof(TestTypeWithMethodData),
         memberName: nameof(TestTypeWithMethodData.GetEmptyTestData))]
-    [MemberAutoData(
+    [AutoMemberDataSource(
         memberType: typeof(TestTypeWithMethodData),
         memberName: nameof(TestTypeWithMethodData.GetSingleStringValueTestData))]
-    [MemberAutoData(
+    [AutoMemberDataSource(
         memberType: typeof(TestTypeWithMethodData),
         memberName: nameof(TestTypeWithMethodData.GetStringTestsFromArgument),
         parameters: "argument")]
@@ -25,8 +25,8 @@ public class MemberAutoDataAttributeScenarioTests
     }
 
     [Test]
-    [MemberAutoData(nameof(GetMultipleValueTestData))]
-    [MemberAutoData(
+    [AutoMemberDataSource(nameof(GetMultipleValueTestData))]
+    [AutoMemberDataSource(
         memberType: typeof(TestTypeWithMethodData),
         memberName: nameof(TestTypeWithMethodData.GetMultipleValueTestData))]
     public async Task MultipleValueTest(string a, int b, decimal c)
@@ -40,8 +40,8 @@ public class MemberAutoDataAttributeScenarioTests
     }
 
     [Test]
-    [MemberAutoData(nameof(GetSingleStringValueTestData))]
-    [MemberAutoData(
+    [AutoMemberDataSource(nameof(GetSingleStringValueTestData))]
+    [AutoMemberDataSource(
         memberType: typeof(TestTypeWithMethodData),
         memberName: nameof(TestTypeWithMethodData.GetSingleStringValueTestData))]
     public async Task FreezesUninjectedValues(
@@ -63,7 +63,7 @@ public class MemberAutoDataAttributeScenarioTests
     }
 
     [Test]
-    [MemberAutoData(nameof(GetMultipleValueTestData))]
+    [AutoMemberDataSource(nameof(GetMultipleValueTestData))]
     public async Task InjectsValues([Frozen] string a,
         [Frozen] int b,
         [Frozen] decimal c,
@@ -89,8 +89,8 @@ public class MemberAutoDataAttributeScenarioTests
     }
 
     [Test]
-    [MemberAutoData(nameof(GetStringValuesTestData))]
-    [MemberAutoData(
+    [AutoMemberDataSource(nameof(GetStringValuesTestData))]
+    [AutoMemberDataSource(
         memberType: typeof(TestTypeWithMethodData),
         memberName: nameof(TestTypeWithMethodData.GetStringValuesTestData))]
     public async Task DoesNotAlterTestDataValuesWhenFrozen(
@@ -106,8 +106,8 @@ public class MemberAutoDataAttributeScenarioTests
     }
 
     [Test]
-    [MemberAutoData(nameof(GetStringValuesTestData))]
-    [MemberAutoData(
+    [AutoMemberDataSource(nameof(GetStringValuesTestData))]
+    [AutoMemberDataSource(
         memberType: typeof(TestTypeWithMethodData),
         memberName: nameof(TestTypeWithMethodData.GetStringValuesTestData))]
     public async Task LastInjectedValueIsFrozen(
@@ -123,7 +123,7 @@ public class MemberAutoDataAttributeScenarioTests
     }
 
     [Test]
-    [MemberAutoData(
+    [AutoMemberDataSource(
         memberType: typeof(TestTypeWithMethodData),
         memberName: nameof(TestTypeWithMethodData.GetTestWithComplexTypesData))]
     public async Task InjectsComplexTypes(

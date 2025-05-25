@@ -7,26 +7,26 @@ namespace AutoFixture.TUnit.Tests;
 
 public class Scenario
 {
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task AutoDataProvidesCorrectInteger(int primitiveValue)
     {
         await Assert.That(primitiveValue).IsNotEqualTo(0);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task AutoDataProvidesCorrectString(string text)
     {
         await Assert.That(text).StartsWith("text");
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task AutoDataProvidesCorrectObject(PropertyHolder<Version> ph)
     {
         await Assert.That(ph).IsNotNull();
         await Assert.That(ph.Property).IsNotNull();
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task AutoDataProvidesMultipleObjects(PropertyHolder<Version> ph, SingleParameterType<ConcreteType> spt)
     {
         await Assert.That(ph).IsNotNull();
@@ -37,8 +37,8 @@ public class Scenario
     }
 
     [Test]
-    [ArgumentsAutoData("foo")]
-    [ArgumentsAutoData("foo", "bar")]
+    [AutoArguments("foo")]
+    [AutoArguments("foo", "bar")]
     public async Task InlineAutoDataUsesSuppliedDataValues(string s1, string s2)
     {
         await Assert.That(s1).IsEqualTo("foo");
@@ -46,8 +46,8 @@ public class Scenario
     }
 
     [Test]
-    [ArgumentsAutoData("foo")]
-    [ArgumentsAutoData("foo", "bar")]
+    [AutoArguments("foo")]
+    [AutoArguments("foo", "bar")]
     public async Task InlineAutoDataSuppliesDataSpecimens(string s1, string s2, MyClass myClass)
     {
         await Assert.That(s1).IsEqualTo("foo");
@@ -56,8 +56,8 @@ public class Scenario
     }
 
     [Test]
-    [ArgumentsAutoData("foo")]
-    [ArgumentsAutoData("foo", "bar")]
+    [AutoArguments("foo")]
+    [AutoArguments("foo", "bar")]
     public async Task InlineAutoDataSuppliesDataSpecimensOnlyForNonProvidedValues(string s1, string s2, string s3)
     {
         await Assert.That(s1).IsEqualTo("foo");
@@ -69,9 +69,9 @@ public class Scenario
     // This test and its associated types is used to document one of the
     // InlineAutoDataAttribute constructor overloads.
     [Test]
-    [MyCustomArgumentsAutoData(1337)]
-    [MyCustomArgumentsAutoData(1337, 7)]
-    [MyCustomArgumentsAutoData(1337, 7, 42)]
+    [MyCustomAutoArguments(1337)]
+    [MyCustomAutoArguments(1337, 7)]
+    [MyCustomAutoArguments(1337, 7, 42)]
 #pragma warning disable xUnit1026 // Test methods should use all of their parameters - it's required by the test logic.
     public async Task CustomInlineDataSuppliesExtraValues(int x, int y, int z)
 #pragma warning restore xUnit1026 // Test methods should use all of their parameters
@@ -82,23 +82,23 @@ public class Scenario
         await Assert.That(z).IsEqualTo(42);
     }
 
-    public class MyCustomArgumentsAutoDataAttribute
-        : ArgumentsAutoDataAttribute
+    public class MyCustomAutoArgumentsAttribute
+        : AutoArgumentsAttribute
     {
-        public MyCustomArgumentsAutoDataAttribute(params object[] values)
+        public MyCustomAutoArgumentsAttribute(params object[] values)
             : base(() => new Fixture().Customize(new TheAnswer()), values)
         {
         }
     }
 
-    [Test, MemberAutoData(nameof(StringData))]
+    [Test, AutoMemberDataSource(nameof(StringData))]
     public async Task MemberAutoDataUsesSuppliedDataValues(string s1, string s2)
     {
         await Assert.That(s1).IsEqualTo("foo");
         await Assert.That(s2).IsNotNull();
     }
 
-    [Test, MemberAutoData(nameof(StringData))]
+    [Test, AutoMemberDataSource(nameof(StringData))]
     public async Task MemberAutoDataSuppliesDataSpecimens(string s1, string s2, MyClass myClass)
     {
         await Assert.That(s1).IsEqualTo("foo");
@@ -106,7 +106,7 @@ public class Scenario
         await Assert.That(myClass).IsNotNull();
     }
 
-    [Test, MemberAutoData(nameof(StringData))]
+    [Test, AutoMemberDataSource(nameof(StringData))]
     public async Task MemberAutoDataSuppliesDataSpecimensOnlyForNonProvidedValues(string s1, string s2, string s3)
     {
         await Assert.That(s1).IsEqualTo("foo");
@@ -115,7 +115,7 @@ public class Scenario
         await Assert.That(s3).IsNotEqualTo("bar");
     }
 
-    [Test, MemberAutoData(nameof(GetParametrizedData), 21, 38, 43)]
+    [Test, AutoMemberDataSource(nameof(GetParametrizedData), 21, 38, 43)]
     public async Task MemberAutoDataCanBeParametrized(int x, int y, int z)
     {
         await Assert.That(x).IsEqualTo(21);
@@ -123,7 +123,7 @@ public class Scenario
         await Assert.That(z).IsEqualTo(43);
     }
 
-    [Test, MyCustomMemberAutoData(nameof(IntData))]
+    [Test, MyCustomAutoMemberDataSource(nameof(IntData))]
     public async Task CustomMemberAutoDataSuppliesExtraValues(int x, int y, int z)
     {
         await Assert.That(x).IsEqualTo(1337);
@@ -131,7 +131,7 @@ public class Scenario
         await Assert.That(z).IsEqualTo(42);
     }
 
-    [Test, MyCustomMemberAutoData(nameof(GetParametrizedData), 21, 38, 43)]
+    [Test, MyCustomAutoMemberDataSource(nameof(GetParametrizedData), 21, 38, 43)]
     public async Task CustomMemberAutoDataCanBeParametrized(int x, int y, int z)
     {
         await Assert.That(x).IsEqualTo(21);
@@ -163,10 +163,10 @@ public class Scenario
         yield return [x, y, z];
     }
 
-    public class MyCustomMemberAutoDataAttribute
-        : MemberAutoDataAttribute
+    public class MyCustomAutoMemberDataSourceAttribute
+        : AutoMemberDataSourceAttribute
     {
-        public MyCustomMemberAutoDataAttribute(string memberName, params object[] parameters)
+        public MyCustomAutoMemberDataSourceAttribute(string memberName, params object[] parameters)
             : base(() => new Fixture().Customize(new TheAnswer()), memberName, parameters)
         {
         }
@@ -180,13 +180,13 @@ public class Scenario
         }
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameter([Frozen] Guid g1, Guid g2)
     {
         await Assert.That(g2).IsEqualTo(g1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeSecondParameterOnlyFreezesSubsequentParameters(Guid g1, [Frozen] Guid g2, Guid g3)
     {
         await Assert.That(g2).IsNotEqualTo(g1);
@@ -195,7 +195,7 @@ public class Scenario
         await Assert.That(g3).IsEqualTo(g2);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task IntroductoryTest(int expectedNumber, MyClass sut)
     {
         // Arrange
@@ -206,21 +206,21 @@ public class Scenario
         await Assert.That(result).IsEqualTo(expectedNumber);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task ModestCreatesParameterWithModestConstructor([Modest] MultiUnorderedConstructorType p)
     {
         await Assert.That(string.IsNullOrEmpty(p.Text)).IsTrue();
         await Assert.That(p.Number).IsEqualTo(0);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task GreedyCreatesParameterWithGreedyConstructor([Greedy] MultiUnorderedConstructorType p)
     {
         await Assert.That(string.IsNullOrEmpty(p.Text)).IsFalse();
         await Assert.That(p.Number).IsNotEqualTo(0);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task BothFrozenAndGreedyAttributesCanBeAppliedToSameParameter(
         [Frozen][Greedy] MultiUnorderedConstructorType p1, MultiUnorderedConstructorType p2)
     {
@@ -229,21 +229,21 @@ public class Scenario
         await Assert.That(p2.Number).IsNotEqualTo(0);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FavorArraysCausesArrayConstructorToBeInjectedWithFrozenItems([Frozen] int[] numbers,
         [FavorArrays] ItemContainer<int> container)
     {
         await Assert.That(numbers.SequenceEqual(container.Items)).IsTrue();
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterShouldAssignSameInstanceToSecondParameter([Frozen] string p1,
         string p2)
     {
         await Assert.That(p2).IsEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByExactTypeShouldAssignSameInstanceToSecondParameter(
         [Frozen(Matching.ExactType)] ConcreteType p1,
         ConcreteType p2)
@@ -251,7 +251,7 @@ public class Scenario
         await Assert.That(p2).IsEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByExactTypeShouldNotAssignSameInstanceToSecondParameterOfDifferentType(
         [Frozen(Matching.ExactType)] ConcreteType p1,
         object p2)
@@ -259,7 +259,7 @@ public class Scenario
         await Assert.That(p2).IsNotEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByDirectBaseTypeShouldAssignSameInstanceToSecondParameter(
         [Frozen(Matching.DirectBaseType)] ConcreteType p1,
         AbstractType p2)
@@ -267,7 +267,7 @@ public class Scenario
         await Assert.That(p2).IsEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByDirectBaseTypeShouldNotAssignSameInstanceToSecondParameterOfIndirectBaseType(
         [Frozen(Matching.DirectBaseType)] ConcreteType p1,
         object p2)
@@ -275,7 +275,7 @@ public class Scenario
         await Assert.That(p2).IsNotEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByDirectBaseTypeShouldNotAssignSameInstanceToSecondParameterOfSameType(
         [Frozen(Matching.DirectBaseType)] ConcreteType p1,
         ConcreteType p2)
@@ -283,7 +283,7 @@ public class Scenario
         await Assert.That(p2).IsNotEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByExactOrDirectBaseTypeShouldAssignSameInstanceToSecondParameterOfSameType(
         [Frozen(Matching.ExactType | Matching.DirectBaseType)]
         ConcreteType p1,
@@ -292,7 +292,7 @@ public class Scenario
         await Assert.That(p2).IsEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByInterfaceShouldAssignSameInstanceToSecondParameter(
         [Frozen(Matching.ImplementedInterfaces)]
         NoopInterfaceImplementer p1,
@@ -301,7 +301,7 @@ public class Scenario
         await Assert.That(p2).IsEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByInterfaceShouldNotAssignSameInstanceToSecondParameterOfNonInterfaceType(
         [Frozen(Matching.ImplementedInterfaces)]
         NoopInterfaceImplementer p1,
@@ -310,7 +310,7 @@ public class Scenario
         await Assert.That(p2).IsNotEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByInterfaceShouldNotAssignSameInstanceToSecondParameterOfSameType(
         [Frozen(Matching.ImplementedInterfaces)]
         NoopInterfaceImplementer p1,
@@ -319,7 +319,7 @@ public class Scenario
         await Assert.That(p2).IsNotEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByDirectOrInterfaceShouldAssignSameInstanceToSecondParameterOfSameType(
         [Frozen(Matching.ExactType | Matching.ImplementedInterfaces)]
         NoopInterfaceImplementer p1,
@@ -328,7 +328,7 @@ public class Scenario
         await Assert.That(p2).IsEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByParameterWithSameNameShouldAssignSameInstanceToSecondParameter(
         [Frozen(Matching.ParameterName)] string parameter,
         SingleParameterType<object> p2)
@@ -336,7 +336,7 @@ public class Scenario
         await Assert.That(p2.Parameter).IsEqualTo(parameter);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByParameterWithDifferentNameShouldNotAssignSameInstanceToSecondParameter(
         [Frozen(Matching.ParameterName)] string p1,
         SingleParameterType<object> p2)
@@ -344,7 +344,7 @@ public class Scenario
         await Assert.That(p2.Parameter).IsNotEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByParameterWithDifferentNameShouldNotAssignSameInstanceToSecondParameterOfSameType(
         [Frozen(Matching.ParameterName)] string p1,
         SingleParameterType<string> p2)
@@ -352,7 +352,7 @@ public class Scenario
         await Assert.That(p2.Parameter).IsNotEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByPropertyWithSameNameShouldAssignSameInstanceToSecondParameter(
         [Frozen(Matching.PropertyName)] string property,
         PropertyHolder<object> p2)
@@ -360,7 +360,7 @@ public class Scenario
         await Assert.That(p2.Property).IsEqualTo(property);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByPropertyWithDifferentNameShouldNotAssignSameInstanceToSecondParameter(
         [Frozen(Matching.PropertyName)] string p1,
         PropertyHolder<object> p2)
@@ -368,7 +368,7 @@ public class Scenario
         await Assert.That(p2.Property).IsNotEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByPropertyWithDifferentNameShouldNotAssignSameInstanceToSecondParameterOfSameType(
         [Frozen(Matching.PropertyName)] string p1,
         PropertyHolder<string> p2)
@@ -376,7 +376,7 @@ public class Scenario
         await Assert.That(p2.Property).IsNotEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByFieldWithSameNameShouldAssignSameInstanceToSecondParameter(
         [Frozen(Matching.FieldName)] string field,
         FieldHolder<object> p2)
@@ -384,7 +384,7 @@ public class Scenario
         await Assert.That(p2.Field).IsEqualTo(field);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByFieldWithDifferentNameShouldNotAssignSameInstanceToSecondParameter(
         [Frozen(Matching.FieldName)] string p1,
         FieldHolder<object> p2)
@@ -392,7 +392,7 @@ public class Scenario
         await Assert.That(p2.Field).IsNotEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByFieldWithDifferentNameShouldNotAssignSameInstanceToSecondParameterOfSameType(
         [Frozen(Matching.FieldName)] string p1,
         FieldHolder<string> p2)
@@ -400,7 +400,7 @@ public class Scenario
         await Assert.That(p2.Field).IsNotEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingParameter(
         [Frozen(Matching.MemberName)] string parameter,
         SingleParameterType<object> p2)
@@ -408,7 +408,7 @@ public class Scenario
         await Assert.That(p2.Parameter).IsEqualTo(parameter);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToParameter(
         [Frozen(Matching.MemberName)] string p1,
         SingleParameterType<object> p2)
@@ -416,7 +416,7 @@ public class Scenario
         await Assert.That(p2.Parameter).IsNotEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToParameterOfSameType(
         [Frozen(Matching.MemberName)] string p1,
         SingleParameterType<string> p2)
@@ -424,7 +424,7 @@ public class Scenario
         await Assert.That(p2.Parameter).IsNotEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingProperty(
         [Frozen(Matching.MemberName)] string property,
         PropertyHolder<object> p2)
@@ -432,7 +432,7 @@ public class Scenario
         await Assert.That(p2.Property).IsEqualTo(property);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToProperty(
         [Frozen(Matching.MemberName)] string p1,
         PropertyHolder<object> p2)
@@ -440,7 +440,7 @@ public class Scenario
         await Assert.That(p2.Property).IsNotEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToPropertyOfSameType(
         [Frozen(Matching.MemberName)] string p1,
         PropertyHolder<string> p2)
@@ -448,7 +448,7 @@ public class Scenario
         await Assert.That(p2.Property).IsNotEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByMemberWithSameNameShouldAssignSameInstanceToMatchingField(
         [Frozen(Matching.MemberName)] string field,
         FieldHolder<object> p2)
@@ -456,7 +456,7 @@ public class Scenario
         await Assert.That(p2.Field).IsEqualTo(field);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToField(
         [Frozen(Matching.MemberName)] string p1,
         FieldHolder<object> p2)
@@ -464,7 +464,7 @@ public class Scenario
         await Assert.That(p2.Field).IsNotEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeFirstParameterByMemberWithDifferentNameShouldNotAssignSameInstanceToFieldOfSameType(
         [Frozen(Matching.MemberName)] string p1,
         FieldHolder<string> p2)
@@ -472,14 +472,14 @@ public class Scenario
         await Assert.That(p2.Field).IsNotEqualTo(p1);
     }
 
-    [Test, AutoData]
+    [Test, AutoDataSource]
     public async Task FreezeParameterWithStringLengthConstraintShouldCreateConstrainedSpecimen(
         [Frozen, StringLength(3)] string p)
     {
         await Assert.That(p.Length == 3).IsTrue();
     }
 
-    [Test, ClassAutoData(typeof(StringDataClass))]
+    [Test, AutoClassDataSource(typeof(StringDataClass))]
     public async Task ClassAutoDataUsesValuesSuppliedByClass(string s1, string s2, string s3)
     {
         await Assert.That(new[] { "foo", "dim" }).Contains(s1);
@@ -487,7 +487,7 @@ public class Scenario
         await Assert.That(s3).IsNotEmpty();
     }
 
-    [Test, ClassAutoData(typeof(StringDataClass))]
+    [Test, AutoClassDataSource(typeof(StringDataClass))]
     public async Task ClassAutoDataSuppliesDataSpecimens(string s1, string s2, string s3, MyClass myClass)
     {
         await Assert.That(s1).IsNotEmpty();
@@ -496,7 +496,7 @@ public class Scenario
         await Assert.That(myClass).IsNotNull();
     }
 
-    [Test, ClassAutoData(typeof(MixedDataClass))]
+    [Test, AutoClassDataSource(typeof(MixedDataClass))]
     public async Task ClassAutoDataSuppliesDataOfMixedTypes(int p1, string p2, PropertyHolder<string> p3, MyClass myClass)
     {
         await Assert.That(p1).IsNotEqualTo(0);
@@ -506,7 +506,7 @@ public class Scenario
         await Assert.That(myClass).IsNotNull();
     }
 
-    [Test, ClassAutoData(typeof(ParameterizedDataClass), 28, "bar", 93.102)]
+    [Test, AutoClassDataSource(typeof(ParameterizedDataClass), 28, "bar", 93.102)]
     public async Task ClassAutoDataCanBeParameterized(int p1, string p2, double p3, RecordType<double> p4)
     {
         var actual = new object[] { p1, p2, p3 };
