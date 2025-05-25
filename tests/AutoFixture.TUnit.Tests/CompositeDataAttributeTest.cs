@@ -10,7 +10,7 @@ public class CompositeDataAttributeTest
     public async Task SutIsDataAttribute()
     {
         // Arrange & Act
-        var sut = new CompositeDataAttribute();
+        var sut = new CompositeDataSourceAttribute();
 
         // Assert
         await Assert.That(sut).IsAssignableTo<BaseDataSourceAttribute>();
@@ -21,7 +21,7 @@ public class CompositeDataAttributeTest
     {
         // Arrange
         // Act & assert
-        await Assert.That(() => new CompositeDataAttribute(null!))
+        await Assert.That(() => new CompositeDataSourceAttribute(null!))
             .ThrowsExactly<ArgumentNullException>();
     }
 
@@ -39,7 +39,7 @@ public class CompositeDataAttributeTest
             new FakeDataAttribute(method, [])
         };
 
-        var sut = new CompositeDataAttribute(attributes);
+        var sut = new CompositeDataSourceAttribute(attributes);
         // Act
         IEnumerable<BaseDataSourceAttribute> result = sut.Attributes;
         // Assert
@@ -51,7 +51,7 @@ public class CompositeDataAttributeTest
     {
         // Act & assert
         Assert.Throws<ArgumentNullException>(
-            () => _ = new CompositeDataAttribute(((IEnumerable<BaseDataSourceAttribute>)null)!));
+            () => _ = new CompositeDataSourceAttribute(((IEnumerable<BaseDataSourceAttribute>)null)!));
     }
 
     [Test]
@@ -68,7 +68,7 @@ public class CompositeDataAttributeTest
             new FakeDataAttribute(method, [])
         };
 
-        var sut = new CompositeDataAttribute(attributes);
+        var sut = new CompositeDataSourceAttribute(attributes);
         // Act
         var result = sut.Attributes;
         // Assert
@@ -79,7 +79,7 @@ public class CompositeDataAttributeTest
     public async Task GetDataWithNullGeneratorMetadataThrows()
     {
         // Arrange
-        var sut = new CompositeDataAttribute();
+        var sut = new CompositeDataSourceAttribute();
 
         // Act & assert
         await Assert.That(() => sut.GenerateDataSources(null!)
@@ -92,7 +92,7 @@ public class CompositeDataAttributeTest
         // Arrange
         var a = () => { };
         var method = a.GetMethodInfo();
-        var sut = new CompositeDataAttribute(
+        var sut = new CompositeDataSourceAttribute(
             new FakeDataAttribute(method, []),
             new FakeDataAttribute(method, []),
             new FakeDataAttribute(method, []));

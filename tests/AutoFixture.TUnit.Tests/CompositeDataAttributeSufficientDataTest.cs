@@ -21,7 +21,7 @@ public class CompositeDataAttributeSufficientDataTest
         IEnumerable<object[]> expectedResult)
     {
         // Arrange
-        var attribute = new CompositeDataAttribute(attributes.ToArray());
+        var attribute = new CompositeDataSourceAttribute(attributes.ToArray());
         var dataGeneratorMetadata = DataGeneratorMetadataHelper
             .CreateDataGeneratorMetadata(this.method);
         var comparer = new CollectionEquivalentToEqualityComparer<object[]>();

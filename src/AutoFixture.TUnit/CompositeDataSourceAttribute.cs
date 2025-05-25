@@ -8,24 +8,24 @@ namespace AutoFixture.TUnit;
 /// </summary>
 [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
     Justification = "This attribute is the root of a potential attribute hierarchy.")]
-public class CompositeDataAttribute : BaseDataSourceAttribute
+public class CompositeDataSourceAttribute : BaseDataSourceAttribute
 {
     private readonly BaseDataSourceAttribute[] attributes;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
+    /// Initializes a new instance of the <see cref="CompositeDataSourceAttribute"/> class.
     /// </summary>
     /// <param name="attributes">The attributes representing a data source for a data theory.</param>
-    public CompositeDataAttribute(IEnumerable<BaseDataSourceAttribute> attributes)
+    public CompositeDataSourceAttribute(IEnumerable<BaseDataSourceAttribute> attributes)
         : this(attributes as BaseDataSourceAttribute[] ?? attributes.ToArray())
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CompositeDataAttribute"/> class.
+    /// Initializes a new instance of the <see cref="CompositeDataSourceAttribute"/> class.
     /// </summary>
     /// <param name="attributes">The attributes representing a data source for a data theory.</param>
-    public CompositeDataAttribute(params BaseDataSourceAttribute[] attributes)
+    public CompositeDataSourceAttribute(params BaseDataSourceAttribute[] attributes)
     {
         this.attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
     }
