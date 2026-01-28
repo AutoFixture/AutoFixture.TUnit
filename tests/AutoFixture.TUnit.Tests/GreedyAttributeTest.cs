@@ -1,6 +1,5 @@
-﻿using AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using TestTypeFoundation;
-using TUnit.Assertions.AssertConditions.Throws;
 #if NETCOREAPP1_1
 using System.Reflection;
 #endif
@@ -40,8 +39,9 @@ public class GreedyAttributeTest
         // Act
         var result = sut.GetCustomization(parameter);
         // Assert
-        var invoker = await Assert.That(result).IsAssignableTo<ConstructorCustomization>();
-        await Assert.That(invoker?.TargetType).IsEqualTo(parameter.ParameterType);
-        await Assert.That(invoker?.Query).IsAssignableTo<GreedyConstructorQuery>();
+        await Assert.That(result).IsAssignableTo<ConstructorCustomization>();
+        var invoker = (ConstructorCustomization)result;
+        await Assert.That(invoker.TargetType).IsEqualTo(parameter.ParameterType);
+        await Assert.That(invoker.Query).IsAssignableTo<GreedyConstructorQuery>();
     }
 }

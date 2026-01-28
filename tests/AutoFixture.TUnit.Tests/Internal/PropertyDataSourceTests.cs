@@ -1,7 +1,7 @@
-﻿using AutoFixture.TUnit.Internal;
+using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.Tests.TestTypes;
 using TestTypeFoundation;
-using TUnit.Assertions.AssertConditions.Throws;
+using PropertyDataSource = AutoFixture.TUnit.Internal.PropertyDataSource;
 
 namespace AutoFixture.TUnit.Tests.Internal;
 
@@ -59,7 +59,7 @@ public class PropertyDataSourceTests
         var sut = new PropertyDataSource(sourceProperty);
 
         // Act & Assert
-        await Assert.That(() => sut.GenerateDataSources(null!)).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => sut.GetDataSources(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -73,7 +73,7 @@ public class PropertyDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
         // Act & Assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
+        await Assert.That(() => sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
 
             .ToArray()).ThrowsExactly<InvalidCastException>();
     }
@@ -95,7 +95,7 @@ public class PropertyDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithRecordTypeParameter));
 
         // Act
-        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
+        var result = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
             .Select(x => x())
             .ToArray();
 
@@ -127,7 +127,7 @@ public class PropertyDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithRecordTypeParameter));
 
         // Act
-        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod))
+        var result = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod))
             .Select(x => x())
             .ToArray();
 

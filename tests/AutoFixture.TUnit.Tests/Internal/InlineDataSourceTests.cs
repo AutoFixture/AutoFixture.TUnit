@@ -1,6 +1,5 @@
-﻿using AutoFixture.TUnit.Internal;
+using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.Tests.TestTypes;
-using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.Tests.Internal;
 
@@ -46,7 +45,7 @@ public class InlineDataSourceTests
         ]);
         // Act & Assert
         await Assert.That(() =>
-            sut.GenerateDataSources(null!)).ThrowsExactly<ArgumentNullException>();
+            sut.GetDataSources(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -60,7 +59,7 @@ public class InlineDataSourceTests
 
         // Act & Assert
         await Assert.That(() =>
-            sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod))
+            sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod))
                 .Select(x => x()).ToArray())
         .ThrowsExactly<InvalidOperationException>();
     }
@@ -75,7 +74,7 @@ public class InlineDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod));
+        var result = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod));
 
         // Assert
         var testData = await Assert.That(result).HasSingleItem();
@@ -92,7 +91,7 @@ public class InlineDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod));
+        var result = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod));
 
         // Assert
         var testData = await Assert.That(result).HasSingleItem();

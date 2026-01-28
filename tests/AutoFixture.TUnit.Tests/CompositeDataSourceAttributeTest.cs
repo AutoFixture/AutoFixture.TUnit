@@ -1,6 +1,5 @@
-﻿using System.Reflection;
+using System.Reflection;
 using AutoFixture.TUnit.Tests.TestTypes;
-using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.Tests;
 
@@ -82,7 +81,7 @@ public class CompositeDataSourceAttributeTest
         var sut = new CompositeDataSourceAttribute();
 
         // Act & assert
-        await Assert.That(() => sut.GenerateDataSources(null!)
+        await Assert.That(() => sut.GetDataSources(null!)
             .Select(x => x()).ToArray()).ThrowsException();
     }
 
@@ -100,7 +99,7 @@ public class CompositeDataSourceAttributeTest
             .CreateDataGeneratorMetadata(method);
 
         // Act
-        var result = sut.GenerateDataSources(dataGeneratorMetadata)
+        var result = sut.GetDataSources(dataGeneratorMetadata)
                 .Select(x => x()).ToArray();
 
         // Assert

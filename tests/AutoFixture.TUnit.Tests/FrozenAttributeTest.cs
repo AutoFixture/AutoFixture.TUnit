@@ -1,5 +1,3 @@
-﻿using TUnit.Assertions.AssertConditions.Throws;
-
 namespace AutoFixture.TUnit.Tests;
 
 public class FrozenAttributeTest

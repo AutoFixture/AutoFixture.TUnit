@@ -1,8 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using AutoFixture.TUnit.Tests.TestTypes;
 using TestTypeFoundation;
-using TUnit.Assertions.Equality;
 
 namespace AutoFixture.TUnit.Tests;
 
@@ -24,15 +23,14 @@ public class CompositeDataSourceAttributeSufficientDataTest
         var attribute = new CompositeDataSourceAttribute(attributes.ToArray());
         var dataGeneratorMetadata = DataGeneratorMetadataHelper
             .CreateDataGeneratorMetadata(this.method);
-        var comparer = new CollectionEquivalentToEqualityComparer<object[]>();
 
         // Act
-        var result = attribute.GenerateDataSources(dataGeneratorMetadata)
+        var result = attribute.GetDataSources(dataGeneratorMetadata)
             .Select(x => x()).ToArray();
 
         // Assert
         await Assert.That(result)
-            .IsEquivalentTo(expectedResult, comparer);
+            .IsEquivalentTo(expectedResult);
     }
 
     public IEnumerable<(

@@ -1,4 +1,4 @@
-﻿namespace TestTypeFoundation;
+namespace TestTypeFoundation;
 
 public abstract class AbstractTypeWithConstructorWithMultipleParameters<T1, T2>
 {

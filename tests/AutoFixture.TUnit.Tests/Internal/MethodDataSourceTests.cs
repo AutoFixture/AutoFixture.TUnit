@@ -1,7 +1,6 @@
-﻿using AutoFixture.TUnit.Internal;
+using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.Tests.TestTypes;
 using TestTypeFoundation;
-using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.Tests.Internal;
 
@@ -81,7 +80,7 @@ public class MethodDataSourceTests
         var sut = new MethodDataSource(testDataSource);
 
         // Act
-        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testData))
+        var result = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testData))
                 .Select(x => x());
 
         // Assert
@@ -99,7 +98,7 @@ public class MethodDataSourceTests
         var sut = new MethodDataSource(dataSource);
 
         // Act & Assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testData)).ToArray()).ThrowsExactly<InvalidCastException>();
+        await Assert.That(() => sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testData)).ToArray()).ThrowsExactly<InvalidCastException>();
     }
 
     public static object NonEnumerableTestData() => new();

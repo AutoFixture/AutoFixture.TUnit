@@ -1,5 +1,4 @@
-﻿using TestTypeFoundation;
-using TUnit.Assertions.AssertConditions.Throws;
+using TestTypeFoundation;
 
 namespace AutoFixture.TUnit.Tests;
 

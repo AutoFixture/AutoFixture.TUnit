@@ -1,6 +1,5 @@
-﻿using AutoFixture.TUnit.Internal;
+using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.Tests.TestTypes;
-using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.Tests.Internal;
 
@@ -25,12 +24,12 @@ public class DataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithoutParameters));
 
         // Act
-        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray();
+        var result = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray();
 
         // Assert
-        var item = await Assert.That(result).HasSingleItem();
-
-        await Assert.That(item).IsEmpty();
+        await Assert.That(result).HasCount(1);
+        var item = result.Single()();
+        await Assert.That(item).HasCount(0);
     }
 
     [Test]
@@ -42,7 +41,7 @@ public class DataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithSingleParameter));
 
         // Act & Assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray()).ThrowsExactly<InvalidOperationException>();
+        await Assert.That(() => sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray()).ThrowsExactly<InvalidOperationException>();
     }
 
     [Test]
@@ -57,12 +56,13 @@ public class DataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithSingleParameter));
 
         // Act
-        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray();
+        var result = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray();
 
         // Assert
-        var testData = await Assert.That(result).HasSingleItem();
-        var argument = await Assert.That(testData).HasSingleItem();
-        await Assert.That(argument).IsEqualTo("hello");
+        await Assert.That(result).HasCount(1);
+        var testData = result.Single()();
+        await Assert.That(testData).HasCount(1);
+        await Assert.That(testData[0]).IsEqualTo("hello");
     }
 
     [Test]
@@ -82,18 +82,18 @@ public class DataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod))
+        var actual = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod))
             .Select(x => x())
             .ToArray();
 
         // Assert
         await Assert.That(actual.Length).IsEqualTo(testData.Length);
 
-        await Assert.That(actual)
-            .All()
-            .Satisfy(
-                assert => assert.Satisfies(y => y.Length,
-                    y => y.IsBetween(0, 3).WithInclusiveBounds()));
+        foreach (var item in actual)
+        {
+            await Assert.That(item.Length).IsGreaterThanOrEqualTo(0);
+            await Assert.That(item.Length).IsLessThanOrEqualTo(3);
+        }
     }
 
     [Test]
@@ -106,6 +106,6 @@ public class DataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act & Assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray()).ThrowsExactly<InvalidOperationException>();
+        await Assert.That(() => sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray()).ThrowsExactly<InvalidOperationException>();
     }
 }

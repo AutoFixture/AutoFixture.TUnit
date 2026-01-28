@@ -1,4 +1,4 @@
-﻿using AutoFixture.Dsl;
+using AutoFixture.Dsl;
 using AutoFixture.Kernel;
 
 namespace AutoFixture.TUnit.Tests.TestTypes;

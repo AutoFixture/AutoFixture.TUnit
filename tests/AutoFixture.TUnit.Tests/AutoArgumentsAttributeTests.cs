@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using AutoFixture.TUnit.Tests.TestTypes;
 using TestTypeFoundation;
 
@@ -99,7 +99,7 @@ public class AutoArgumentsAttributeTests
         var sut = new DerivedAutoArgumentsAttribute(() => fixture);
 
         // Act
-        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(typeof(TypeWithCustomizationAttributes), methodName))
+        _ = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(typeof(TypeWithCustomizationAttributes), methodName))
             .Select(x => x())
             .ToArray();
 
@@ -119,7 +119,7 @@ public class AutoArgumentsAttributeTests
         object[] expected)
     {
         // Act
-        var actual = attribute.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod.DeclaringType, testMethod.Name)).ToArray();
+        var actual = attribute.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod.DeclaringType, testMethod.Name)).ToArray();
 
         // Assert
         await Assert.That(actual).HasSingleItem();

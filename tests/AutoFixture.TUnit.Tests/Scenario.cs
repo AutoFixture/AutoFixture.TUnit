@@ -1,7 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using AutoFixture.TUnit.Tests.TestTypes;
 using TestTypeFoundation;
+using ConcreteType = TestTypeFoundation.ConcreteType;
 
 namespace AutoFixture.TUnit.Tests;
 
