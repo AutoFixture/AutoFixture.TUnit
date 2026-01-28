@@ -1,4 +1,5 @@
-﻿using TestTypeFoundation;
+using TestTypeFoundation;
+using ConcreteType = TestTypeFoundation.ConcreteType;
 
 namespace AutoFixture.TUnit.Tests.TestTypes;
 

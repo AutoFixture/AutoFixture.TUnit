@@ -1,7 +1,6 @@
-﻿using AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.Tests.TestTypes;
-using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.Tests.Internal;
 
@@ -48,7 +47,7 @@ public class AutoDataSourceTests
         var method = typeof(SampleTestType).GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).Select(x => x()).ToArray();
+        var result = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).Select(x => x()).ToArray();
 
         // Assert
         await Assert.That(result).IsNotNull();
@@ -84,7 +83,7 @@ public class AutoDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
+        var result = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
         // Assert
         await Assert.That(result).IsNotNull();
@@ -116,7 +115,7 @@ public class AutoDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
+        var result = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
         // Assert
         await Assert.That(result).IsNotNull();
@@ -140,7 +139,7 @@ public class AutoDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
+        var result = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
         // Assert
         await Assert.That(result).IsEmpty();
@@ -157,7 +156,7 @@ public class AutoDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act & Assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!))
+        await Assert.That(() => sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!))
                 .ToArray())
             .ThrowsException();
     }
@@ -176,10 +175,10 @@ public class AutoDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
 
         // Act
-        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
+        _ = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
         // Assert
-        await Assert.That(customizations).IsEmpty();
+        await Assert.That(customizations.Count).IsEqualTo(0);
     }
 
     [Test]
@@ -196,10 +195,10 @@ public class AutoDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithCustomizedParameter));
 
         // Act
-        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
+        _ = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
         // Assert
-        await Assert.That(customizations).IsNotEmpty();
+        await Assert.That(customizations.Count).IsGreaterThan(0);
     }
 
     [Test]
@@ -216,14 +215,15 @@ public class AutoDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleCustomizations));
 
         // Act
-        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
+        _ = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
         // Assert
         using var scope = Assert.Multiple();
 
         await Assert.That(customizations[0]).IsAssignableTo<FreezeOnMatchCustomization>();
         await Assert.That(customizations[1]).IsAssignableTo<FreezeOnMatchCustomization>();
-        var composite = await Assert.That(customizations[2]).IsAssignableTo<CompositeCustomization>();
+        await Assert.That(customizations[2]).IsAssignableTo<CompositeCustomization>();
+        var composite = (CompositeCustomization)customizations[2];
 
         var compositeCustomizations = composite.Customizations.ToArray();
         await Assert.That(compositeCustomizations.Length).IsEqualTo(2);

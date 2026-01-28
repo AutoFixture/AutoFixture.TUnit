@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using AutoFixture.Kernel;
 using AutoFixture.TUnit.Tests.TestTypes;
 using TestTypeFoundation;
-using TUnit.Assertions.AssertConditions.Throws;
+using ConcreteType = TestTypeFoundation.ConcreteType;
 
 namespace AutoFixture.TUnit.Tests;
 
@@ -61,7 +61,7 @@ public class ClassAutoDataSourceAttributeTests
             .GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act & Assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+        await Assert.That(() => sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
             .Select(x => x()).ToArray()).ThrowsExactly<InvalidOperationException>();
     }
 
@@ -73,7 +73,7 @@ public class ClassAutoDataSourceAttributeTests
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act & Assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+        await Assert.That(() => sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
             .Select(x => x()).ToArray()).ThrowsException();
     }
 
@@ -85,7 +85,7 @@ public class ClassAutoDataSourceAttributeTests
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act
-        var data = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+        var data = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
             ;
 
         // Assert
@@ -100,7 +100,7 @@ public class ClassAutoDataSourceAttributeTests
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act & assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+        await Assert.That(() => sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
             .Select(x => x()).ToArray()).ThrowsException();
     }
 
@@ -112,7 +112,7 @@ public class ClassAutoDataSourceAttributeTests
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act & Assert
-        sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!));
+        sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!));
     }
 
     [Test]
@@ -123,7 +123,7 @@ public class ClassAutoDataSourceAttributeTests
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act
-        var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!));
+        var actual = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!));
 
         // Assert
         await Assert.That(actual).IsNotNull();
@@ -137,7 +137,7 @@ public class ClassAutoDataSourceAttributeTests
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act
-        var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!));
+        var actual = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!));
 
         // Assert
         await Assert.That(actual).IsNotEmpty();
@@ -151,7 +151,7 @@ public class ClassAutoDataSourceAttributeTests
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act
-        var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!));
+        var actual = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!));
 
         // Assert
         await Assert.That(actual).HasCount().EqualTo(5);
@@ -165,7 +165,7 @@ public class ClassAutoDataSourceAttributeTests
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act & Assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+        await Assert.That(() => sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
             .Select(x => x()).ToArray()).ThrowsException();
     }
 
@@ -177,7 +177,7 @@ public class ClassAutoDataSourceAttributeTests
         var testMethod = typeof(ExampleTestClass).GetMethod(nameof(ExampleTestClass.TestMethod));
 
         // Act & Assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+        await Assert.That(() => sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
             .Select(x => x()).ToArray()).ThrowsException();
     }
 
@@ -208,7 +208,7 @@ public class ClassAutoDataSourceAttributeTests
         var sut = new DerivedAutoClassDataSourceAttribute(() => fixture, typeof(ClassWithEmptyTestData));
 
         // Act
-        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!))
+        _ = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!))
             .Select(x => x())
             .ToArray();
 
@@ -242,7 +242,7 @@ public class ClassAutoDataSourceAttributeTests
             [-95, "test-92", EnumType.Second, new Tuple<string, int>("myValue", 5)]
         ];
 
-        var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+        var actual = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
             .Select(x => x())
             .ToArray();
 
@@ -267,7 +267,7 @@ public class ClassAutoDataSourceAttributeTests
             [29, "myValue", EnumType.Third, new Tuple<string, int>("value", 1)]
         ];
 
-        var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+        var actual = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
             .Select(x => x())
             .ToArray();
 
@@ -289,7 +289,7 @@ public class ClassAutoDataSourceAttributeTests
         };
 
         // Act
-        var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
+        var actual = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!))
             .Select(x => x())
             .ToArray();
 

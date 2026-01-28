@@ -1,7 +1,6 @@
-﻿using AutoFixture.TUnit.Internal;
+using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.Tests.TestTypes;
 using TestTypeFoundation;
-using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.Tests.Internal;
 
@@ -59,7 +58,7 @@ public class FieldDataSourceTests
         var sut = new FieldDataSource(sourceField);
 
         // Act & Assert
-        await Assert.That(() => sut.GenerateDataSources(null!)).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => sut.GetDataSources(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]
@@ -73,7 +72,7 @@ public class FieldDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
         // Act & Assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray()).ThrowsExactly<InvalidCastException>();
+        await Assert.That(() => sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray()).ThrowsExactly<InvalidCastException>();
     }
 
     [Test]
@@ -93,7 +92,7 @@ public class FieldDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithRecordTypeParameter));
 
         // Act
-        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
+        var result = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
             .Select(x => x())
             .ToArray();
 

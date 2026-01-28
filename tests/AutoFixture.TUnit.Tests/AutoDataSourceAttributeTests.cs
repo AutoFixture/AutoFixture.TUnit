@@ -1,7 +1,7 @@
-﻿using AutoFixture.Kernel;
+using AutoFixture.Kernel;
 using AutoFixture.TUnit.Tests.TestTypes;
 using TestTypeFoundation;
-using TUnit.Assertions.AssertConditions.Throws;
+using ConcreteType = TestTypeFoundation.ConcreteType;
 
 namespace AutoFixture.TUnit.Tests;
 
@@ -76,7 +76,7 @@ public class AutoDataSourceAttributeTests
         var sut = new AutoDataSourceAttribute();
 
         // Act & assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null!, null!))).ThrowsException();
+        await Assert.That(() => sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(null!, null!))).ThrowsException();
     }
 
     [Test]
@@ -103,7 +103,7 @@ public class AutoDataSourceAttributeTests
         var sut = new DerivedAutoDataSourceAttribute(() => composer);
 
         // Act
-        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
+        var result = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
             .Select(x => x())
             .ToArray();
 
@@ -140,7 +140,7 @@ public class AutoDataSourceAttributeTests
         var sut = new DerivedAutoDataSourceAttribute(() => fixture);
 
         // Act
-        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
+        _ = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
             .Select(x => x())
             .ToArray();
 
@@ -168,7 +168,7 @@ public class AutoDataSourceAttributeTests
         var sut = new DerivedAutoDataSourceAttribute(() => fixture);
 
         // Act
-        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
+        _ = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method.DeclaringType, method.Name))
             .Select(x => x())
             .ToArray();
 

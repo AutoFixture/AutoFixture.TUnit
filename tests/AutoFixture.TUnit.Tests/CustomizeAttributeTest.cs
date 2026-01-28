@@ -1,4 +1,4 @@
-﻿using AutoFixture.TUnit.Tests.TestTypes;
+using AutoFixture.TUnit.Tests.TestTypes;
 
 namespace AutoFixture.TUnit.Tests;
 

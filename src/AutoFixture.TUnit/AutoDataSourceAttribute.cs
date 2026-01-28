@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using AutoFixture.TUnit.Internal;
 
 namespace AutoFixture.TUnit;
@@ -46,6 +46,6 @@ public class AutoDataSourceAttribute : BaseDataSourceAttribute
     {
         var source = new AutoDataSource(this.FixtureFactory);
 
-        return source.GenerateDataSources(dataGeneratorMetadata).Select(x => x());
+        return source.GetDataSources(dataGeneratorMetadata).Select(x => x());
     }
 }

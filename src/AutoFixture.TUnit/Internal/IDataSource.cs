@@ -1,4 +1,4 @@
-﻿namespace AutoFixture.TUnit.Internal;
+namespace AutoFixture.TUnit.Internal;
 
 /// <summary>
 /// Exposes the factory method for a sequence of test data.

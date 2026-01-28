@@ -1,4 +1,4 @@
-﻿namespace AutoFixture.TUnit.Tests.TestTypes;
+namespace AutoFixture.TUnit.Tests.TestTypes;
 
 public class DerivedAutoClassDataSourceAttribute : AutoClassDataSourceAttribute
 {

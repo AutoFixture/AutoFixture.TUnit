@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using AutoFixture.TUnit.Internal;
 
 namespace AutoFixture.TUnit;
@@ -44,7 +44,7 @@ public class CompositeDataSourceAttribute : BaseDataSourceAttribute
         }
 
         var results = this.attributes
-            .Select(attr => attr.GenerateDataSources(dataGeneratorMetadata))
+            .Select(attr => attr.GetDataSources(dataGeneratorMetadata))
             .ToArray();
 
         var theoryRows = results

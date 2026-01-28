@@ -1,7 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using AutoFixture.TUnit.Tests.TestTypes;
 using TestTypeFoundation;
-using TUnit.Assertions.AssertConditions.Throws;
+using ConcreteType = TestTypeFoundation.ConcreteType;
 
 namespace AutoFixture.TUnit.Tests;
 
@@ -97,7 +97,7 @@ public class MemberAutoDataSourceAttributeTest
 
         // Act & Assert
         Assert.Throws<Exception>(
-            () => _ = sut.GenerateDataSources(null!).Select(x => x()).ToArray());
+            () => _ = sut.GetDataSources(null!).Select(x => x()).ToArray());
     }
 
     [Test]
@@ -146,7 +146,7 @@ public class MemberAutoDataSourceAttributeTest
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentException>(
-            () => sut.GenerateDataSources(dataGeneratorMetadata).Select(x => x()).ToArray());
+            () => sut.GetDataSources(dataGeneratorMetadata).Select(x => x()).ToArray());
         await Assert.That(ex.Message).Contains(memberName);
     }
 
@@ -199,11 +199,12 @@ public class MemberAutoDataSourceAttributeTest
             nameof(TestTypeWithMethodData.TestDataWithNoValues));
 
         // Act
-        _ = sut.GenerateDataSources(dataGeneratorMetadata)
+        _ = sut.GetDataSources(dataGeneratorMetadata)
             .Select(x => x()).ToArray();
 
         // Assert
-        var composite = await Assert.That(customizationLog[0]).IsAssignableTo<CompositeCustomization>();
+        await Assert.That(customizationLog[0]).IsAssignableTo<CompositeCustomization>();
+        var composite = (CompositeCustomization)customizationLog[0];
         await Assert.That(composite.Customizations.First()).IsNotTypeOf<FreezeOnMatchCustomization>();
         await Assert.That(composite.Customizations.Last()).IsAssignableTo<FreezeOnMatchCustomization>();
     }
@@ -225,7 +226,7 @@ public class MemberAutoDataSourceAttributeTest
         };
 
         // Act
-        var testData = sut.GenerateDataSources(dataGeneratorMetadata)
+        var testData = sut.GetDataSources(dataGeneratorMetadata)
             .Select(x => x())
             .ToArray();
 
@@ -250,7 +251,7 @@ public class MemberAutoDataSourceAttributeTest
         };
 
         // Act
-        var testData = sut.GenerateDataSources(dataGeneratorMetadata)
+        var testData = sut.GetDataSources(dataGeneratorMetadata)
             .Select(x => x()).ToArray();
 
         await Assert.That(testData).IsEquivalentTo(expected);
@@ -273,7 +274,7 @@ public class MemberAutoDataSourceAttributeTest
         };
 
         // Act
-        var testData = sut.GenerateDataSources(dataGeneratorMetadata)
+        var testData = sut.GetDataSources(dataGeneratorMetadata)
             .Select(x => x()).ToArray();
 
         // Assert
@@ -291,7 +292,7 @@ public class MemberAutoDataSourceAttributeTest
             .CreateDataGeneratorMetadata(testMethod!);
 
         // Act
-        var testData = sut.GenerateDataSources(dataGeneratorMetadata)
+        var testData = sut.GetDataSources(dataGeneratorMetadata)
             .Select(x => x()).ToArray();
 
         var arguments1 = testData[0];
@@ -332,7 +333,7 @@ public class MemberAutoDataSourceAttributeTest
         };
 
         // Act
-        var testData = sut.GenerateDataSources(dataGeneratorMetadata)
+        var testData = sut.GetDataSources(dataGeneratorMetadata)
             .Select(x => x()).ToArray();
 
         // Assert
@@ -349,7 +350,7 @@ public class MemberAutoDataSourceAttributeTest
         var dataGeneratorMetadata = DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!);
 
         // Act
-        var testData = sut.GenerateDataSources(dataGeneratorMetadata)
+        var testData = sut.GetDataSources(dataGeneratorMetadata)
             .Select(x => x()).ToArray();
 
         var arguments1 = testData[0];
@@ -389,7 +390,7 @@ public class MemberAutoDataSourceAttributeTest
         var dataGeneratorMetadata = DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod!);
 
         // Act
-        var testData = sut.GenerateDataSources(dataGeneratorMetadata)
+        var testData = sut.GetDataSources(dataGeneratorMetadata)
             .Select(x => x()).ToArray();
 
         // Assert

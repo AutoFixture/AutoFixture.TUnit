@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using AutoFixture.TUnit.Internal;
 
 namespace AutoFixture.TUnit;
@@ -46,7 +46,7 @@ public class AutoArgumentsAttribute : BaseDataSourceAttribute
     public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
         return new AutoDataSource(this.FixtureFactory, new InlineDataSource(this.Values))
-            .GenerateDataSources(dataGeneratorMetadata)
+            .GetDataSources(dataGeneratorMetadata)
             .Select(x => x());
     }
 }

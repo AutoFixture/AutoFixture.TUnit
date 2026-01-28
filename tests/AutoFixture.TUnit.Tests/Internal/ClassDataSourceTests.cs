@@ -1,8 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.Tests.TestTypes;
 using TestTypeFoundation;
-using TUnit.Assertions.AssertConditions.Throws;
 
 namespace AutoFixture.TUnit.Tests.Internal;
 
@@ -69,7 +68,7 @@ public class ClassDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
         // Act & Assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray()).ThrowsExactly<InvalidOperationException>();
+        await Assert.That(() => sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray()).ThrowsExactly<InvalidOperationException>();
     }
 
     [Test]
@@ -87,7 +86,7 @@ public class ClassDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
         // Act
-        var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
+        var actual = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
             .Select(x => x())
             .ToArray();
 
@@ -117,7 +116,7 @@ public class ClassDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
         // Act & Assert
-        await Assert.That(() => sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray()).ThrowsException();
+        await Assert.That(() => sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray()).ThrowsException();
     }
 
     [Test]
@@ -130,7 +129,7 @@ public class ClassDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
 
         // Act
-        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray();
+        var result = sut.GetDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray();
 
         // Assert
         await Assert.That(result.Single()).IsEquivalentTo(new object[] { "y", 25 });

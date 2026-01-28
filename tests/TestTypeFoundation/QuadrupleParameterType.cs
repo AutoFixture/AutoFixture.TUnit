@@ -1,4 +1,4 @@
-﻿namespace TestTypeFoundation;
+namespace TestTypeFoundation;
 
 public class QuadrupleParameterType<T1, T2, T3, T4>
 {
