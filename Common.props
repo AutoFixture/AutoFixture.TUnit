@@ -55,23 +55,6 @@
   </ItemGroup>
 
   <Choose>
-    <When Condition="$(TargetFramework.StartsWith('net4')) == 'false'">
-      <PropertyGroup>
-        <DefineConstants>$(DefineConstants);SYSTEM_GLOBALIZATION_CULTUREINFO_CULTURESETTERS</DefineConstants>
-      </PropertyGroup>
-    </When>
-    <Otherwise>
-      <PropertyGroup>
-        <_IsFullFramework>true</_IsFullFramework>
-        <DefineConstants>$(DefineConstants);SYSTEM_NET_MAIL;SYSTEM_RUNTIME_SERIALIZATION;SERIALIZABLE_MEMBERINFO;SYSTEM_THREADING_THREAD_CULTURESETTERS;SYSTEM_TYPE_FULL</DefineConstants>
-      </PropertyGroup>
-    </Otherwise>
-  </Choose>
-  <PropertyGroup>
-    <DefineConstants Condition=" $(TargetFramework.StartsWith('net4')) == 'false' ">$(DefineConstants);SYSTEM_NET_MAIL</DefineConstants>
-  </PropertyGroup>
-
-  <Choose>
     <When Condition=" '$(Configuration)'=='Release' ">
       <PropertyGroup>
         <DebugType>portable</DebugType>
@@ -79,7 +62,6 @@
     </When>
     <When Condition=" '$(Configuration)'=='Verify' ">
       <PropertyGroup>
-        <DefineConstants>$(DefineConstants);CODE_ANALYSIS</DefineConstants>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
       </PropertyGroup>
