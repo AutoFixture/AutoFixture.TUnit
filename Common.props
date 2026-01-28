@@ -28,11 +28,12 @@
 
     <!-- NuGet options -->
     <Authors>AutoFixture Contributors</Authors>
-    <PackageProjectUrl>https://github.com/AutoFixture/AutoFixture</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/AutoFixture/AutoFixture.TUnit</PackageProjectUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageIconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture/79c882c3f4af3cf52ad43e5c95851f25d217ac17/AutoFixtureLogo200x200.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture.TUnit/master/AutoFixtureLogo200x200.png</PackageIconUrl>
     <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
@@ -42,6 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)\README.md" Pack="true" PackagePath="README.md"/>
     <None Include="$(MSBuildThisFileDirectory)\AutoFixtureLogo200x200.png" Pack="true" PackagePath="icon.png"/>
   </ItemGroup>
 
@@ -53,23 +55,6 @@
   </ItemGroup>
 
   <Choose>
-    <When Condition="$(TargetFramework.StartsWith('net4')) == 'false'">
-      <PropertyGroup>
-        <DefineConstants>$(DefineConstants);SYSTEM_GLOBALIZATION_CULTUREINFO_CULTURESETTERS</DefineConstants>
-      </PropertyGroup>
-    </When>
-    <Otherwise>
-      <PropertyGroup>
-        <_IsFullFramework>true</_IsFullFramework>
-        <DefineConstants>$(DefineConstants);SYSTEM_NET_MAIL;SYSTEM_RUNTIME_SERIALIZATION;SERIALIZABLE_MEMBERINFO;SYSTEM_THREADING_THREAD_CULTURESETTERS;SYSTEM_TYPE_FULL</DefineConstants>
-      </PropertyGroup>
-    </Otherwise>
-  </Choose>
-  <PropertyGroup>
-    <DefineConstants Condition=" $(TargetFramework.StartsWith('net4')) == 'false' ">$(DefineConstants);SYSTEM_NET_MAIL</DefineConstants>
-  </PropertyGroup>
-
-  <Choose>
     <When Condition=" '$(Configuration)'=='Release' ">
       <PropertyGroup>
         <DebugType>portable</DebugType>
@@ -77,7 +62,6 @@
     </When>
     <When Condition=" '$(Configuration)'=='Verify' ">
       <PropertyGroup>
-        <DefineConstants>$(DefineConstants);CODE_ANALYSIS</DefineConstants>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
       </PropertyGroup>

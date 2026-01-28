@@ -6,8 +6,6 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
 
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
-
     <!-- Configure static code analysis -->
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
