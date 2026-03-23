@@ -42,10 +42,10 @@ public class AutoDataSourceAttribute : BaseDataSourceAttribute
     public Func<IFixture> FixtureFactory { get; }
 
     /// <inheritdoc />
-    public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    public override IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
         var source = new AutoDataSource(this.FixtureFactory);
 
-        return source.GenerateDataSources(dataGeneratorMetadata).Select(x => x());
+        return source.GetDataRowsAsync(dataGeneratorMetadata);
     }
 }

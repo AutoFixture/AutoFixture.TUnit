@@ -40,4 +40,15 @@ internal static class EnumerableExtensions
             }
         }
     }
+
+    #pragma warning disable CS1998 // Async method lacks 'await' - required for IAsyncEnumerable yield
+    internal static async IAsyncEnumerable<Func<Task<object?[]?>>> ToAsyncDataSource(
+    #pragma warning restore CS1998
+        this IEnumerable<object?[]> source)
+    {
+        foreach (var item in source)
+        {
+            yield return () => Task.FromResult<object?[]?>(item);
+        }
+    }
 }

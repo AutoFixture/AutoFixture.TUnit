@@ -2,7 +2,8 @@
 using AutoFixture.Kernel;
 using AutoFixture.TUnit.Tests.TestTypes;
 using TestTypeFoundation;
-using TUnit.Assertions.AssertConditions.Throws;
+using TUnit.Assertions.Extensions;
+using ConcreteType = TestTypeFoundation.ConcreteType;
 
 namespace AutoFixture.TUnit.Tests;
 

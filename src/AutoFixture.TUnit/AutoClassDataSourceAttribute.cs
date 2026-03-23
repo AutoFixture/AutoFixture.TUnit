@@ -83,11 +83,11 @@ public class AutoClassDataSourceAttribute : BaseDataSourceAttribute
     public object?[] Parameters { get; }
 
     /// <inheritdoc />
-    public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    public override IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
         var source = new AutoDataSource(this.FixtureFactory,
             new ClassDataSource(this.SourceType, this.Parameters));
 
-        return source.GenerateDataSources(dataGeneratorMetadata).Select(x => x());
+        return source.GetDataRowsAsync(dataGeneratorMetadata);
     }
 }

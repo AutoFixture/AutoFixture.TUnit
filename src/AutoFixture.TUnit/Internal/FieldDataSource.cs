@@ -34,14 +34,15 @@ public class FieldDataSource : DataSource
     /// <exception cref="InvalidCastException">
     /// Thrown when the field does not return an enumerable value.
     /// </exception>
-    public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    public override IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
         var value = this.FieldInfo.GetValue(null);
+
         if (value is not IEnumerable<object?[]> enumerable)
         {
             throw new InvalidCastException("Member does not return an enumerable value.");
         }
 
-        return enumerable;
+        return enumerable.ToAsyncDataSource();
     }
 }

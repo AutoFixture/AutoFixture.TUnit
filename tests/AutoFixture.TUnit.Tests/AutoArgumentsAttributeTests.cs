@@ -113,8 +113,8 @@ public class AutoArgumentsAttributeTests
     }
 
     [Test]
-    [MethodDataSource(typeof(InlinePrimitiveValuesTestData), nameof(InlinePrimitiveValuesTestData.GetData))]
-    [MethodDataSource(typeof(InlineFrozenValuesTestData), nameof(InlineFrozenValuesTestData.GetData))]
+    [MethodDataSource(typeof(InlinePrimitiveValuesTestData), nameof(InlinePrimitiveValuesTestData.GetTestData))]
+    [MethodDataSource(typeof(InlineFrozenValuesTestData), nameof(InlineFrozenValuesTestData.GetTestData))]
     public async Task ReturnsSingleTestDataWithExpectedValues(BaseDataSourceAttribute attribute, MethodInfo testMethod,
         object[] expected)
     {

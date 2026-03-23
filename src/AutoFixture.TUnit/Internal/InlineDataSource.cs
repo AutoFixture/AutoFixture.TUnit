@@ -29,7 +29,9 @@ public sealed class InlineDataSource : BaseDataSourceAttribute
     public IReadOnlyList<object?> Values => Array.AsReadOnly(this.values);
 
     /// <inheritdoc />
-    public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    #pragma warning disable CS1998 // Async method lacks 'await' - required for IAsyncEnumerable yield
+    public override async IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    #pragma warning restore CS1998
     {
         if (dataGeneratorMetadata is null)
         {
@@ -43,6 +45,6 @@ public sealed class InlineDataSource : BaseDataSourceAttribute
                 "The number of arguments provided exceeds the number of parameters.");
         }
 
-        yield return this.values;
+        yield return () => Task.FromResult<object?[]?>(this.values);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using AutoFixture.Kernel;
 using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.Tests.TestTypes;
-using TUnit.Assertions.AssertConditions.Throws;
+using TUnit.Assertions.Extensions;
 
 namespace AutoFixture.TUnit.Tests.Internal;
 
@@ -52,10 +52,11 @@ public class AutoDataSourceTests
 
         // Assert
         await Assert.That(result).IsNotNull();
-        var item = await Assert.That(result).HasSingleItem();
+        await Assert.That(result).HasSingleItem();
 
+        var item = result.Single();
         await Assert.That(item).IsNotNull();
-        await Assert.That(item.Length).IsEqualTo(3);
+        await Assert.That(item!.Length).IsEqualTo(3);
         await Assert.That(item[0]).IsEqualTo("value");
         await Assert.That(item[1]).IsEqualTo(1);
         await Assert.That(item[2]).IsEqualTo(12.2);
@@ -179,7 +180,7 @@ public class AutoDataSourceTests
         _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
 
         // Assert
-        await Assert.That(customizations).IsEmpty();
+        await Assert.That(customizations.Count).IsEqualTo(0);
     }
 
     [Test]
@@ -196,10 +197,10 @@ public class AutoDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithCustomizedParameter));
 
         // Act
-        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
+        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).Select(x => x()).ToArray();
 
         // Assert
-        await Assert.That(customizations).IsNotEmpty();
+        await Assert.That(customizations.Count).IsGreaterThan(0);
     }
 
     [Test]
@@ -216,14 +217,15 @@ public class AutoDataSourceTests
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleCustomizations));
 
         // Act
-        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).ToArray();
+        _ = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method!)).Select(x => x()).ToArray();
 
         // Assert
         using var scope = Assert.Multiple();
 
         await Assert.That(customizations[0]).IsAssignableTo<FreezeOnMatchCustomization>();
         await Assert.That(customizations[1]).IsAssignableTo<FreezeOnMatchCustomization>();
-        var composite = await Assert.That(customizations[2]).IsAssignableTo<CompositeCustomization>();
+        await Assert.That(customizations[2]).IsAssignableTo<CompositeCustomization>();
+        var composite = (CompositeCustomization)customizations[2];
 
         var compositeCustomizations = composite.Customizations.ToArray();
         await Assert.That(compositeCustomizations.Length).IsEqualTo(2);

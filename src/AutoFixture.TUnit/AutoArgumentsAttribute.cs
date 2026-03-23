@@ -43,10 +43,9 @@ public class AutoArgumentsAttribute : BaseDataSourceAttribute
     public object?[] Values { get; }
 
     /// <inheritdoc />
-    public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    public override IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
         return new AutoDataSource(this.FixtureFactory, new InlineDataSource(this.Values))
-            .GenerateDataSources(dataGeneratorMetadata)
-            .Select(x => x());
+            .GetDataRowsAsync(dataGeneratorMetadata);
     }
 }

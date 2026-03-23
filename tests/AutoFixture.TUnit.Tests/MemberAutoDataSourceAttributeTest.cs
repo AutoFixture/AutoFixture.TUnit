@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using AutoFixture.TUnit.Tests.TestTypes;
 using TestTypeFoundation;
-using TUnit.Assertions.AssertConditions.Throws;
+using TUnit.Assertions.Extensions;
+using ConcreteType = TestTypeFoundation.ConcreteType;
 
 namespace AutoFixture.TUnit.Tests;
 
@@ -106,13 +107,13 @@ public class MemberAutoDataSourceAttributeTest
         // Arrange
         const string memberName = nameof(TestTypeWithMethodData.NonEnumerableMethod);
         var sut = new AutoMemberDataSourceAttribute(memberName);
-        var method = TestTypeWithMethodData.GetNonEnumerableMethodInfo();
+        var method = TestTypeWithMethodData.GetMultipleValueTestMethodInfo();
         var dataGeneratorMetadata = DataGeneratorMetadataHelper
             .CreateDataGeneratorMetadata(method!);
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentException>(
-            () => sut.GetData(dataGeneratorMetadata).ToArray());
+            () => sut.GenerateDataSources(dataGeneratorMetadata).ToArray());
 
         await Assert.That(ex.Message).Contains(memberName);
     }
@@ -123,13 +124,13 @@ public class MemberAutoDataSourceAttributeTest
         // Arrange
         const string memberName = nameof(TestTypeWithMethodData.NonStaticSource);
         var sut = new AutoMemberDataSourceAttribute(memberName);
-        var method = TestTypeWithMethodData.GetNonStaticSourceMethodInfo();
+        var method = TestTypeWithMethodData.GetMultipleValueTestMethodInfo();
         var dataGeneratorMetadata = DataGeneratorMetadataHelper
             .CreateDataGeneratorMetadata(method!);
 
         // Act & Assert
         var ex = Assert.Throws<ArgumentException>(
-            () => sut.GetData(dataGeneratorMetadata).ToArray());
+            () => sut.GenerateDataSources(dataGeneratorMetadata).ToArray());
 
         await Assert.That(ex.Message).Contains(memberName);
     }
@@ -203,7 +204,8 @@ public class MemberAutoDataSourceAttributeTest
             .Select(x => x()).ToArray();
 
         // Assert
-        var composite = await Assert.That(customizationLog[0]).IsAssignableTo<CompositeCustomization>();
+        await Assert.That(customizationLog[0]).IsAssignableTo<CompositeCustomization>();
+        var composite = (CompositeCustomization)customizationLog[0];
         await Assert.That(composite.Customizations.First()).IsNotTypeOf<FreezeOnMatchCustomization>();
         await Assert.That(composite.Customizations.Last()).IsAssignableTo<FreezeOnMatchCustomization>();
     }

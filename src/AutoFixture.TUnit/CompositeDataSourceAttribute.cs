@@ -36,22 +36,33 @@ public class CompositeDataSourceAttribute : BaseDataSourceAttribute
     public IReadOnlyList<BaseDataSourceAttribute> Attributes => Array.AsReadOnly(this.attributes);
 
     /// <inheritdoc />
-    public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    public override async IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
         if (dataGeneratorMetadata is null)
         {
             throw new ArgumentNullException(nameof(dataGeneratorMetadata));
         }
 
-        var results = this.attributes
-            .Select(attr => attr.GenerateDataSources(dataGeneratorMetadata))
-            .ToArray();
+        var results = await Task.WhenAll(this.attributes
+            .Select(async attr =>
+            {
+                var rows = new List<object?[]>();
+                await foreach (var rowFunc in attr.GetDataRowsAsync(dataGeneratorMetadata))
+                {
+                    var row = await rowFunc()
+                        ?? throw new InvalidOperationException("The source member yielded a null test data.");
+                    rows.Add(row);
+                }
+
+                return (IEnumerable<object?[]>)rows;
+            }));
 
         var theoryRows = results
-            .Select(x => x.Select(y => y()))
-            .Zip(dataSets => dataSets.Collapse().ToArray())
-            .ToArray();
+            .Zip(dataSets => dataSets.Collapse().ToArray());
 
-        return theoryRows;
+        foreach (var row in theoryRows)
+        {
+            yield return () => Task.FromResult<object?[]?>(row);
+        }
     }
 }

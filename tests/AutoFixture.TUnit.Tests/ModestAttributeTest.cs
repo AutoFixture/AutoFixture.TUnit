@@ -1,6 +1,6 @@
 ﻿using AutoFixture.Kernel;
 using TestTypeFoundation;
-using TUnit.Assertions.AssertConditions.Throws;
+using TUnit.Assertions.Extensions;
 
 namespace AutoFixture.TUnit.Tests;
 
@@ -38,8 +38,9 @@ public class ModestAttributeTest
         var result = sut.GetCustomization(parameter);
 
         // Assert
-        var invoker = await Assert.That(result).IsAssignableTo<ConstructorCustomization>();
-        await Assert.That(invoker?.TargetType).IsEqualTo(parameter.ParameterType);
-        await Assert.That(invoker?.Query).IsAssignableTo<ModestConstructorQuery>();
+        await Assert.That(result).IsAssignableTo<ConstructorCustomization>();
+        var invoker = (ConstructorCustomization)result;
+        await Assert.That(invoker.TargetType).IsEqualTo(parameter.ParameterType);
+        await Assert.That(invoker.Query).IsAssignableTo<ModestConstructorQuery>();
     }
 }

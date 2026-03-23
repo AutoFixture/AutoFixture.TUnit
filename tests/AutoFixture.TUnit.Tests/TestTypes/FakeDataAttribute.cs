@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 namespace AutoFixture.TUnit.Tests.TestTypes;
 
@@ -13,8 +13,13 @@ public class FakeDataAttribute : BaseDataSourceAttribute
         this.expectedMethod = expectedMethod;
     }
 
-    public override IEnumerable<object[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    public override async IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
-        return this.output;
+        foreach (var data in this.output)
+        {
+            yield return () => Task.FromResult<object?[]?>(data);
+        }
+
+        await Task.CompletedTask;
     }
 }
