@@ -18,7 +18,6 @@
     </PackageReference>
     <PackageReference Include="TUnit.Core" Version="1.21.6" />
     <PackageReference Include="AutoFixture" Version="4.18.1" />
-    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="10.0.201" />
   </ItemGroup>
 
 </Project>

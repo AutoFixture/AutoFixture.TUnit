@@ -20,14 +20,6 @@
     <PackageReference Include="TUnit" Version="1.21.6" />
     <PackageReference Include="AutoFixture" Version="4.18.1" />
     <PackageReference Remove="StyleCop.Analyzers" />
-    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="10.0.201" />
-    <PackageReference Update="Microsoft.Testing.Extensions.CodeCoverage" Version="18.5.2" />
-    <PackageReference Update="Microsoft.Testing.Extensions.TrxReport" Version="2.1.0" />
-    <PackageReference Update="coverlet.collector" Version="8.0.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Remove="Microsoft.NET.Test.Sdk" />
   </ItemGroup>
 
   <ItemGroup>
