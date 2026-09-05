@@ -34,28 +34,30 @@ public class AutoDataSource : DataSource
     /// </summary>
     /// <param name="dataGeneratorMetadata">The target method for which to provide the arguments.</param>
     /// <returns>Returns a sequence of argument collections.</returns>
-    public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    public override IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
         return this.Source is null
             ? this.GenerateValues(dataGeneratorMetadata)
             : this.CombineValues(dataGeneratorMetadata, this.Source);
     }
 
-    private IEnumerable<object?[]> GenerateValues(DataGeneratorMetadata metadata)
+    private IAsyncEnumerable<Func<Task<object?[]?>>> GenerateValues(DataGeneratorMetadata metadata)
     {
         var parameters = Array.ConvertAll(metadata.GetMethod().GetParameters(), TestParameter.From);
         var fixture = this.CreateFixture();
-        yield return Array.ConvertAll(parameters, parameter => GenerateAutoValue(parameter, fixture));
+        return new[] { Array.ConvertAll(parameters, parameter => (object?)GenerateAutoValue(parameter, fixture)) }.ToAsyncDataSource();
     }
 
-    private IEnumerable<object?[]> CombineValues(DataGeneratorMetadata metadata, IDataSource source)
+    private async IAsyncEnumerable<Func<Task<object?[]?>>> CombineValues(DataGeneratorMetadata metadata, IDataSource source)
     {
         var method = metadata.GetMethod();
 
         var parameters = Array.ConvertAll(method.GetParameters(), TestParameter.From);
 
-        foreach (var testData in source.GetData(metadata))
+        await foreach (var testDataFunc in source.GetData(metadata))
         {
+            var testData = await testDataFunc();
+
             var customizations = parameters.Take(testData!.Length)
                 .Zip(testData, (parameter, value) => new Argument(parameter, value))
                 .Select(argument => argument.GetCustomization())
@@ -72,7 +74,8 @@ public class AutoDataSource : DataSource
                 .Select(parameter => GenerateAutoValue(parameter, fixture))
                 .ToArray();
 
-            yield return testData.Concat(missingValues).ToArray();
+            var combined = testData.Concat(missingValues).ToArray();
+            yield return () => Task.FromResult<object?[]?>(combined);
         }
     }
 

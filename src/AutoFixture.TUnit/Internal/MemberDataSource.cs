@@ -79,8 +79,8 @@ public class MemberDataSource : IDataSource
     }
 
     /// <inheritdoc/>
-    public IEnumerable<object?[]?> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    public IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
-        return this.Source.GenerateDataSources(dataGeneratorMetadata).Select(x => x());
+        return this.Source.GetDataRowsAsync(dataGeneratorMetadata);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using AutoFixture.TUnit.Tests.TestTypes;
-using TUnit.Assertions.AssertConditions.Throws;
+using TUnit.Assertions.Extensions;
 
 namespace AutoFixture.TUnit.Tests;
 

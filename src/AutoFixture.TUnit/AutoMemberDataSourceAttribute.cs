@@ -84,7 +84,7 @@ public class AutoMemberDataSourceAttribute : BaseDataSourceAttribute
     public object?[] Parameters { get; }
 
     /// <inheritdoc />
-    public override IEnumerable<object?[]?> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    public override IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
         var testMethod = dataGeneratorMetadata.GetMethod();
 
@@ -100,6 +100,6 @@ public class AutoMemberDataSourceAttribute : BaseDataSourceAttribute
             createFixture: this.FixtureFactory,
             source: new MemberDataSource(sourceType, this.MemberName, this.Parameters));
 
-        return source.GenerateDataSources(dataGeneratorMetadata).Select(x => x());
+        return source.GetDataRowsAsync(dataGeneratorMetadata);
     }
 }

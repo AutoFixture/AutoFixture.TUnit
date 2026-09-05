@@ -1,6 +1,7 @@
 ﻿using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.Tests.TestTypes;
-using TUnit.Assertions.AssertConditions.Throws;
+using TUnit.Assertions.Extensions;
+using PropertyDataSource = AutoFixture.TUnit.Internal.PropertyDataSource;
 
 namespace AutoFixture.TUnit.Tests.Internal;
 
@@ -85,7 +86,7 @@ public class MemberDataSourceTests
         var sut = new DelegatingMemberDataSource(type, memberName);
 
         // Assert
-        await Assert.That(sut.GetSource()).IsTypeOf(expectedInnerSourceType);
+        await Assert.That(sut.GetSource().GetType()).IsEqualTo(expectedInnerSourceType);
     }
 
     [Test]

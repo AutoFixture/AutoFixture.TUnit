@@ -1,6 +1,6 @@
 ﻿using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.Tests.TestTypes;
-using TUnit.Assertions.AssertConditions.Throws;
+using TUnit.Assertions.Extensions;
 
 namespace AutoFixture.TUnit.Tests.Internal;
 
@@ -28,7 +28,8 @@ public class DataSourceTests
         var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray();
 
         // Assert
-        var item = await Assert.That(result).HasSingleItem();
+        await Assert.That(result.Length).IsEqualTo(1);
+        var item = result.Single()();
 
         await Assert.That(item).IsEmpty();
     }
@@ -60,9 +61,10 @@ public class DataSourceTests
         var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod)).ToArray();
 
         // Assert
-        var testData = await Assert.That(result).HasSingleItem();
-        var argument = await Assert.That(testData).HasSingleItem();
-        await Assert.That(argument).IsEqualTo("hello");
+        await Assert.That(result.Length).IsEqualTo(1);
+        var testData = result.Single()();
+        await Assert.That(testData!.Length).IsEqualTo(1);
+        await Assert.That(testData[0]).IsEqualTo("hello");
     }
 
     [Test]
@@ -89,11 +91,10 @@ public class DataSourceTests
         // Assert
         await Assert.That(actual.Length).IsEqualTo(testData.Length);
 
-        await Assert.That(actual)
-            .All()
-            .Satisfy(
-                assert => assert.Satisfies(y => y.Length,
-                    y => y.IsBetween(0, 3).WithInclusiveBounds()));
+        foreach (var a in actual)
+        {
+            await Assert.That(a!.Length).IsBetween(0, 3);
+        }
     }
 
     [Test]

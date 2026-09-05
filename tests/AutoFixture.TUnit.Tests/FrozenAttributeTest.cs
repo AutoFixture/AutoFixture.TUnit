@@ -1,4 +1,4 @@
-﻿using TUnit.Assertions.AssertConditions.Throws;
+﻿using TUnit.Assertions.Extensions;
 
 namespace AutoFixture.TUnit.Tests;
 

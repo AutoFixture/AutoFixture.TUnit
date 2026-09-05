@@ -1,6 +1,6 @@
 ﻿using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.Tests.TestTypes;
-using TUnit.Assertions.AssertConditions.Throws;
+using TUnit.Assertions.Extensions;
 
 namespace AutoFixture.TUnit.Tests.Internal;
 
@@ -46,7 +46,7 @@ public class InlineDataSourceTests
         ]);
         // Act & Assert
         await Assert.That(() =>
-            sut.GenerateDataSources(null!)).ThrowsExactly<ArgumentNullException>();
+            sut.GenerateDataSources(null!).ToArray()).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]

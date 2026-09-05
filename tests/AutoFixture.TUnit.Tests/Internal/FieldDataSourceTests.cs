@@ -1,7 +1,7 @@
 ﻿using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.Tests.TestTypes;
 using TestTypeFoundation;
-using TUnit.Assertions.AssertConditions.Throws;
+using TUnit.Assertions.Extensions;
 
 namespace AutoFixture.TUnit.Tests.Internal;
 
@@ -59,7 +59,7 @@ public class FieldDataSourceTests
         var sut = new FieldDataSource(sourceField);
 
         // Act & Assert
-        await Assert.That(() => sut.GenerateDataSources(null!)).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => sut.GenerateDataSources(null!).ToArray()).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]

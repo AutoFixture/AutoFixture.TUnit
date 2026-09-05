@@ -26,7 +26,7 @@ public class PropertyDataSource : DataSource
     public PropertyInfo PropertyInfo { get; }
 
     /// <inheritdoc/>
-    public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    public override IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
         var value = this.PropertyInfo.GetValue(null);
 
@@ -35,6 +35,6 @@ public class PropertyDataSource : DataSource
             throw new InvalidCastException("Member does not return an enumerable value.");
         }
 
-        return enumerable;
+        return enumerable.ToAsyncDataSource();
     }
 }

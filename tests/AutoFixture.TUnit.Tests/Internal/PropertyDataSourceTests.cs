@@ -1,7 +1,8 @@
 ﻿using AutoFixture.TUnit.Internal;
 using AutoFixture.TUnit.Tests.TestTypes;
 using TestTypeFoundation;
-using TUnit.Assertions.AssertConditions.Throws;
+using TUnit.Assertions.Extensions;
+using PropertyDataSource = AutoFixture.TUnit.Internal.PropertyDataSource;
 
 namespace AutoFixture.TUnit.Tests.Internal;
 
@@ -59,7 +60,7 @@ public class PropertyDataSourceTests
         var sut = new PropertyDataSource(sourceProperty);
 
         // Act & Assert
-        await Assert.That(() => sut.GenerateDataSources(null!)).ThrowsExactly<ArgumentNullException>();
+        await Assert.That(() => sut.GenerateDataSources(null!).ToArray()).ThrowsExactly<ArgumentNullException>();
     }
 
     [Test]

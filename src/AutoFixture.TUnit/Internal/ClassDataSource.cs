@@ -34,7 +34,7 @@ public class ClassDataSource : DataSource
     public IReadOnlyList<object?> Parameters => Array.AsReadOnly(this.parameters);
 
     /// <inheritdoc/>
-    public override IEnumerable<object?[]> GetData(DataGeneratorMetadata dataGeneratorMetadata)
+    public override IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
         var instance = Activator.CreateInstance(type: this.Type, args: this.parameters);
 
@@ -43,6 +43,6 @@ public class ClassDataSource : DataSource
             throw new InvalidOperationException($"Data source type \"{this.Type}\" should implement the \"{typeof(IEnumerable<object>)}\" interface.");
         }
 
-        return enumerable;
+        return enumerable.ToAsyncDataSource();
     }
 }
