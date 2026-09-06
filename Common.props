@@ -42,7 +42,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)\README.md" Pack="true" PackagePath="README.md"/>
+    <!-- assets/readme.md is NuGet/IDE-oriented; repo README.md stays GitHub-oriented. -->
+    <None Include="$(MSBuildThisFileDirectory)\assets\readme.md" Pack="true" PackagePath="README.md"/>
     <None Include="$(MSBuildThisFileDirectory)\assets\icon.png" Pack="true" PackagePath="icon.png"/>
   </ItemGroup>
 
