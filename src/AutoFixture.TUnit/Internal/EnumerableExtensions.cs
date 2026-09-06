@@ -1,4 +1,4 @@
-﻿namespace AutoFixture.TUnit.Internal;
+namespace AutoFixture.TUnit.Internal;
 
 internal static class EnumerableExtensions
 {
@@ -41,9 +41,8 @@ internal static class EnumerableExtensions
         }
     }
 
-    #pragma warning disable CS1998 // Async method lacks 'await' - required for IAsyncEnumerable yield
+#pragma warning disable CS1998 // Async method lacks 'await' - required for IAsyncEnumerable yield
     internal static async IAsyncEnumerable<Func<Task<object?[]?>>> ToAsyncDataSource(
-    #pragma warning restore CS1998
         this IEnumerable<object?[]> source)
     {
         foreach (var item in source)
@@ -51,4 +50,5 @@ internal static class EnumerableExtensions
             yield return () => Task.FromResult<object?[]?>(item);
         }
     }
+#pragma warning restore CS1998
 }

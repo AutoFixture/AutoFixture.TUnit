@@ -31,18 +31,9 @@ public class FieldDataSource : DataSource
     /// Gets the test data from the source field.
     /// </summary>
     /// <returns>Returns a sequence of argument collections.</returns>
-    /// <exception cref="InvalidCastException">
-    /// Thrown when the field does not return an enumerable value.
-    /// </exception>
     public override IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
         var value = this.FieldInfo.GetValue(null);
-
-        if (value is not IEnumerable<object?[]> enumerable)
-        {
-            throw new InvalidCastException("Member does not return an enumerable value.");
-        }
-
-        return enumerable.ToAsyncDataSource();
+        return ToAsyncDataRows(value);
     }
 }

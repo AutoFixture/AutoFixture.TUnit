@@ -37,12 +37,6 @@ public class MethodDataSource : DataSource
     public override IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
         var value = this.MethodInfo.Invoke(null, this.arguments);
-
-        if (value is not IEnumerable<object?[]> enumerable)
-        {
-            throw new InvalidCastException("Member does not return an enumerable value.");
-        }
-
-        return enumerable.ToAsyncDataSource();
+        return ToAsyncDataRows(value);
     }
 }
