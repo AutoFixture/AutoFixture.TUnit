@@ -1,4 +1,4 @@
-﻿using TestTypeFoundation;
+using TestTypeFoundation;
 
 namespace AutoFixture.TUnit.Tests.TestTypes;
 
@@ -13,6 +13,10 @@ public class SampleTestType
     }
 
     public void TestMethodWithMultipleParameters(string a, int b, double c)
+    {
+    }
+
+    public void TestMethodWithTwoParameters(string a, int b)
     {
     }
 

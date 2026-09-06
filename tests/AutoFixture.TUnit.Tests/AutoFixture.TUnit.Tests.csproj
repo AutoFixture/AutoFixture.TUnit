@@ -8,22 +8,17 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
-  <Choose>
-    <When Condition="'$(TargetFramework)' == 'net48'">
-      <PropertyGroup>
-        <RuntimeIdentifier>win7-x86</RuntimeIdentifier>
-      </PropertyGroup>
-    </When>
-  </Choose>
+  <!-- Avoid the .NET Framework SDK defaulting net48 to win-x86. -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net48'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="TUnit" Version="1.21.6" />
-    <PackageReference Include="AutoFixture" Version="4.18.1" />
-    <PackageReference Remove="StyleCop.Analyzers" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+    <PackageReference Include="TUnit" Version="1.66.8" />
+    <PackageReference Include="PolySharp" Version="1.15.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

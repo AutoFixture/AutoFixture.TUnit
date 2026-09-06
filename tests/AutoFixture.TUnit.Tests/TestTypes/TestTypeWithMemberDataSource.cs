@@ -1,12 +1,9 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace AutoFixture.TUnit.Tests.TestTypes;
 
 internal class TestTypeWithMemberDataSource
 {
-    [SuppressMessage("Usage", "xUnit1013:Public method should be marked as test",
-        Justification = "Test is invoked through reflection.")]
     public async Task MultipleValueTest(string a, int b, decimal c)
     {
         await Assert.That(a).IsNotNull();
