@@ -1,4 +1,4 @@
-﻿namespace TestTypeFoundation;
+namespace TestTypeFoundation;
 
 public class DoubleFieldHolder<T1, T2>
 {

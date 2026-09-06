@@ -1,4 +1,4 @@
-﻿namespace TestTypeFoundation;
+namespace TestTypeFoundation;
 
 public class GuardedConstructorHostHoldingStaticReadOnlyField<TItem, TStaticField>
     where TItem : class

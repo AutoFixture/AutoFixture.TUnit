@@ -1,19 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\Common.props" />
-  <Import Project="..\..\Common.Test.props" />
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyTitle>TestTypeFoundation</AssemblyTitle>
     <AssemblyName>TestTypeFoundation</AssemblyName>
     <Nullable>disable</Nullable>
+    <IsPackable>false</IsPackable>
     <IsTestProject>false</IsTestProject>
-    <SuppressTfmSupportBuildErrors>true</SuppressTfmSupportBuildErrors>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <!-- Fixture types intentionally break design rules (public fields, static-looking instance methods). -->
+    <EnableNETAnalyzers>false</EnableNETAnalyzers>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Remove="StyleCop.Analyzers" />
   </ItemGroup>
- 
-</Project>
 
+</Project>

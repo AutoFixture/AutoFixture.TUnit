@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 namespace AutoFixture.TUnit.Tests;
 
@@ -15,7 +15,9 @@ public class DependencyConstraintsTests
     [Arguments("Unquote")]
     [Arguments("xunit")]
     [Arguments("xunit.extensions")]
-    public async Task AssemblyDoesNotReference(string assemblyName)
+    [Arguments("TUnit.Engine")]
+    [Arguments("TUnit.Assertions")]
+    public async Task WhenPackageNameGiven_DoesNotReferenceAssembly(string assemblyName)
     {
         // Arrange && Act
         var typeInfo = typeof(AutoDataSourceAttribute).GetTypeInfo();
@@ -36,7 +38,7 @@ public class DependencyConstraintsTests
     [Arguments("Unquote")]
     [Arguments("xunit")]
     [Arguments("xunit.extensions")]
-    public async Task UnitTestsAssemblyDoesNotReference(string assemblyName)
+    public async Task WhenPackageNameGiven_UnitTestsAssemblyDoesNotReference(string assemblyName)
     {
         // Arrange && Act
         var typeInfo = this.GetType().GetTypeInfo();

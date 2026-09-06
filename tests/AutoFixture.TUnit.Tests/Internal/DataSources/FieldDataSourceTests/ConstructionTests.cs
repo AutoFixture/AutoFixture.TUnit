@@ -1,0 +1,116 @@
+using AutoFixture.TUnit.Internal;
+using AutoFixture.TUnit.Tests.Internal.DataGeneratorMetadataSupport;
+using AutoFixture.TUnit.Tests.TestTypes;
+using TestTypeFoundation;
+
+namespace AutoFixture.TUnit.Tests.Internal.DataSources.FieldDataSourceTests;
+
+public class FieldDataSourceTests
+{
+    public static IEnumerable<object[]> TestDataFieldWithMixedValues =
+    [
+        ["hello", 1, new FieldHolder<string> { Field = "world" }],
+        ["foo", 2, new FieldHolder<string> { Field = "bar" }],
+        ["Han", 3, new FieldHolder<string> { Field = "Solo" }]
+    ];
+
+    public static object NonEnumerableField = new object();
+
+    [Test]
+    public async Task Constructor_WhenCreated_IsDataSource()
+    {
+        // Arrange
+        var sourceField = typeof(FieldDataSourceTests)
+            .GetField(nameof(TestDataFieldWithMixedValues));
+        var sut = new FieldDataSource(sourceField);
+
+        // Assert
+        await Assert.That(sut).IsAssignableTo<IDataSource>();
+    }
+
+    [Test]
+    public async Task Constructor_WhenFieldIsNull_Throws()
+    {
+        // Act & Assert
+        await Assert.That(() => new FieldDataSource(null)).ThrowsExactly<ArgumentNullException>();
+    }
+
+    [Test]
+    public async Task Field_WhenRead_ReturnsConstructorArgument()
+    {
+        // Arrange
+        var expected = typeof(FieldDataSourceTests)
+            .GetField(nameof(TestDataFieldWithMixedValues));
+        var sut = new FieldDataSource(expected);
+
+        // Act
+        var result = sut.FieldInfo;
+
+        // Assert
+        await Assert.That(result).IsEqualTo(expected);
+    }
+
+    [Test]
+    public async Task GetData_WhenTestMethodIsNull_Throws()
+    {
+        // Arrange
+        var sourceField = typeof(FieldDataSourceTests)
+            .GetField(nameof(TestDataFieldWithMixedValues));
+        var sut = new FieldDataSource(sourceField);
+
+        // Act & Assert
+        await Assert.That(() => sut.GenerateDataSources(null).ToArray()).ThrowsExactly<ArgumentNullException>();
+    }
+
+    [Test]
+    public async Task GetData_WhenSourceIsScalar_ReturnsSingleRow()
+    {
+        // Arrange
+        var sourceField = typeof(FieldDataSourceTests)
+            .GetField(nameof(NonEnumerableField));
+        var sut = new FieldDataSource(sourceField);
+        var method = typeof(SampleTestType)
+            .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
+
+        // Act
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
+            .Select(x => x())
+            .ToArray();
+
+        // Assert
+        await Assert.That(result.Length).IsEqualTo(1);
+        await Assert.That(result[0]).IsEquivalentTo(new object[] { NonEnumerableField });
+    }
+
+    [Test]
+    public async Task GetData_WhenCalled_ReturnsDataMatchingParameters()
+    {
+        // Arrange
+        var expected = new[]
+        {
+            new object[] { "hello", 1, new RecordType<string>("world") },
+            new object[] { "foo", 2, new RecordType<string>("bar") },
+            new object[] { "Han", 3, new RecordType<string>("Solo") }
+        };
+        var sourceField = typeof(FieldDataSourceTests)
+            .GetField(nameof(TestDataFieldWithRecordValues));
+        var sut = new FieldDataSource(sourceField);
+        var method = typeof(SampleTestType)
+            .GetMethod(nameof(SampleTestType.TestMethodWithRecordTypeParameter));
+
+        // Act
+        var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method))
+            .Select(x => x())
+            .ToArray();
+
+        // Assert
+        await Assert.That(result).IsEquivalentTo(expected);
+    }
+
+    public static IEnumerable<object[]> TestDataFieldWithRecordValues =
+    [
+        ["hello", 1, new RecordType<string>("world")],
+        ["foo", 2, new RecordType<string>("bar")],
+        ["Han", 3, new RecordType<string>("Solo")]
+    ];
+}
