@@ -1,4 +1,4 @@
-﻿using AutoFixture.TUnit.Internal;
+using AutoFixture.TUnit.Internal;
 
 namespace AutoFixture.TUnit;
 
@@ -22,6 +22,9 @@ public abstract class BaseDataSourceAttribute : Attribute, IDataSourceAttribute,
 
     /// <inheritdoc />
     public bool SkipIfEmpty { get; set; }
+
+    /// <inheritdoc />
+    public bool DeferEnumeration { get; set; }
 
     /// <inheritdoc />
     public async IAsyncEnumerable<Func<Task<object?[]?>>> GetDataRowsAsync(DataGeneratorMetadata dataGeneratorMetadata)

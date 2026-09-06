@@ -60,15 +60,6 @@ public class MemberDataSource : IDataSource
             throw new ArgumentException(message);
         }
 
-        var returnType = sourceMember.GetReturnType();
-        if (!typeof(IEnumerable<object?[]>).IsAssignableFrom(returnType))
-        {
-            var message = string.Format(
-                CultureInfo.CurrentCulture,
-                "Member {0} on {1} does not return IEnumerable<object?[]>", this.Name, this.Type.FullName);
-            throw new ArgumentException(message);
-        }
-
         return sourceMember switch
         {
             FieldInfo fieldInfo => new FieldDataSource(fieldInfo),

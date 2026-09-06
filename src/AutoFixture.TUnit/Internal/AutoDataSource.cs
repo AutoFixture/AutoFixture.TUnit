@@ -56,9 +56,19 @@ public class AutoDataSource : DataSource
 
         await foreach (var testDataFunc in source.GetData(metadata))
         {
-            var testData = await testDataFunc();
+            if (testDataFunc is null)
+                throw new InvalidOperationException("The source member yielded a null test data.");
 
-            var customizations = parameters.Take(testData!.Length)
+            var testData = await testDataFunc()
+                ?? throw new InvalidOperationException("The source member yielded a null test data.");
+
+            if (testData.Length > parameters.Length)
+            {
+                throw new InvalidOperationException(
+                    "The number of arguments provided exceeds the number of parameters.");
+            }
+
+            var customizations = parameters.Take(testData.Length)
                 .Zip(testData, (parameter, value) => new Argument(parameter, value))
                 .Select(argument => argument.GetCustomization())
                 .Where(x => x is not NullCustomization);

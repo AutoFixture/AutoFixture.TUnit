@@ -29,9 +29,9 @@ public sealed class InlineDataSource : BaseDataSourceAttribute
     public IReadOnlyList<object?> Values => Array.AsReadOnly(this.values);
 
     /// <inheritdoc />
-    #pragma warning disable CS1998 // Async method lacks 'await' - required for IAsyncEnumerable yield
+#pragma warning disable CS1998 // Async method lacks 'await' - required for IAsyncEnumerable yield
     public override async IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
-    #pragma warning restore CS1998
+#pragma warning restore CS1998
     {
         if (dataGeneratorMetadata is null)
         {

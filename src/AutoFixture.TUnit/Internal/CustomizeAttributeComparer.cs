@@ -1,4 +1,4 @@
-﻿namespace AutoFixture.TUnit.Internal;
+namespace AutoFixture.TUnit.Internal;
 
 internal sealed class CustomizeAttributeComparer : Comparer<IParameterCustomizationSource>
 {

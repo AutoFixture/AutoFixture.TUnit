@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using AutoFixture.TUnit.Internal;
 
 namespace AutoFixture.TUnit;
@@ -9,7 +9,8 @@ namespace AutoFixture.TUnit;
 /// 1. A static property
 /// 2. A static field
 /// 3. A static method (with parameters)
-/// The member must return something compatible with IEnumerable&lt;object?[]&gt; with the test data.
+/// The member must return test data in any shape supported by TUnit MethodDataSource
+/// (for example IEnumerable&lt;object?[]&gt;, IEnumerable&lt;T&gt;, tuples, or a single value).
 /// </summary>
 [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes",
     Justification = "This attribute is the root of a potential attribute hierarchy.")]
@@ -59,7 +60,7 @@ public class AutoMemberDataSourceAttribute : BaseDataSourceAttribute
     {
         this.FixtureFactory = fixtureFactory ?? throw new ArgumentNullException(nameof(fixtureFactory));
         this.MemberName = memberName ?? throw new ArgumentNullException(nameof(memberName));
-        this.Parameters = parameters ?? [null!];
+        this.Parameters = parameters ?? [null];
         this.MemberType = memberType;
     }
 
@@ -86,12 +87,8 @@ public class AutoMemberDataSourceAttribute : BaseDataSourceAttribute
     /// <inheritdoc />
     public override IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
-        var testMethod = dataGeneratorMetadata.GetMethod();
-
-        if (testMethod is null)
-        {
-            throw new ArgumentNullException(nameof(dataGeneratorMetadata), "The test method cannot be null.");
-        }
+        var testMethod = dataGeneratorMetadata.GetMethod()
+            ?? throw new ArgumentNullException(nameof(dataGeneratorMetadata), "The test method cannot be null.");
 
         var sourceType = this.MemberType ?? testMethod.DeclaringType
             ?? throw new InvalidOperationException("Source type cannot be null.");

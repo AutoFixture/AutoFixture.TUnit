@@ -29,12 +29,6 @@ public class PropertyDataSource : DataSource
     public override IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
         var value = this.PropertyInfo.GetValue(null);
-
-        if (value is not IEnumerable<object?[]> enumerable)
-        {
-            throw new InvalidCastException("Member does not return an enumerable value.");
-        }
-
-        return enumerable.ToAsyncDataSource();
+        return ToAsyncDataRows(value);
     }
 }

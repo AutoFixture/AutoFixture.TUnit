@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AutoFixture.TUnit.Internal;
 
@@ -37,12 +37,6 @@ public class ClassDataSource : DataSource
     public override IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {
         var instance = Activator.CreateInstance(type: this.Type, args: this.parameters);
-
-        if (instance is not IEnumerable<object?[]> enumerable)
-        {
-            throw new InvalidOperationException($"Data source type \"{this.Type}\" should implement the \"{typeof(IEnumerable<object>)}\" interface.");
-        }
-
-        return enumerable.ToAsyncDataSource();
+        return ToAsyncDataRows(instance);
     }
 }
