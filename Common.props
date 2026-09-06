@@ -31,7 +31,6 @@
     <PackageProjectUrl>https://github.com/AutoFixture/AutoFixture.TUnit</PackageProjectUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageIconUrl>https://raw.githubusercontent.com/AutoFixture/AutoFixture.TUnit/master/AutoFixtureLogo200x200.png</PackageIconUrl>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
@@ -44,7 +43,7 @@
 
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)\README.md" Pack="true" PackagePath="README.md"/>
-    <None Include="$(MSBuildThisFileDirectory)\AutoFixtureLogo200x200.png" Pack="true" PackagePath="icon.png"/>
+    <None Include="$(MSBuildThisFileDirectory)\assets\icon.png" Pack="true" PackagePath="icon.png"/>
   </ItemGroup>
 
   <ItemGroup>

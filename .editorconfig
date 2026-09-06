@@ -7,8 +7,11 @@ indent_style = space
 [*.cs]
 indent_size = 4
 indent_style = space
+charset = utf-8
+insert_final_newline = true
+trim_trailing_whitespace = true
 
-# Require "this." keyword qualification in code
+# Prefer "this." qualification in product-style code
 dotnet_style_qualification_for_field = true:suggestion
 dotnet_style_qualification_for_property = true:suggestion
 dotnet_style_qualification_for_method = true:suggestion
@@ -16,3 +19,17 @@ dotnet_style_qualification_for_event = true:suggestion
 
 dotnet_diagnostic.CA1510.severity = suggestion
 dotnet_diagnostic.CA1859.severity = suggestion
+
+# Prefer classic constructors on classes; primary constructors are fine on records.
+csharp_style_prefer_primary_constructors = false
+dotnet_diagnostic.IDE0290.severity = none
+
+# Tests: keep analyzers visible in the IDE, but do not fail Verify builds.
+# StyleCop is not referenced for test projects.
+[tests/**/*.cs]
+dotnet_analyzer_diagnostic.severity = suggestion
+dotnet_diagnostic.IDE0058.severity = none
+
+# Fixture/helpers intentionally break design rules (delegates, public fields, odd shapes).
+[tests/AutoFixture.TUnit.Tests/TestTypes/**.cs]
+dotnet_analyzer_diagnostic.severity = none
