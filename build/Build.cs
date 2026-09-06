@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Nuke.Common;
@@ -45,7 +46,7 @@ class Build : NukeBuild
 
     [Solution("AutoFixture.TUnit.sln")] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
-    [GitVersion] readonly GitVersion GitVersion;
+    [GitVersion(NoFetch = true)] readonly GitVersion GitVersion;
     [CI] readonly GitHubActions GitHubActions;
 
     [Parameter("GitHub auth token", Name = "github-token"), Secret] readonly string GitHubToken;
@@ -62,7 +63,8 @@ class Build : NukeBuild
 
     IEnumerable<Project> TestProjects => Solution.GetAllProjects("*Tests");
     IEnumerable<Project> Libraries => Solution.Projects.Except(TestProjects).Except(Excluded);
-    IEnumerable<Project> CSharpLibraries => Libraries.Where(x => x.Is(ProjectType.CSharpProject));
+    IEnumerable<Project> CSharpLibraries =>
+        Libraries.Where(x => x.Path.ToString().EndsWith(".csproj", StringComparison.OrdinalIgnoreCase));
     IEnumerable<AbsolutePath> Packages => PackagesDirectory.GlobFiles("*.nupkg");
 
     bool IsContinuousIntegration => IsServerBuild || CI;
@@ -129,9 +131,10 @@ class Build : NukeBuild
                 .SetResultsDirectory(TestResultsDirectory)
                 .SetNoBuild(FinishedTargets.Contains(Compile))
                 .When(_ => InvokedTargets.Contains(Cover), _ => _
+                    // Do not pin a shared --coverage-output path: multi-TFM hosts race on one
+                    // file and the empty net48 report can wipe populated net* coverage.
                     .AddProcessAdditionalArguments("--")
                     .AddProcessAdditionalArguments("--coverage")
-                    .AddProcessAdditionalArguments("--coverage-output", TestResultsDirectory / "coverage.cobertura.xml")
                     .AddProcessAdditionalArguments("--coverage-output-format", "cobertura")));
 
             var testArchive = TestResultsDirectory / "TestResults.zip";
@@ -149,7 +152,7 @@ class Build : NukeBuild
             ReportGenerator(_ => _
                 .SetFramework("net8.0")
                 .SetAssemblyFilters("-TestTypeFoundation*")
-                .SetReports(TestResultsDirectory / "**" / "coverage.cobertura.xml")
+                .SetReports(TestResultsDirectory / "**" / "*.cobertura.xml")
                 .SetTargetDirectory(ReportsDirectory)
                 .SetReportTypes("lcov", ReportTypes.HtmlInline));
 
