@@ -12,11 +12,10 @@ public class UsageScenarioTests
     [Test, LeadingAndTrailingComposite]
     public async Task WhenCompositeZipsPartialRows_MergesByCollapse(string a, int b, string c)
     {
-        await Assert.That(new[]
-        {
+        await Assert.That<(string, int, string)[]>([
             ("alpha", 1, "tail-a"),
             ("beta", 2, "tail-b")
-        }).Contains((a, b, c));
+        ]).Contains((a, b, c));
     }
 
     [Test, ArgumentsThenMemberComposite]

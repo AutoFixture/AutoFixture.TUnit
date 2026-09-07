@@ -35,7 +35,7 @@ public class AutoArgumentsAttributeTests
     public async Task Constructor_WhenArgumentsProvided_ValuesAreNotEmpty()
     {
         // Arrange
-        var expectedValues = new[] { new object(), new object(), new object() };
+        object[] expectedValues = [new object(), new object(), new object()];
         var sut = new AutoArgumentsAttribute(expectedValues);
 
         // Act
@@ -49,7 +49,7 @@ public class AutoArgumentsAttributeTests
     public async Task Constructor_WhenExplicitValuesProvided_ValuesMatch()
     {
         // Arrange
-        var expectedValues = new[] { new object(), new object(), new object() };
+        object[] expectedValues = [new object(), new object(), new object()];
         var sut = new DerivedAutoArgumentsAttribute(() => new DelegatingFixture(), expectedValues);
 
         // Act

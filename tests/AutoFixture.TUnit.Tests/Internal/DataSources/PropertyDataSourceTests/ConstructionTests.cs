@@ -87,12 +87,11 @@ public class PropertyDataSourceTests
     public async Task GetData_WhenCalled_ReturnsDataMatchingParameters()
     {
         // Arrange
-        var expected = new[]
-        {
-            new object[] { "hello", 1, new RecordType<string>("world") },
-            new object[] { "foo", 2, new RecordType<string>("bar") },
-            new object[] { "Han", 3, new RecordType<string>("Solo") }
-        };
+        object[][] expected = [
+            [ "hello", 1, new RecordType<string>("world") ],
+            ["foo", 2, new RecordType<string>("bar")],
+            ["Han", 3, new RecordType<string>("Solo")]
+        ];
         var sourceProperty = typeof(PropertyDataSourceTests)
             .GetProperty(nameof(TestDataPropertyWithRecordValues));
         var sut = new PropertyDataSource(sourceProperty);
@@ -119,12 +118,11 @@ public class PropertyDataSourceTests
     public async Task GetData_WhenSourceReturnsNull_ReturnsNullArguments()
     {
         // Arrange
-        var expected = new[]
-        {
-            new object[] { null, 1, null },
-            new object[] { null, 2, null },
-            new object[] { null, 3, null }
-        };
+        object[][] expected = [
+            [ null, 1, null ],
+            [null, 2, null],
+            [null, 3, null]
+        ];
         var sourceProperty = typeof(PropertyDataSourceTests)
             .GetProperty(nameof(TestDataPropertyWithNullValues));
         var sut = new PropertyDataSource(sourceProperty);

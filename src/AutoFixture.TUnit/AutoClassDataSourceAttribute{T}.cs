@@ -8,7 +8,7 @@ namespace AutoFixture.TUnit;
 /// </summary>
 /// <typeparam name="T">
 /// The data provider type that yields test rows (for example an
-/// <see cref="System.Collections.Generic.IEnumerable{T}"/> of object arrays).
+/// <see cref="IEnumerable{T}"/> of object arrays).
 /// This is not the same as TUnit's <c>ClassDataSource&lt;T&gt;</c>, which injects an instance of
 /// <typeparamref name="T"/> as a dependency.
 /// </typeparam>

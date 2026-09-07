@@ -287,12 +287,11 @@ public class ClassAutoDataSourceAttributeTests
         var sut = new AutoClassDataSourceAttribute(typeof(TestDataWithNullValues));
         var testMethod = typeof(ExampleTestClass<string, string, string[], RecordType<string>>)
             .GetMethod(nameof(ExampleTestClass<string, string, string[], RecordType<string>>.TestMethod));
-        var expected = new[]
-        {
-            new object[] { null, null, null, null },
-            new object[] { string.Empty, null, null, null },
-            new object[] { null, "  ", null, null },
-        };
+        object[][] expected = [
+            [ null, null, null, null ],
+            [string.Empty, null, null, null],
+            [null, "  ", null, null],
+        ];
 
         // Act
         var actual = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod))

@@ -79,19 +79,18 @@ public class FieldDataSourceTests
 
         // Assert
         await Assert.That(result.Length).IsEqualTo(1);
-        await Assert.That(result[0]).IsEquivalentTo(new object[] { NonEnumerableField });
+        await Assert.That(result[0]).IsEquivalentTo([NonEnumerableField]);
     }
 
     [Test]
     public async Task GetData_WhenCalled_ReturnsDataMatchingParameters()
     {
         // Arrange
-        var expected = new[]
-        {
-            new object[] { "hello", 1, new RecordType<string>("world") },
-            new object[] { "foo", 2, new RecordType<string>("bar") },
-            new object[] { "Han", 3, new RecordType<string>("Solo") }
-        };
+        object[][] expected = [
+            [ "hello", 1, new RecordType<string>("world") ],
+            ["foo", 2, new RecordType<string>("bar")],
+            ["Han", 3, new RecordType<string>("Solo")]
+        ];
         var sourceField = typeof(FieldDataSourceTests)
             .GetField(nameof(TestDataFieldWithRecordValues));
         var sut = new FieldDataSource(sourceField);

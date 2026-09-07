@@ -15,7 +15,7 @@ public class ClassLevelPrimitiveScenarioTests(string name, int count)
     [Test]
     public async Task WhenAppliedToClass_UsesClassValueAndFillsRemaining()
     {
-        await Assert.That(new[] { "alpha", "beta" }).Contains(name);
+        await Assert.That<string[]>(["alpha", "beta"]).Contains(name);
         await Assert.That(count).IsNotEqualTo(0);
     }
 }
@@ -30,7 +30,7 @@ public class ClassLevelComplexTypeScenarioTests(
     [Test]
     public async Task WhenAppliedToClass_UsesClassValueAndFillsComplexRemaining()
     {
-        await Assert.That(new[] { "alpha", "beta" }).Contains(name);
+        await Assert.That<string[]>(["alpha", "beta"]).Contains(name);
 
         await Assert.That(ph).IsNotNull();
         await Assert.That(ph.Property).IsNotNull();
@@ -82,7 +82,7 @@ public class ClassLevelMultiConstructorParameterizedFirstScenarioTests
     [Test]
     public async Task WhenParameterizedConstructorDeclaredFirst_UsesClassConstructorArgument()
     {
-        await Assert.That(new[] { "alpha", "beta" }).Contains(this.name);
+        await Assert.That<string[]>(["alpha", "beta"]).Contains(this.name);
     }
 }
 
@@ -108,6 +108,6 @@ public class ClassLevelMultiConstructorIntFirstScenarioTests
     public async Task WhenIntConstructorDeclaredFirst_UsesClassIntArgument()
     {
         await Assert.That(this.name).IsEqualTo("int-ctor");
-        await Assert.That(new[] { 11, 22 }).Contains(this.count);
+        await Assert.That<int[]>([11, 22]).Contains(this.count);
     }
 }

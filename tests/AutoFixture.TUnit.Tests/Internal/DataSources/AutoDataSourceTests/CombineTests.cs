@@ -28,6 +28,7 @@ public class AutoDataSourceTests
         var sut = new AutoDataSource(fixtureFactory, source);
 
         // Assert
+        // Func<T> needs an explicit type arg, or Assert.That invokes it and asserts on IFixture.
         await Assert.That<Func<IFixture>>(sut.CreateFixture).IsSameReferenceAs(fixtureFactory);
         await Assert.That(sut.Source).IsSameReferenceAs(source);
     }
@@ -90,9 +91,9 @@ public class AutoDataSourceTests
         // Assert
         await Assert.That(result).IsNotNull();
         await Assert.That(result.Length).IsEqualTo(3);
-        await Assert.That(result[0]).IsEquivalentTo(new object[] { "a", 15, 13.3 });
-        await Assert.That(result[1]).IsEquivalentTo(new object[] { "b", 123, 13.3 });
-        await Assert.That(result[2]).IsEquivalentTo(new object[] { "c", 999, 13.3 });
+        await Assert.That(result[0]).IsEquivalentTo<object[], object>(["a", 15, 13.3]);
+        await Assert.That(result[1]).IsEquivalentTo<object[], object>(["b", 123, 13.3]);
+        await Assert.That(result[2]).IsEquivalentTo<object[], object>(["c", 999, 13.3]);
     }
 
     [Test]
@@ -122,9 +123,9 @@ public class AutoDataSourceTests
         // Assert
         await Assert.That(result).IsNotNull();
         await Assert.That(result.Length).IsEqualTo(3);
-        await Assert.That(result[0]).IsEquivalentTo(new object[] { "a", 85, 913.12 });
-        await Assert.That(result[1]).IsEquivalentTo(new object[] { "b", 519, 73.1 });
-        await Assert.That(result[2]).IsEquivalentTo(new object[] { "c", 411, 529.6 });
+        await Assert.That(result[0]).IsEquivalentTo<object[], object>(["a", 85, 913.12]);
+        await Assert.That(result[1]).IsEquivalentTo<object[], object>(["b", 519, 73.1]);
+        await Assert.That(result[2]).IsEquivalentTo<object[], object>(["c", 411, 529.6]);
     }
 
     [Test]
@@ -193,7 +194,7 @@ public class AutoDataSourceTests
         // Arrange
         var source = new DelegatingDataSource
         {
-            TestData = Array.Empty<object[]>(),
+            TestData = [],
         };
         var fixture = new DelegatingFixture();
         var sut = new AutoDataSource(() => fixture, source);

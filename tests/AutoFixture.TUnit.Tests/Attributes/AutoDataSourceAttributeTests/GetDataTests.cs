@@ -112,7 +112,7 @@ public class AutoDataSourceAttributeTests
         await Assert.That(actualContext).IsNotNull();
         await Assert.That(parameters).HasSingleItem();
         await Assert.That(actualParameter).IsSameReferenceAs(parameters[0]);
-        await Assert.That(result.Single()).IsEquivalentTo(new[] { expectedResult });
+        await Assert.That(result.Single()).IsEquivalentTo([expectedResult]);
     }
 
     [Test]

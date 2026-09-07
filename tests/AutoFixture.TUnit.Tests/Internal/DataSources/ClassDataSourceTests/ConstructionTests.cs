@@ -41,7 +41,7 @@ public class ConstructionTests
     [Test]
     public async Task Parameters_WhenRead_ReturnsConstructorArguments()
     {
-        var expected = new[] { new object() };
+        object[] expected = [new object()];
         var sut = new ClassDataSource(typeof(object), expected);
 
         await Assert.That(sut.Parameters).IsEquivalentTo(expected);
@@ -50,7 +50,7 @@ public class ConstructionTests
     [Test]
     public async Task GetData_WhenConstructorParametersDontMatch_Throws()
     {
-        var parameters = new object[] { "a", 1 };
+        object[] parameters = ["a", 1];
         var sut = new ClassDataSource(typeof(object), parameters);
         var method = typeof(SampleTestType)
             .GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
@@ -69,6 +69,6 @@ public class ConstructionTests
 
         var result = sut.GenerateDataSources(DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(method)).ToArray();
 
-        await Assert.That(result.Single()).IsEquivalentTo(new object[] { "y", 25 });
+        await Assert.That(result.Single()).IsEquivalentTo<object[], object>(["y", 25]);
     }
 }

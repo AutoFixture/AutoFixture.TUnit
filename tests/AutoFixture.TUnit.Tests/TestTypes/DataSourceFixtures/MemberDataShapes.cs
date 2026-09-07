@@ -15,7 +15,7 @@ public static class MemberDataShapes
 
     public static (string, int) SingleTuple() => ("a", 1);
 
-    public static IEnumerable<object[]> EmptyObjectArrays() => Array.Empty<object[]>();
+    public static IEnumerable<object[]> EmptyObjectArrays() => [];
 
     public static IEnumerable<object[]> ObjectArrays()
     {

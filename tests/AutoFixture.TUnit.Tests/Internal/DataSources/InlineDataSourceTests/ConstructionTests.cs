@@ -11,8 +11,7 @@ public class InlineDataSourceTests
     {
         // Arrange
         // Act
-        var sut = new InlineDataSource([
-        ]);
+        var sut = new InlineDataSource([]);
         // Assert
         await Assert.That(sut).IsAssignableTo<IDataSource>();
     }
@@ -30,7 +29,7 @@ public class InlineDataSourceTests
     public async Task Values_WhenRead_ReturnsConstructorArguments()
     {
         // Arrange
-        var expectedValues = Array.Empty<object>();
+        object[] expectedValues = [];
         var sut = new InlineDataSource(expectedValues);
         // Act
         var result = sut.Values;
@@ -42,8 +41,7 @@ public class InlineDataSourceTests
     public async Task GetData_WhenMethodIsNull_Throws()
     {
         // Arrange
-        var sut = new InlineDataSource([
-        ]);
+        var sut = new InlineDataSource([]);
         // Act & Assert - call GetData directly so InlineDataSource's null guard is hit
         await Assert.That(async () =>
         {
@@ -57,7 +55,7 @@ public class InlineDataSourceTests
     public async Task GetData_WhenArgumentCountExceedsParameterCount_Throws()
     {
         // Arrange
-        var values = new object[] { "aloha", 42, 12.3d, "extra" };
+        object[] values = ["aloha", 42, 12.3d, "extra"];
         var sut = new InlineDataSource(values);
         var testMethod = typeof(SampleTestType)
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
@@ -73,7 +71,7 @@ public class InlineDataSourceTests
     public async Task GetData_WhenArgumentCountMatchesParameterCount_ReturnsTestData()
     {
         // Arrange
-        var values = new object[] { "aloha", 42, 12.3d };
+        object[] values = ["aloha", 42, 12.3d];
         var sut = new InlineDataSource(values);
         var testMethod = typeof(SampleTestType)
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));
@@ -90,7 +88,7 @@ public class InlineDataSourceTests
     public async Task GetData_WhenArgumentCountLessThanParameterCount_ReturnsAllArguments()
     {
         // Arrange
-        var values = new object[] { "aloha", 42 };
+        object[] values = ["aloha", 42];
         var sut = new InlineDataSource(values);
         var testMethod = typeof(SampleTestType)
             .GetMethod(nameof(SampleTestType.TestMethodWithMultipleParameters));

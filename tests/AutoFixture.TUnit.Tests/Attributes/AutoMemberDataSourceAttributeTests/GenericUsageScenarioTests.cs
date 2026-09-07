@@ -11,7 +11,7 @@ public class GenericUsageScenarioTests
     [Test, AutoMemberDataSource<MemberHost>(nameof(MemberHost.Strings))]
     public async Task WhenGenericMemberYieldsStrings_ReceivesValueAndFillsRemaining(string value, MyClass leftover)
     {
-        await Assert.That(new[] { "one", "two" }).Contains(value);
+        await Assert.That<string[]>(["one", "two"]).Contains(value);
         await Assert.That(leftover).IsNotNull();
     }
 
@@ -19,11 +19,10 @@ public class GenericUsageScenarioTests
     public async Task WhenGenericMemberReturnsObjectArrays_UsesSuppliedValues(
         string a, int b, RecordType<string> c)
     {
-        await Assert.That(new[]
-        {
+        await Assert.That<(string, int, string)[]>([
             ("hello", 1, "world"),
             ("foo", 2, "bar")
-        }).Contains((a, b, c.Value));
+        ]).Contains((a, b, c.Value));
     }
 
     [Test, AutoMemberDataSource<MemberHost>(nameof(MemberHost.StringData))]
