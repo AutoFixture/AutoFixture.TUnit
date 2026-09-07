@@ -21,7 +21,8 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
     "continuous",
     GitHubActionsImage.WindowsLatest,
     AutoGenerate = false,
-    OnPullRequestBranches = [MasterBranch, ReleaseBranch],
+    OnPushBranches = [MasterBranch, MainBranch, ReleaseBranch],
+    OnPullRequestBranches = [MasterBranch, MainBranch, ReleaseBranch],
     PublishArtifacts = false,
     InvokedTargets = [nameof(Verify), nameof(Cover), nameof(Pack)],
     EnableGitHubToken = true)]
@@ -39,6 +40,7 @@ class Build : NukeBuild
     public static int Main() => Execute<Build>(x => x.Compile);
 
     const string MasterBranch = "master";
+    const string MainBranch = "main";
     const string ReleaseBranch = "release/*";
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
