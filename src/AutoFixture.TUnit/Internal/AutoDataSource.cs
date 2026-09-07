@@ -45,7 +45,8 @@ public class AutoDataSource : DataSource
     {
         var parameters = Array.ConvertAll(metadata.GetMethod().GetParameters(), TestParameter.From);
         var fixture = this.CreateFixture();
-        return new[] { Array.ConvertAll(parameters, parameter => (object?)GenerateAutoValue(parameter, fixture)) }.ToAsyncDataSource();
+        object[][] rows = [Array.ConvertAll(parameters, parameter => GenerateAutoValue(parameter, fixture))];
+        return rows.ToAsyncDataSource();
     }
 
     private async IAsyncEnumerable<Func<Task<object?[]?>>> CombineValues(DataGeneratorMetadata metadata, IDataSource source)

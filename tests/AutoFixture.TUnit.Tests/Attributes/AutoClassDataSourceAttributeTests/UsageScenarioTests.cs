@@ -12,7 +12,7 @@ public class UsageScenarioTests
     [Test, AutoClassDataSource(typeof(StringDataClass))]
     public async Task WhenClassSuppliesValues_UsesSuppliedValues(string s1, string s2, string s3)
     {
-        await Assert.That(new[] { "foo", "dim" }).Contains(s1);
+        await Assert.That<string[]>(["foo", "dim"]).Contains(s1);
         await Assert.That(s2).IsNotEmpty();
         await Assert.That(s3).IsNotEmpty();
     }
@@ -39,8 +39,8 @@ public class UsageScenarioTests
     [Test, AutoClassDataSource(typeof(ParameterizedDataClass), 28, "bar", 93.102)]
     public async Task WhenClassDataParameterized_ReceivesExpectedData(int p1, string p2, double p3, RecordType<double> p4)
     {
-        var actual = new object[] { p1, p2, p3 };
-        var expected = new object[] { 28, "bar", 93.102 };
+        object[] actual = [p1, p2, p3];
+        object[] expected = [28, "bar", 93.102];
 
         await Assert.That(actual).IsEquivalentTo(expected);
         await Assert.That(p4).IsNotNull();

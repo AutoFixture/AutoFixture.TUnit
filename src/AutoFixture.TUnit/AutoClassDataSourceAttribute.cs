@@ -52,9 +52,9 @@ public class AutoClassDataSourceAttribute : BaseDataSourceAttribute
     /// {
     ///     public IEnumerator&lt;object?[]&gt; GetEnumerator()
     ///     {
-    ///         yield return new object?[] { 0, new int[0] };
-    ///         yield return new object?[] { 4, new int[] { 1, 2, 1} };
-    ///         yield return new object?[] { 23, new int [] { 0, 13, 15, -5 } };
+    ///         yield return [0, []];
+    ///         yield return [4, [1, 2, 1]];
+    ///         yield return [23, [0, 13, 15, -5]];
     ///     }
     ///
     ///     IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

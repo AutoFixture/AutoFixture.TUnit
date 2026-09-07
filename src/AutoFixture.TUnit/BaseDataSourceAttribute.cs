@@ -35,7 +35,7 @@ public abstract class BaseDataSourceAttribute : Attribute, IDataSourceAttribute,
         if (parameters.Length == 0)
         {
             // If the method has no parameters, a single test run is enough.
-            yield return () => Task.FromResult<object?[]?>(Array.Empty<object?>());
+            yield return () => Task.FromResult<object?[]?>([]);
             yield break;
         }
 

@@ -14,7 +14,7 @@ public class GenericClassLevelPrimitiveScenarioTests(string name, int count)
     [Test]
     public async Task WhenGenericAppliedToClass_UsesClassValueAndFillsRemaining()
     {
-        await Assert.That(new[] { "alpha", "beta" }).Contains(name);
+        await Assert.That<string[]>(["alpha", "beta"]).Contains(name);
         await Assert.That(count).IsNotEqualTo(0);
     }
 }
@@ -29,7 +29,7 @@ public class GenericClassLevelComplexTypeScenarioTests(
     [Test]
     public async Task WhenGenericAppliedToClass_UsesClassValueAndFillsComplexRemaining()
     {
-        await Assert.That(new[] { "alpha", "beta" }).Contains(name);
+        await Assert.That<string[]>(["alpha", "beta"]).Contains(name);
 
         await Assert.That(ph).IsNotNull();
         await Assert.That(ph.Property).IsNotNull();

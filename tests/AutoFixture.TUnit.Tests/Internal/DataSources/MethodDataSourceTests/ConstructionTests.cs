@@ -44,7 +44,7 @@ public class ConstructionTests
     public async Task Constructor_WhenArgumentsProvided_SetsMembers()
     {
         var methodInfo = typeof(ConstructionTests).GetMethod(nameof(this.Constructor_WhenCreated_IsDataSource));
-        var arguments = new[] { new object() };
+        object[] arguments = [new object()];
 
         var sut = new MethodDataSource(methodInfo, arguments);
 
@@ -55,11 +55,10 @@ public class ConstructionTests
     [Test]
     public async Task GetData_WhenInvoked_CallsSourceMethod()
     {
-        var expected = new[]
-        {
-            new object[] { "hello", 1, new RecordType<string>("world") },
-            new object[] { "foo", 2, new RecordType<string>("bar") }
-        };
+        object[][] expected = [
+            [ "hello", 1, new RecordType<string>("world") ],
+            ["foo", 2, new RecordType<string>("bar")]
+        ];
         var sourceMethod = typeof(ConstructionTests).GetMethod(nameof(ObjectArrayRows));
         var testMethod = typeof(SampleTestType).GetMethod(nameof(SampleTestType.TestMethodWithReferenceTypeParameter));
         var sut = new MethodDataSource(sourceMethod);

@@ -21,11 +21,7 @@ public class ResultShapeLeftoverTests
             .Select(x => x())
             .ToArray();
 
-        await Assert.That(result).IsEquivalentTo(new object[][]
-        {
-            ["a", 1],
-            ["b", 2]
-        });
+        await Assert.That(result).IsEquivalentTo<object[][], object[]>([["a", 1], ["b", 2]]);
     }
 
     public static Task<Task<IEnumerable<(string, int)>>> NestedTaskOfTupleSequence() =>

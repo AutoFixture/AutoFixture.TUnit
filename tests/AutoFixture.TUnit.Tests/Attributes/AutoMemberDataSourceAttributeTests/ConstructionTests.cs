@@ -14,7 +14,7 @@ public class ConstructionTests
     public async Task Constructor_WhenMemberNameAndParameters_SetsMembers()
     {
         var memberName = Guid.NewGuid().ToString();
-        var parameters = new object[] { "value-one", 3, 12.2f };
+        object[] parameters = ["value-one", 3, 12.2f];
 
         var sut = new AutoMemberDataSourceAttribute(memberName, parameters);
 
@@ -28,7 +28,7 @@ public class ConstructionTests
     public async Task Constructor_WhenTypeMemberNameAndParameters_SetsMembers()
     {
         var memberName = Guid.NewGuid().ToString();
-        var parameters = new object[] { "value-one", 3, 12.2f };
+        object[] parameters = ["value-one", 3, 12.2f];
         var testType = typeof(ConstructionTests);
 
         var sut = new AutoMemberDataSourceAttribute(testType, memberName, parameters);

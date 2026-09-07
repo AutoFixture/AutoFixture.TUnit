@@ -4,7 +4,7 @@ namespace AutoFixture.TUnit.Tests.TestTypes;
 
 public class DelegatingDataSource : BaseDataSourceAttribute, IDataSource
 {
-    public IEnumerable<object[]> TestData { get; set; } = Array.Empty<object[]>();
+    public IEnumerable<object[]> TestData { get; set; } = [];
 
     public override async IAsyncEnumerable<Func<Task<object?[]?>>> GetData(DataGeneratorMetadata dataGeneratorMetadata)
     {

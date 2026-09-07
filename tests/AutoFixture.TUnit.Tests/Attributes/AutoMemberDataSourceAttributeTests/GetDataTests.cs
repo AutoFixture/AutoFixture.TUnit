@@ -140,12 +140,11 @@ public class GetDataTests
         var testMethod = TestTypeWithMethodData.GetSingleStringValueTestMethodInfo();
         var dataGeneratorMetadata = DataGeneratorMetadataHelper
             .CreateDataGeneratorMetadata(testMethod);
-        var expected = new[]
-        {
-            new object[] { "value-one" },
-            new object[] { "value-two" },
-            new object[] { "value-three" }
-        };
+        object[][] expected = [
+            [ "value-one" ],
+            ["value-two"],
+            ["value-three"]
+        ];
 
         // Act
         var testData = sut.GenerateDataSources(dataGeneratorMetadata)
@@ -165,12 +164,11 @@ public class GetDataTests
         var testMethod = TestTypeWithMethodData.GetStringTestsFromArgumentMethodInfo();
         var dataGeneratorMetadata = DataGeneratorMetadataHelper
             .CreateDataGeneratorMetadata(testMethod);
-        var expected = new[]
-        {
-            new object[] { "value-one" },
-            new object[] { "value-two" },
-            new object[] { "value-three" }
-        };
+        object[][] expected = [
+            [ "value-one" ],
+            ["value-two"],
+            ["value-three"]
+        ];
 
         // Act
         var testData = sut.GenerateDataSources(dataGeneratorMetadata)
@@ -188,12 +186,11 @@ public class GetDataTests
         var testMethod = TestTypeWithMethodData.GetMultipleValueTestMethodInfo();
         var dataGeneratorMetadata = DataGeneratorMetadataHelper
             .CreateDataGeneratorMetadata(testMethod);
-        var expected = new[]
-        {
-            new object[] { "value-one", 12, 23.3m },
-            new object[] { "value-two", 38, 12.7m },
-            new object[] { "value-three", 94, 52.21m }
-        };
+        object[][] expected = [
+            [ "value-one", 12, 23.3m ],
+            ["value-two", 38, 12.7m],
+            ["value-three", 94, 52.21m]
+        ];
 
         // Act
         var testData = sut.GenerateDataSources(dataGeneratorMetadata)
@@ -247,12 +244,11 @@ public class GetDataTests
         var testMethod = TestTypeWithMethodData.GetTestWithFrozenParameter();
         var dataGeneratorMetadata = DataGeneratorMetadataHelper
             .CreateDataGeneratorMetadata(testMethod);
-        var expected = new[]
-        {
-            new object[] { "value-one", "value-two", "value-two" },
-            new object[] { "value-two", "value-three", "value-three" },
-            new object[] { "value-three", "value-one", "value-one" }
-        };
+        object[][] expected = [
+            [ "value-one", "value-two", "value-two" ],
+            ["value-two", "value-three", "value-three"],
+            ["value-three", "value-one", "value-one"]
+        ];
 
         // Act
         var testData = sut.GenerateDataSources(dataGeneratorMetadata)
@@ -303,12 +299,11 @@ public class GetDataTests
         const string memberName = nameof(TestTypeWithMethodData.GetMultipleValueTestData);
         var sut = new AutoMemberDataSourceAttribute(memberName);
         var testMethod = ChildTestTypeMethodData.GetMultipleValueTestMethodInfo();
-        var expected = new[]
-        {
-            new object[] { "value-one", 12, 23.3m },
-            new object[] { "value-two", 38, 12.7m },
-            new object[] { "value-three", 94, 52.21m }
-        };
+        object[][] expected = [
+            [ "value-one", 12, 23.3m ],
+            ["value-two", 38, 12.7m],
+            ["value-three", 94, 52.21m]
+        ];
         var dataGeneratorMetadata = DataGeneratorMetadataHelper.CreateDataGeneratorMetadata(testMethod);
 
         // Act

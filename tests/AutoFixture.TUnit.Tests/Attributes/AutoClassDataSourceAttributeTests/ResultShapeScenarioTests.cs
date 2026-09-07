@@ -13,7 +13,7 @@ public class ResultShapeScenarioTests
     [AutoClassDataSource(typeof(StringSequenceClassData))]
     public async Task WhenClassYieldsStrings_ReceivesValueAndFillsRemaining(string value, MyClass leftover)
     {
-        await Assert.That(new[] { "alpha", "beta" }).Contains(value);
+        await Assert.That<string[]>(["alpha", "beta"]).Contains(value);
         await Assert.That(leftover).IsNotNull();
     }
 
@@ -22,7 +22,7 @@ public class ResultShapeScenarioTests
     public async Task WhenClassYieldsTuples_ExpandsColumnsAndFillsRemaining(
         string left, int right, MyClass leftover)
     {
-        await Assert.That(new[] { ("a", 1), ("b", 2) }).Contains((left, right));
+        await Assert.That<(string, int)[]>([("a", 1), ("b", 2)]).Contains((left, right));
         await Assert.That(leftover).IsNotNull();
     }
 
@@ -31,11 +31,10 @@ public class ResultShapeScenarioTests
     public async Task WhenClassYieldsObjectArrays_UsesSuppliedValues(
         string a, int b, RecordType<string> c)
     {
-        await Assert.That(new[]
-        {
+        await Assert.That<(string, int, string)[]>([
             ("hello", 1, "world"),
             ("foo", 2, "bar")
-        }).Contains((a, b, c.Value));
+        ]).Contains((a, b, c.Value));
     }
 
     [Test]
@@ -43,18 +42,17 @@ public class ResultShapeScenarioTests
     public async Task WhenClassYieldsAsyncObjectArrays_UsesSuppliedValues(
         string a, int b, RecordType<string> c)
     {
-        await Assert.That(new[]
-        {
+        await Assert.That<(string, int, string)[]>([
             ("hello", 1, "world"),
             ("foo", 2, "bar")
-        }).Contains((a, b, c.Value));
+        ]).Contains((a, b, c.Value));
     }
 
     [Test]
     [AutoClassDataSource(typeof(AsyncStringSequenceClassData))]
     public async Task WhenClassYieldsAsyncStrings_ReceivesValueAndFillsRemaining(string value, MyClass leftover)
     {
-        await Assert.That(new[] { "alpha", "beta" }).Contains(value);
+        await Assert.That<string[]>(["alpha", "beta"]).Contains(value);
         await Assert.That(leftover).IsNotNull();
     }
 
@@ -63,7 +61,7 @@ public class ResultShapeScenarioTests
     public async Task WhenClassYieldsAsyncTuples_ExpandsColumnsAndFillsRemaining(
         string left, int right, MyClass leftover)
     {
-        await Assert.That(new[] { ("a", 1), ("b", 2) }).Contains((left, right));
+        await Assert.That<(string, int)[]>([("a", 1), ("b", 2)]).Contains((left, right));
         await Assert.That(leftover).IsNotNull();
     }
 
