@@ -34,7 +34,7 @@ using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
     PublishArtifacts = true,
     InvokedTargets = [nameof(Verify), nameof(Cover), nameof(Publish)],
     EnableGitHubToken = true,
-    ImportSecrets = [Secrets.NuGetApiKey])]
+    ImportSecrets = [Secrets.NuGetUser])]
 class Build : NukeBuild
 {
     public static int Main() => Execute<Build>(x => x.Compile);
@@ -54,7 +54,8 @@ class Build : NukeBuild
     [Parameter("GitHub auth token", Name = "github-token"), Secret] readonly string GitHubToken;
     [Parameter("Forces the continuous integration build flag")] readonly bool CI;
 
-    [Secret][Parameter("NuGet API Key (secret)", Name = Secrets.NuGetApiKey)] readonly string NuGetApiKey;
+    // On CI this is the short-lived key from NuGet/login (OIDC). Locally you can still pass a classic API key.
+    [Secret][Parameter("NuGet API Key", Name = Secrets.NuGetApiKey)] readonly string NuGetApiKey;
     readonly string NuGetSource = "https://api.nuget.org/v3/index.json";
 
     IEnumerable<Project> Excluded =>
@@ -203,5 +204,6 @@ class Build : NukeBuild
     public static class Secrets
     {
         public const string NuGetApiKey = "NUGET_API_KEY";
+        public const string NuGetUser = "NUGET_USER";
     }
 }

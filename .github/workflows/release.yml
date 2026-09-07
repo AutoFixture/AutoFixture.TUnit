@@ -25,6 +25,9 @@ jobs:
   windows-latest:
     name: windows-latest
     runs-on: windows-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v7
         with:
@@ -41,11 +44,16 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+      - name: NuGet login (OIDC)
+        id: nuget-login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
       - name: Run './build.cmd Verify Cover Publish'
         run: ./build.cmd Verify Cover Publish --no-logo
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
       - uses: actions/upload-artifact@v7
         with:
           name: testresults
